@@ -48,6 +48,18 @@ export const routes = [
         name: "add questionnaire",
         path: "/questionnaire",
         element: <Questionnaire />,
+        children: [
+          {
+            name: "step 1",
+            path: "step1",
+            element: <div>Step 1 Content</div>,
+          },
+          {
+            name: "step 2",
+            path: "step2",
+            element: <div>Step 2 Content</div>,
+          },
+        ],
       },
       {
         icon: <InformationCircleIcon {...icon} />,
