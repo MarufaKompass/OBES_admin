@@ -1,48 +1,35 @@
-import axiosInstance from '@/axiosInstance/axios.config';
-import React, { useEffect, useState } from 'react';
-import {
-  Card,
-  Typography,
-  Avatar,
-  Spinner,
-} from "@material-tailwind/react";
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Card,Typography,Avatar,CardBody} from "@material-tailwind/react";
+
 import UserLoader from '@/components/loader/UserLoader';
+import { allUserView } from '@/hooks/ReactQueryHooks';
+import TopHeader from '@/components/topHeader/TopHeader';
 
 const TABLE_HEAD = ["Name", "Email", "Phone", "Status", "Role"];
 
 export default function UserLists() {
-  const [userLists, setUserLists] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const { data: usersView,isLoading } = useQuery({
+    queryKey: ['userView'],
+    queryFn: allUserView
+  });
 
-  const users = userLists?.data || [];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axiosInstance.get("https://obapi.myhealthrow.com/public/api/userx");
-        setUserLists(res.data);
-      } catch (err) {
-        console.error("Error fetching data:", err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <Typography variant="h3" className="mb-8">User Info</Typography>
+    <div >
+    <TopHeader
+      title="Users & Doctors List"
+    />
 
-      {loading ? (
+      {isLoading ? (
        <Card>
         <div>
           <UserLoader></UserLoader>
         </div>
        </Card>
       ) : (
-        <Card className="h-full w-full overflow-scroll">
+        <Card>
+              <CardBody className="overflow-x-auto p-0">
           <table className="w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -64,8 +51,8 @@ export default function UserLists() {
             </thead>
 
             <tbody>
-              {users.map((user, index) => {
-                const isLast = index === users.length - 1;
+              {usersView.map((user, index) => {
+                const isLast = index === usersView.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
                 return (
@@ -73,9 +60,9 @@ export default function UserLists() {
                     <td className={classes}>
                       <div className="flex gap-4">
                         <Avatar
-                          src="https://docs.material-tailwind.com/img/face-2.jpg"
+                          src={user?.imgpath}
                           size="sm"
-                          alt="avatar"
+                          alt="images"
                         />
                         <Typography
                           variant="small"
@@ -117,6 +104,7 @@ export default function UserLists() {
               })}
             </tbody>
           </table>
+          </CardBody>
         </Card>
       )}
     </div>

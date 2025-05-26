@@ -4,11 +4,15 @@ import {
   TableCellsIcon,
   InformationCircleIcon
 } from "@heroicons/react/24/solid";
+import { lazy, Suspense } from 'react';
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
-
-import Questionnaire from "./pages/dashboard/questionnaire";
-import QuestionnaireLists from "./pages/dashboard/QuestionnaireLists";
-import UserLists from "./pages/userList/UserLists";
+import {Typography} from "@material-tailwind/react";
+const Questionnaire = (lazy(() => import("./pages/questionary/questionnaire")));
+const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
+const UserLists = (lazy(() => import("./pages/userList/UserLists")));
+const AddCategories = (lazy(() => import("./pages/category/AddCategories")));
+const CategoriesList = (lazy(() => import("./pages/category/CategoriesList")));
+const PrivateRoute = (lazy(() => import("./components/privateRoute/PrivateRoute")));
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -23,55 +27,107 @@ export const routes = [
         icon: <HomeIcon {...icon} />,
         name: "dashboard",
         path: "*",
-        element: <Home />,
+        element: (
+              <Suspense fallback={<Typography>Loading...</Typography>}>
+                <PrivateRoute> <Home /> </PrivateRoute></Suspense>
+        )
       },
+    
       {
         icon: <UserCircleIcon {...icon} />,
         name: "profile",
         path: "/profile",
-        element: <Profile />,
+        element: 
+            <Suspense fallback={<Typography>Loading...</Typography>}>
+              <PrivateRoute> <Profile /></PrivateRoute>,
+
+    </Suspense>
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "tables",
         path: "/tables",
-        element: <Tables />,
+        element: <PrivateRoute>  <Tables /> </PrivateRoute>,
       },
       {
         icon: <InformationCircleIcon {...icon} />,
         name: "notifications",
         path: "/notifications",
-        element: <Notifications />,
+        element:     <Suspense fallback={<Typography>Loading...</Typography>}>
+
+          <PrivateRoute>  <Notifications /> </PrivateRoute>,
+    </Suspense>
       },
       {
         icon: <InformationCircleIcon {...icon} />,
         name: "add questionnaire",
         path: "/questionnaire",
-        element: <Questionnaire />,
+        element:  
+            <Suspense fallback={<Typography>Loading...</Typography>}>
+
+              <PrivateRoute>  <Questionnaire /> </PrivateRoute>
+    </Suspense> 
+      },
+
+
+      {
+        icon: <InformationCircleIcon {...icon} />,
+        name: "Category",
+        path: "/category",
+        // element: <Questionnaire />,
         children: [
           {
-            name: "step 1",
-            path: "step1",
-            element: <div>Step 1 Content</div>,
+            name: "Add Category",
+            path: "addCategory",
+            element:     <Suspense fallback={<Typography>Loading...</Typography>}>
+
+              <PrivateRoute>  <AddCategories /> </PrivateRoute>
+    </Suspense>
           },
           {
-            name: "step 2",
-            path: "step2",
-            element: <div>Step 2 Content</div>,
+            name: "Category Lists",
+            path: "categoryLists",
+            element:     <Suspense fallback={<Typography>Loading...</Typography>}>
+
+              <PrivateRoute>  <CategoriesList /> </PrivateRoute>
+    </Suspense>
           },
         ],
       },
       {
         icon: <InformationCircleIcon {...icon} />,
-        name: "questionnaire lists",
-        path: "/questionnaireLists",
-        element: <QuestionnaireLists />,
+        name: "questionnaire ",
+        path: "/questionary",
+        children: [
+           {
+            name: "Questionnaires",
+            path: "questionnaires",
+            element:     <Suspense fallback={<Typography>Loading...</Typography>}>
+
+              <PrivateRoute>  <Questionnaire /> </PrivateRoute>  
+    </Suspense> 
+          },
+          {
+            name: "questionnaire lists",
+            path: "questionnaireLists",
+            element:  
+                <Suspense fallback={<Typography>Loading...</Typography>}>
+
+                  <PrivateRoute> <QuestionnaireLists /> </PrivateRoute>
+    </Suspense>
+          },
+         
+        ],
       },
+      
       {
         icon: <InformationCircleIcon {...icon} />,
         name: "User lists",
         path: "/userLists",
-        element: <UserLists />,
+        element:     <Suspense fallback={<Typography>Loading...</Typography>}>
+
+          <PrivateRoute> <UserLists /> </PrivateRoute> 
+    </Suspense>
       },
     ],
   },

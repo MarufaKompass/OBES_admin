@@ -1,43 +1,37 @@
-import { useAdminObeContext } from "@/components/contextProvider/AdminContextProvider";
-
-import {Input,Button, Typography,} from "@material-tailwind/react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useMutation } from '@tanstack/react-query';
+import {Input,Button, Typography,} from "@material-tailwind/react";
 
-
+import { loginUser } from "@/hooks/ReactQueryHooks";
+import useNavigator from "../../components/navigator/useNavigate"
+import { useAdminObeContext } from "@/components/contextProvider/AdminContextProvider";
 
 export function SignIn() {
   const { setUser } = useAdminObeContext();
-  const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    navigate('/');
-  };
+ const { handleNavigation } = useNavigator();
 
   const {
     register,
     handleSubmit,
     // formState: { errors },
+    reset,
   } = useForm();
 
- 
+   const { mutateAsync } = useMutation({ mutationFn: loginUser});
   const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      const res = await axios.post(
-        "https://obapi.myhealthrow.com/public/api/login",
-        data
-      );
-
-      sessionStorage.setItem("token", JSON.stringify(res.data.token));
-      toast.success(res.data.message);
+        try {
+      const res = await mutateAsync(data);
+       sessionStorage.setItem("token", JSON.stringify(res.data.token));
       setUser(res.data.token);
-      handleButtonClick();
-    } catch (error) {
-      console.error("Error posting data:", error);
+      toast.success(res.data.message);
+      handleNavigation('/');
+      reset();
+    } catch (err) {
+      toast.error(err?.response?.data?.message || 'Login failed');
+      reset();
     }
   };
   return (
@@ -57,8 +51,7 @@ export function SignIn() {
               size="lg"
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            
-              {...register("login")}
+              {...register("login" , { required: true })}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Password
@@ -68,28 +61,10 @@ export function SignIn() {
               size="lg"
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              {...register("password")}
+              {...register("password", { required: true })}
             />
           </div>
           <div className="flex items-center justify-between gap-2 mt-4">
-          {/* <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center justify-start font-medium"
-              >
-                I agree the&nbsp;
-                <a
-                  href="#"
-                  className="font-normal text-black transition-colors hover:text-gray-900 underline"
-                >
-                  Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          /> */}
             <Typography variant="small" className="font-medium text-gray-900 flex ">
               <a href="#">
                 Forgot Password

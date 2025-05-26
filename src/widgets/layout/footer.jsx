@@ -20,7 +20,7 @@ export function Footer({ brandName, brandLink, routes }) {
           </a>{" "}
           for a better web.
         </Typography>
-        <ul className="flex items-center gap-4">
+        {/* <ul className="flex items-center gap-4">
           {routes.map(({ name, path }) => (
             <li key={name}>
               <Typography
@@ -34,21 +34,16 @@ export function Footer({ brandName, brandLink, routes }) {
               </Typography>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </footer>
   );
 }
 
 Footer.defaultProps = {
-  brandName: "Creative Tim",
-  brandLink: "https://www.creative-tim.com",
-  routes: [
-    { name: "Creative Tim", path: "https://www.creative-tim.com" },
-    { name: "About Us", path: "https://www.creative-tim.com/presentation" },
-    { name: "Blog", path: "https://www.creative-tim.com/blog" },
-    { name: "License", path: "https://www.creative-tim.com/license" },
-  ],
+  brandName: "Kompass Team",
+  brandLink: "https://hellokompass.com",
+
 };
 
 Footer.propTypes = {

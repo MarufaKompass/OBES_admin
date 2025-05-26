@@ -1,12 +1,7 @@
-import PropTypes from "prop-types";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  Avatar,
-  Button,
-  IconButton,
-  Typography,
-} from "@material-tailwind/react";
+import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 
 export function Sidenav({ brandImg, brandName, routes }) {
@@ -18,16 +13,23 @@ export function Sidenav({ brandImg, brandName, routes }) {
     transparent: "bg-transparent",
   };
 
+  const [openSubmenus, setOpenSubmenus] = useState({});
+
+  const toggleSubmenu = (name) => {
+    setOpenSubmenus((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
+  };
+
   return (
     <aside
       className={`${sidenavTypes[sidenavType]} ${
         openSidenav ? "translate-x-0" : "-translate-x-80"
       } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
     >
-      <div
-        className={`relative`}
-      >
-        <Link to="/" className="py-6 px-8 text-center">
+      <div>
+        <Link to="/" className="py-6 px-8 text-center block">
           <Typography
             variant="h6"
             color={sidenavType === "dark" ? "white" : "blue-gray"}
@@ -46,9 +48,10 @@ export function Sidenav({ brandImg, brandName, routes }) {
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
         </IconButton>
       </div>
+
       <div className="m-4">
-        {routes.map(({ layout, title, pages }, key) => (
-          <ul key={key} className="mb-4 flex flex-col gap-1">
+        {routes.map(({ layout, title, pages }, index) => (
+          <ul key={index} className="mb-4 flex flex-col gap-1">
             {title && (
               <li className="mx-3.5 mt-4 mb-2">
                 <Typography
@@ -60,32 +63,84 @@ export function Sidenav({ brandImg, brandName, routes }) {
                 </Typography>
               </li>
             )}
-            {pages.map(({ icon, name, path }) => (
+
+            {pages.map(({ icon, name, path, children }) => (
               <li key={name}>
-                <NavLink to={`/${layout}${path}`}>
-                  {({ isActive }) => (
+                {children ? (
+                  <>
                     <Button
-                      variant={isActive ? "gradient" : "text"}
+                      onClick={() => toggleSubmenu(name)}
+                      variant="text"
                       color={
-                        isActive
-                          ? sidenavColor
-                          : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
+                        sidenavType === "dark" ? "white" : "#212529"
                       }
-                      className="flex items-center gap-4 px-4 capitalize"
+                      className="flex justify-between items-center gap-4 px-4 capitalize w-full"
                       fullWidth
                     >
-                      {icon}
-                      <Typography
-                        color="inherit"
-                        className="font-medium capitalize"
-                      >
-                        {name}
-                      </Typography>
+                      <span className="  flex items-center gap-3">
+                        {icon}
+               <Typography className="font-medium ">
+                         {name}
+               </Typography>
+                      </span>
+                      {openSubmenus[name] ? (
+                        <ChevronUpIcon className="h-4 w-4" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4" />
+                      )}
                     </Button>
-                  )}
-                </NavLink>
+                    {openSubmenus[name] && (
+                      <ul className="ml-9 mt-1 flex flex-col gap-1 ">
+                        {children.map((child) => (
+                          <li key={child.name} >
+                            <NavLink to={`/${layout}${path}/${child.path}`} >
+                              {({ isActive }) => (
+                                                     <Button
+  variant={isActive ? "filled" : "text"}
+  className={`flex items-center gap-4 px-4 capitalize  text-[14px] ${
+    isActive
+      ? "bg-[#7B1E19] text-white"
+      : sidenavType === "dark"
+      ? "text-white"
+      : "text-[#212529] hover:bg-[#f1f1f1]"
+  }`}
+  fullWidth
+>
+                                  {child.name}
+                                </Button>
+                              )}
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                ) : (
+                  <NavLink to={`/${layout}${path}`}>
+                    {({ isActive }) => (
+                  
+                      <Button
+  variant={isActive ? "filled" : "text"}
+  className={`flex items-center gap-4 px-4 capitalize ${
+    isActive
+      ? "bg-[#7B1E19] text-white"
+      : sidenavType === "dark"
+      ? "text-white"
+      : "text-[#212529] hover:bg-[#f1f1f1]"
+  }`}
+  fullWidth
+>
+                        {icon}
+                        <Typography
+                          color="inherit"
+                          className="font-medium capitalize"
+                        >
+                          {name}
+                        </Typography>
+                      </Button>
+                    )}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
@@ -94,18 +149,3 @@ export function Sidenav({ brandImg, brandName, routes }) {
     </aside>
   );
 }
-
-Sidenav.defaultProps = {
-  brandImg: "/img/logo-ct.png",
-  brandName: "OBES Platform",
-};
-
-Sidenav.propTypes = {
-  brandImg: PropTypes.string,
-  brandName: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-Sidenav.displayName = "/src/widgets/layout/sidnave.jsx";
-
-export default Sidenav;

@@ -1,33 +1,24 @@
 import React from 'react'
 import {Typography,Card,CardBody,Button, Input} from "@material-tailwind/react";
+import { allQuestionView } from '@/hooks/ReactQueryHooks';
+import { useQuery } from '@tanstack/react-query';
+import TopHeader from '@/components/topHeader/TopHeader';
 export default function QuestionnaireLists() {
 
-  const headers = ["ID", "Question", "Status", "Actions"];
-  const data = [
-    { id: 1, question: "what's your name",  status: "Active" },
-    { id: 2, question: "what's your name",  status: "Inactive" },
-    { id: 3, question: "what's your name",  status: "Active" },
-    { id: 4, question: "what's your name",  status: "Inactive" },
-    { id: 5, question: "what's your name",  status: "Active" },
-    { id: 6, question: "what's your name",  status: "Inactive" },
-  ];
+  const headers = ["ID", "Question", "Category", "Actions"];
 
+    const { data: questionView } = useQuery({
+    queryKey: ['quesView'],
+    queryFn: allQuestionView
+  });
 
   return (
 
     <div className="p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <Typography variant="h4" color="blue-gray">
-          Quesnaries List
-        </Typography>
-        <Button color="blue">+ Add New</Button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="mb-4 w-1/3">
-        <Input label="Search..." />
-      </div>
+    <TopHeader
+         title="Questionnaires List"
+       />
 
       {/* Table */}
       <Card>
@@ -52,21 +43,15 @@ export default function QuestionnaireLists() {
               </tr>
             </thead>
             <tbody>
-              {data.map(({ id, question, status }, index) => (
-                <tr key={id} className="even:bg-blue-gray-50/50">
-                  <td className="p-4">{id}</td>
-                  <td className="p-4">{question}</td>
-                  <td className="p-4">
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm ${
-                        status === "Active"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {status}
-                    </span>
+              {questionView?.map(( question ) => (
+                <tr key={question?.qid} className="even:bg-blue-gray-50/50">
+                       <td className="p-4 text-[16px] ">{question?.qid}</td>
+                  <td className="p-4 "> 
+                    <Typography  className="text-[16px] font-semibold">{question?.qeng}</Typography>
+                    <Typography  className="text-[15px] font-medium">{question?.qbang}</Typography>
                   </td>
+                  <td className="p-4 text-[16px] ">{question?.category}</td>
+                 
                   <td className="p-4">
                     <Button size="sm" color="blue" className="mr-2">
                       View

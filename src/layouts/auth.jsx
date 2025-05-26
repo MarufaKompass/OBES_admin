@@ -1,10 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import {
-  ChartPieIcon,
-  UserIcon,
-  UserPlusIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/solid";
 import { SignIn, SignUp } from "@/pages/auth";
 import {
   ServerStackIcon,
@@ -25,7 +19,8 @@ export function Auth() {
           icon: <ServerStackIcon {...icon} />,
           name: "sign in",
           path: "/sign-in",
-          element: <SignIn />,
+          element:   <SignIn />,
+    
         },
         {
           icon: <RectangleStackIcon {...icon} />,

@@ -1,19 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import { IconButton } from "@material-tailwind/react";
-import {
-  Sidenav,
-  DashboardNavbar,
-  Configurator,
-  Footer,
-} from "@/widgets/layout";
-import routes from "@/routes";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
+import {Sidenav,DashboardNavbar,Configurator,Footer} from "@/widgets/layout";
+
+import routes from "@/routes";
 
 export function Dashboard() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
- console.log("routes", routes)
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
       <Sidenav
@@ -35,7 +30,7 @@ export function Dashboard() {
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
         
-        <Routes>
+        {/* <Routes>
           {routes.map(
             ({ layout, pages }) =>
               layout === "dashboard" &&
@@ -43,26 +38,27 @@ export function Dashboard() {
                 <Route exact path={path} element={element} />
               ))
           )}
-        </Routes> 
-
-
-        {/* <Routes>
+        </Routes>  */}
+<Routes>
   {routes.map(({ layout, pages }) =>
     layout === "dashboard" &&
-    pages.map(({ path, element, children }) => (
-      <Route key={path} path={path} element={element}>
-        {children &&
-          children.map((child) => (
-            <Route
-              key={child.path}
-              path={child.path}
-              element={child.element}
-            />
-          ))}
-      </Route>
-    ))
+    pages.map(({ path, element, children }) => {
+      if (children) {
+        // Include submenu child routes
+        return children.map((child) => (
+          <Route
+            key={`${path}/${child.path}`}
+            path={`${path}/${child.path}`}
+            element={child.element}
+          />
+        ));
+      }
+      return (
+        <Route key={path} path={path} element={element} />
+      );
+    })
   )}
-</Routes> */}
+</Routes>
         <div className="text-blue-gray-600">
           <Footer />
         </div>
