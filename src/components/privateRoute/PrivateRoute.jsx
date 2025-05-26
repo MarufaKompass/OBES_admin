@@ -3,8 +3,9 @@ import { useAdminObeContext } from "../contextProvider/AdminContextProvider";
 
 export default function PrivateRoutes({children}) {
     const {user} = useAdminObeContext();
+
     if(user) {
         return children;
     }
-    return <Navigate to="/auth/sign-in" replace={true}></Navigate>;
+    return <Navigate to="/auth/sign-in" replace={true} />;
 }

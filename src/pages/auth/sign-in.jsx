@@ -24,7 +24,7 @@ export function SignIn() {
   const onSubmit = async (data) => {
         try {
       const res = await mutateAsync(data);
-       sessionStorage.setItem("token", JSON.stringify(res.data.token));
+      sessionStorage.setItem("token", JSON.stringify(res.data.token));
       setUser(res.data.token);
       toast.success(res.data.message);
       handleNavigation('/');
