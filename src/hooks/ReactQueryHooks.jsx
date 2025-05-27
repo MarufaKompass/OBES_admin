@@ -24,6 +24,16 @@ export const addCategory = async (addCatData) => {
 
 //user
 
+
+
+export const userProfile = async () => {
+  const response = await axiosInstance.get('/public/api/profile');
+  return response.data?.data;
+};
+
+
+
+
 export const allUserView = async () => {
   const response = await axiosInstance.get('/public/api/userx');
   return response.data?.data;
