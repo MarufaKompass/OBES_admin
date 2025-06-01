@@ -22,6 +22,20 @@ export const addCategory = async (addCatData) => {
 };
 
 
+//category 
+
+export const FaqView = async () => {
+  const response = await axiosInstance.get('/public/api/faqview');
+  return response?.data?.data;
+};
+
+
+export const addFaq = async (addFaqData) => {
+  const response = await axiosInstance.post('/public/api/faqstore', addFaqData);
+  return response;
+};
+
+
 //user
 
 

@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Typography ,
+  Typography,
   Button,
   Progress,
   Radio,
@@ -42,49 +42,49 @@ export function Notifications() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState({})
   const [submitted, setSubmitted] = useState(false)
-  
+
   const handleNext = () => {
     if (currentQuestion < questionsData.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     }
   }
-  
+
   const handlePrevious = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1)
     }
   }
-  
+
   const handleSubmit = () => {
     console.log("Submitted answers:", answers)
     setSubmitted(true)
   }
-  
+
   const handleAnswerChange = (value) => {
     setAnswers({
       ...answers,
       [questionsData[currentQuestion].id]: value,
     })
   }
-  
+
   const handleCheckboxChange = (option) => {
     const currentAnswers = answers[questionsData[currentQuestion].id] || []
     let newAnswers
-  
+
     if (currentAnswers.includes(option)) {
       newAnswers = currentAnswers.filter((item) => item !== option)
     } else {
       newAnswers = [...currentAnswers, option]
     }
-  
+
     setAnswers({
       ...answers,
       [questionsData[currentQuestion].id]: newAnswers,
     })
   }
-  
+
   const progressPercentage = ((currentQuestion + 1) / questionsData.length) * 100
-  
+
   if (submitted) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] p-4">
@@ -114,108 +114,108 @@ export function Notifications() {
       </div>
     )
   }
-  
+
   const currentQuestionData = questionsData[currentQuestion]
 
   return (
     <div className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
- <div className="flex flex-col items-center justify-center min-h-[70vh] p-4">
-      <Card className="w-full max-w-xl shadow-lg">
-        <CardHeader className="p-4 ">
-          <div className="w-full mb-4">
-            <div className="flex justify-between text-sm text-gray-600 mb-2 ">
-              <span>
-                Question {currentQuestion + 1} of {questionsData.length}
-              </span>
-              <span>{Math.round(progressPercentage)}% Complete</span>
+      <div className="flex flex-col items-center justify-center min-h-[70vh] p-4">
+        <Card className="w-full max-w-xl shadow-lg">
+          <CardHeader className="p-4 ">
+            <div className="w-full mb-4">
+              <div className="flex justify-between text-sm text-gray-600 mb-2 ">
+                <span>
+                  Question {currentQuestion + 1} of {questionsData.length}
+                </span>
+                <span>{Math.round(progressPercentage)}% Complete</span>
+              </div>
+              <Progress value={progressPercentage} className="h-2" />
             </div>
-            <Progress value={progressPercentage} className="h-2" />
-          </div>
-          <Typography variant="h5" className="font-bold">
-            {currentQuestionData.question}
-          </Typography>
-        </CardHeader>
+            <Typography variant="h5" className="font-bold">
+              {currentQuestionData.question}
+            </Typography>
+          </CardHeader>
 
-        <CardBody className="py-6">
-          {currentQuestionData.type === "multiple-choice" && (
-            <div className="space-y-3">
-              {currentQuestionData.options?.map((option, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Radio
-                    id={`option-${index}`}
-                    name="multiple-choice"
-                    checked={answers[currentQuestionData.id] === option}
-                    onChange={() => handleAnswerChange(option)}
-                  />
-                  <label htmlFor={`option-${index}`} className="text-sm font-medium">
-                    {option}
-                  </label>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {currentQuestionData.type === "text" && (
-            <Input
-              placeholder="Type your answer here"
-              value={answers[currentQuestionData.id] || ""}
-              onChange={(e) => handleAnswerChange(e.target.value)}
-              className="mt-2"
-            />
-          )}
-
-          {currentQuestionData.type === "textarea" && (
-            <Textarea
-              placeholder="Type your detailed feedback here"
-              value={answers[currentQuestionData.id] || ""}
-              onChange={(e) => handleAnswerChange(e.target.value)}
-              className="mt-2 min-h-[120px]"
-            />
-          )}
-
-          {currentQuestionData.type === "checkbox" && (
-            <div className="space-y-3">
-              {currentQuestionData.options?.map((option, index) => {
-                const currentAnswers = answers[currentQuestionData.id] || []
-                return (
+          <CardBody className="py-6">
+            {currentQuestionData.type === "multiple-choice" && (
+              <div className="space-y-3">
+                {currentQuestionData.options?.map((option, index) => (
                   <div key={index} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`checkbox-${index}`}
-                      checked={currentAnswers.includes(option)}
-                      onChange={() => handleCheckboxChange(option)}
+                    <Radio
+                      id={`option-${index}`}
+                      name="multiple-choice"
+                      checked={answers[currentQuestionData.id] === option}
+                      onChange={() => handleAnswerChange(option)}
                     />
-                    <label htmlFor={`checkbox-${index}`} className="text-sm font-medium">
+                    <label htmlFor={`option-${index}`} className="text-sm font-medium">
                       {option}
                     </label>
                   </div>
-                )
-              })}
-            </div>
-          )}
-        </CardBody>
+                ))}
+              </div>
+            )}
 
-        <CardFooter className="flex justify-between pt-2">
-          <Button
-            variant="outlined"
-            onClick={handlePrevious}
-            disabled={currentQuestion === 0}
-            className="flex items-center gap-1"
-          >
-            <ChevronLeft className="h-4 w-4" /> Previous
-          </Button>
+            {currentQuestionData.type === "text" && (
+              <Input
+                placeholder="Type your answer here"
+                value={answers[currentQuestionData.id] || ""}
+                onChange={(e) => handleAnswerChange(e.target.value)}
+                className="mt-2"
+              />
+            )}
 
-          {currentQuestion < questionsData.length - 1 ? (
-            <Button onClick={handleNext} className="flex items-center gap-1">
-              Next <ChevronRight className="h-4 w-4" />
+            {currentQuestionData.type === "textarea" && (
+              <Textarea
+                placeholder="Type your detailed feedback here"
+                value={answers[currentQuestionData.id] || ""}
+                onChange={(e) => handleAnswerChange(e.target.value)}
+                className="mt-2 min-h-[120px]"
+              />
+            )}
+
+            {currentQuestionData.type === "checkbox" && (
+              <div className="space-y-3">
+                {currentQuestionData.options?.map((option, index) => {
+                  const currentAnswers = answers[currentQuestionData.id] || []
+                  return (
+                    <div key={index} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`checkbox-${index}`}
+                        checked={currentAnswers.includes(option)}
+                        onChange={() => handleCheckboxChange(option)}
+                      />
+                      <label htmlFor={`checkbox-${index}`} className="text-sm font-medium">
+                        {option}
+                      </label>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </CardBody>
+
+          <CardFooter className="flex justify-between pt-2">
+            <Button
+              variant="outlined"
+              onClick={handlePrevious}
+              disabled={currentQuestion === 0}
+              className="flex items-center gap-1"
+            >
+              <ChevronLeft className="h-4 w-4" /> Previous
             </Button>
-          ) : (
-            <Button onClick={handleSubmit} className="flex items-center gap-1 bg-green-600 hover:bg-green-700">
-              Submit <Send className="h-4 w-4 ml-1" />
-            </Button>
-          )}
-        </CardFooter>
-      </Card>
-    </div>
+
+            {currentQuestion < questionsData.length - 1 ? (
+              <Button onClick={handleNext} className="flex items-center gap-1">
+                Next <ChevronRight className="h-4 w-4" />
+              </Button>
+            ) : (
+              <Button onClick={handleSubmit} className="flex items-center gap-1 bg-green-600 hover:bg-green-700">
+                Submit <Send className="h-4 w-4 ml-1" />
+              </Button>
+            )}
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 }

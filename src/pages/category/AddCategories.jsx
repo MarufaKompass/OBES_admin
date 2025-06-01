@@ -7,6 +7,7 @@ import {Card,CardHeader,CardBody,Typography,Input,Button} from "@material-tailwi
 
 import useNavigator from '@/components/navigator/useNavigate';
 import { addCategory } from '@/hooks/ReactQueryHooks';
+import Title from '@/components/title/TopHeader';
 export default function AddCategories() {
    const { handleNavigation } = useNavigator();
     const {
@@ -30,8 +31,9 @@ export default function AddCategories() {
   };
   return (
 <> 
-      <Typography variant="h4" color="blue-gray" className="mb-12 mt-12">Category</Typography>
-     <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16">
+
+        {/* <Title title="Category"></Title> */}
+     <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16 mt-4">
       <Card className="w-full max-w-md">
         <CardHeader
           floated={false}

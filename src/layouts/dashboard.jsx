@@ -20,7 +20,7 @@ export function Dashboard() {
   });
 
 
-console.log("userprofile" , userprofile)
+// console.log("userprofile" , userprofile)
 
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
