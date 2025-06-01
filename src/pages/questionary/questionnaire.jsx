@@ -5,12 +5,17 @@ import { useForm } from "react-hook-form"
 import { Card, CardHeader, CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { addQuestion, CategoryView } from "@/hooks/ReactQueryHooks";
+import { addQuestion, CategoryView, userProfile } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Title from '@/components/title/TopHeader';
 export default function Questionnaire() {
   const [catId, setCatId] = useState('');
+
   console.log("catId", catId)
+
+
+
+
 
   const categoryId = (e) => {
     setCatId(e.target.value)
@@ -44,91 +49,100 @@ export default function Questionnaire() {
       reset();
     }
   };
-
-
+  const { data: userprofile } = useQuery({
+    queryKey: ['userprofile'],
+    queryFn: userProfile
+  });
+  console.log("userprofile", userprofile?.logmobile)
   return (
     <>
+
       {/* <Title title="Add Questionnaires"></Title> */}
       <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16 mt-4">
-        <Card className="w-full max-w-md">
-          <CardHeader
-            floated={false}
-            shadow={false}
-            className="flex flex-col items-center bg-transparent"
-          >
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
-              <TagIcon className="h-6 w-6 text-primaryBg" />
-            </div>
-            <Typography variant="h4" color="blue-gray">
-              Add New Questionnaires
-            </Typography>
-            <Typography color="gray" className="text-center font-normal text-sm">
-              Create a new Question for your posts
-            </Typography>
-          </CardHeader>
-          <form onSubmit={handleSubmit(onSubmit)}  >
-            <CardBody className="space-y-6">
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Category
-                </Typography>
-                <select
-                  label="Select Category"
-                  value={catId}
-                  onChange={categoryId}
-                  className="border py-2 px-2 border-[#B0BEC5] rounded-[6px] w-full"
-                >
-                  <option value="" disabled>
-                    -- Select Category --
-                  </option>
-                  {catView?.map((category) => (
-                    <option key={category?.catid} value={category?.catid} >
-                      {category?.catname}
+
+        <Typography variant="h4" color="blue-gray" className="mb-12 mt-12">Add Questionnaires</Typography>
+        <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16">
+
+          <Card className="w-full max-w-md">
+            <CardHeader
+              floated={false}
+              shadow={false}
+              className="flex flex-col items-center bg-transparent"
+            >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
+                <TagIcon className="h-6 w-6 text-primaryBg" />
+              </div>
+              <Typography variant="h4" color="blue-gray">
+                Add New Questionnaires
+              </Typography>
+              <Typography color="gray" className="text-center font-normal text-sm">
+                Create a new Question for your posts
+              </Typography>
+            </CardHeader>
+            <form onSubmit={handleSubmit(onSubmit)}  >
+              <CardBody className="space-y-6">
+                <div className="space-y-2">
+                  <Typography variant="small" color="blue-gray" className="font-medium">
+
+                  </Typography>
+                  <select
+                    label="Select Category"
+                    value={catId}
+                    onChange={categoryId}
+                    className="border py-2 px-2 border-[#B0BEC5] rounded-[6px] w-full"
+                  >
+                    <option value="" disabled>
+                      -- Select Category --
                     </option>
-                  ))}
-                </select>
-              </div>
-              {
-                catId && (
-                  <div className="space-y-2 hidden">
-                    <Input label="Question name" value={catId}   {...register("catid", { required: true })} />
-                  </div>
-                )
-              }
+                    {catView?.map((category) => (
+                      <option key={category?.catid} value={category?.catid} >
+                        {category?.catname}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {
+                  catId && (
+                    <div className="space-y-2 hidden">
+                      <Input label="Question name" value={catId}   {...register("catid", { required: true })} />
+                    </div>
+                  )
+                }
 
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Question
-                </Typography>
-                <Input label="Question name" type="text"   {...register("qeng", { required: true })} />
-              </div>
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Question Bangla
-                </Typography>
-                <Input label="Question name" type="text"   {...register("qbang", { required: true })} />
-              </div>
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Question By
-                </Typography>
-                <Input label="category by" type="number"   {...register("qby", { required: true })} />
-              </div>
+                <div className="space-y-2">
+                  <Typography variant="small" color="blue-gray" className="font-medium">
+                    Question
+                  </Typography>
+                  <Input label="Question name" type="text"   {...register("qeng", { required: true })} />
+                </div>
+                <div className="space-y-2">
+                  <Typography variant="small" color="blue-gray" className="font-medium">
+                    Question Bangla
+                  </Typography>
+                  <Input label="Question name" type="text"   {...register("qbang", { required: true })} />
+                </div>
+                <div className="space-y-2">
+                  <Typography variant="small" color="blue-gray" className="font-medium">
+                    Question By
+                  </Typography>
+                  <Input label="category by" type="number"   {...register("qby", { required: true })} />
+                </div>
 
-              <div className="flex gap-3 pt-4">
-                <Button variant="outlined" fullWidth>
-                  Cancel
-                </Button>
+                <div className="flex gap-3 pt-4">
+                  <Button variant="outlined" fullWidth>
+                    Cancel
+                  </Button>
 
-                <Button fullWidth type="submit" className='bg-primaryBg'>
-                  Add Category
-                </Button>
-              </div>
-            </CardBody>
-          </form>
-        </Card>
-      </div>
-    </>
+                  <Button fullWidth type="submit" className='bg-primaryBg'>
+                    Add Category
+                  </Button>
+                </div>
+              </CardBody>
+            </form>
+          </Card>
+        </div>
+        </div>
+      </>
 
-  )
+      )
 }

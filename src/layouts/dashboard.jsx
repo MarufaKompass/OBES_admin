@@ -6,13 +6,11 @@ import {Sidenav,DashboardNavbar,Configurator,Footer} from "@/widgets/layout";
 
 import routes from "@/routes";
 import { userProfile } from "@/hooks/ReactQueryHooks";
-import { useQuery } from "@tanstack/react-query";
 
 export function Dashboard() {
 
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
-
 
     const { data: userprofile,isLoading } = useQuery({
     queryKey: ['userprofile'],

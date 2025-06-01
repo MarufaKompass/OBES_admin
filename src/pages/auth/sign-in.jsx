@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import {Input,Button, Typography,} from "@material-tailwind/react";
 
 import { loginUser } from "@/hooks/ReactQueryHooks";
-import useNavigator from "../../components/navigator/useNavigate"
+import useNavigator from "../../components/navigator/useNavigate";
 import { useAdminObeContext } from "@/components/contextProvider/AdminContextProvider";
 
 export function SignIn() {

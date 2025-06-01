@@ -24,9 +24,8 @@ export function Sidenav({ brandImg, brandName, routes }) {
 
   return (
     <aside
-      className={`${sidenavTypes[sidenavType]} ${
-        openSidenav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
+      className={`${sidenavTypes[sidenavType]} ${openSidenav ? "translate-x-0" : "-translate-x-80"
+        } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
     >
       <div>
         <Link to="/" className="py-6 px-8 text-center block">
@@ -79,9 +78,9 @@ export function Sidenav({ brandImg, brandName, routes }) {
                     >
                       <span className="  flex items-center gap-3">
                         {icon}
-               <Typography className="font-medium ">
-                         {name}
-               </Typography>
+                        <Typography className="font-medium ">
+                          {name}
+                        </Typography>
                       </span>
                       {openSubmenus[name] ? (
                         <ChevronUpIcon className="h-4 w-4" />
@@ -95,17 +94,16 @@ export function Sidenav({ brandImg, brandName, routes }) {
                           <li key={child.name} >
                             <NavLink to={`/${layout}${path}/${child.path}`} >
                               {({ isActive }) => (
-                                                     <Button
-  variant={isActive ? "filled" : "text"}
-  className={`flex items-center gap-4 px-4 capitalize  text-[14px] ${
-    isActive
-      ? "bg-[#7B1E19] text-white"
-      : sidenavType === "dark"
-      ? "text-white"
-      : "text-[#212529] hover:bg-[#f1f1f1]"
-  }`}
-  fullWidth
->
+                                <Button
+                                  variant={isActive ? "filled" : "text"}
+                                  className={`flex items-center gap-4 px-4 capitalize  text-[14px] ${isActive
+                                      ? "bg-[#7B1E19] text-white"
+                                      : sidenavType === "dark"
+                                        ? "text-white"
+                                        : "text-[#212529] hover:bg-[#f1f1f1]"
+                                    }`}
+                                  fullWidth
+                                >
                                   {child.name}
                                 </Button>
                               )}
@@ -118,18 +116,17 @@ export function Sidenav({ brandImg, brandName, routes }) {
                 ) : (
                   <NavLink to={`/${layout}${path}`}>
                     {({ isActive }) => (
-                  
+
                       <Button
-  variant={isActive ? "filled" : "text"}
-  className={`flex items-center gap-4 px-4 capitalize ${
-    isActive
-      ? "bg-[#7B1E19] text-white"
-      : sidenavType === "dark"
-      ? "text-white"
-      : "text-[#212529] hover:bg-[#f1f1f1]"
-  }`}
-  fullWidth
->
+                        variant={isActive ? "filled" : "text"}
+                        className={`flex items-center gap-4 px-4 capitalize ${isActive
+                            ? "bg-[#7B1E19] text-white"
+                            : sidenavType === "dark"
+                              ? "text-white"
+                              : "text-[#212529] hover:bg-[#f1f1f1]"
+                          }`}
+                        fullWidth
+                      >
                         {icon}
                         <Typography
                           color="inherit"
