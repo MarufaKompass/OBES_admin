@@ -5,8 +5,6 @@ import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 import {Sidenav,DashboardNavbar,Configurator,Footer} from "@/widgets/layout";
 
 import routes from "@/routes";
-import { userProfile } from "@/hooks/ReactQueryHooks";
-import { useQuery } from "@tanstack/react-query";
 
 export function Dashboard() {
 
@@ -14,13 +12,7 @@ export function Dashboard() {
   const { sidenavType } = controller;
 
 
-    const { data: userprofile,isLoading } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
-  });
 
-
-console.log("userprofile" , userprofile)
 
   return (
     <div className="min-h-screen bg-blue-gray-50/50">

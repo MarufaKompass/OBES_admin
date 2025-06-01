@@ -26,23 +26,23 @@ export const routes = [
       {
         icon: <HomeIcon {...icon} />,
         name: "dashboard",
-        path: "*",
+        path: "/",
         element: (
               <Suspense fallback={<Typography>Loading...</Typography>}>
                 <PrivateRoute> <Home /> </PrivateRoute></Suspense>
         )
       },
     
-      {
-        icon: <UserCircleIcon {...icon} />,
-        name: "profile",
-        path: "/profile",
-        element: 
-            <Suspense fallback={<Typography>Loading...</Typography>}>
-              <PrivateRoute> <Profile /></PrivateRoute>,
+    //   {
+    //     icon: <UserCircleIcon {...icon} />,
+    //     name: "profile",
+    //     path: "/profile",
+    //     element: 
+    //         <Suspense fallback={<Typography>Loading...</Typography>}>
+    //           <PrivateRoute> <Profile /></PrivateRoute>,
 
-    </Suspense>
-      },
+    // </Suspense>
+    //   },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "tables",
@@ -58,16 +58,15 @@ export const routes = [
           <PrivateRoute>  <Notifications /> </PrivateRoute>,
     </Suspense>
       },
-      {
-        icon: <InformationCircleIcon {...icon} />,
-        name: "add questionnaire",
-        path: "/questionnaire",
-        element:  
-            <Suspense fallback={<Typography>Loading...</Typography>}>
-
-              <PrivateRoute>  <Questionnaire /> </PrivateRoute>
-    </Suspense> 
-      },
+    //   {
+    //     icon: <InformationCircleIcon {...icon} />,
+    //     name: "add questionnaire",
+    //     path: "/questionnaire",
+    //     element:  
+    // <Suspense fallback={<Typography>Loading...</Typography>}>
+    //  <PrivateRoute>  <Questionnaire /> </PrivateRoute>
+    // </Suspense> 
+    //   },
 
 
       {
