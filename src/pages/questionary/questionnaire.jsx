@@ -9,6 +9,7 @@ import { addQuestion, CategoryView, userProfile } from "@/hooks/ReactQueryHooks"
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
+
 const questionTypes = [
   { qId: '1', label: 'Input', value: 'input' },
   { qId: '2', label: 'Checkbox', value: 'checkbox' },
@@ -24,6 +25,7 @@ const statusTypes = [
 
 export default function Questionnaire() {
   const [catId, setCatId] = useState('');
+
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
  const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
@@ -221,16 +223,11 @@ export default function Questionnaire() {
    
       ))}
 
-
- 
-
-
                     </>
                   )
                 }
 
               </div>
-
 
               
               <div className="space-y-2 ">
@@ -275,7 +272,6 @@ export default function Questionnaire() {
             </CardBody>
           </form>
         </Card>
-
       </div>
     </>
 

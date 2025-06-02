@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Typography,Card,CardBody,Button, Input} from "@material-tailwind/react";
 import { allQuestionView } from '@/hooks/ReactQueryHooks';
 import { useQuery } from '@tanstack/react-query';
 import TopHeader from '@/components/topHeader/TopHeader';
+import ModalQuestionDetails from './ModalQuestionDetails';
 export default function QuestionnaireLists() {
+  const [showModal, setShowModal] = useState(false);
+const [selectedQuestion, setSelectedQuestion] = useState(null); 
+
+
+const handleShowingInfo = (question) => {
+   setSelectedQuestion(question);
+   setShowModal(true)
+}
 
   const headers = ["ID", "Question", "Category", "Actions"];
 
@@ -13,7 +22,7 @@ export default function QuestionnaireLists() {
   });
 
   return (
-
+<> 
     <div className="p-6">
       {/* Header */}
     <TopHeader
@@ -53,7 +62,7 @@ export default function QuestionnaireLists() {
                   <td className="p-4 text-[16px] ">{question?.category}</td>
                  
                   <td className="p-4">
-                    <Button size="sm" color="blue" className="mr-2">
+                    <Button size="sm" color="blue" className="mr-2"  onClick={() => handleShowingInfo(question)}>
                       View
                     </Button>
                     <Button size="sm" color="green" className="mr-2">
@@ -69,7 +78,9 @@ export default function QuestionnaireLists() {
           </table>
         </CardBody>
       </Card>
-    </div>
 
+    </div>
+       <ModalQuestionDetails showModal={showModal} setShowModal={setShowModal} selectedQuestion={selectedQuestion}></ModalQuestionDetails>
+</>
   )
 }
