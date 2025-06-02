@@ -5,8 +5,10 @@ import {
   InformationCircleIcon
 } from "@heroicons/react/24/solid";
 import { lazy, Suspense } from 'react';
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { Home, Tables, Notifications } from "@/pages/dashboard";
 import {Typography} from "@material-tailwind/react";
+import AddFaq from "./pages/faq/AddFaq";
+import FaqList from "./pages/faq/FaqList";
 const Questionnaire = (lazy(() => import("./pages/questionary/questionnaire")));
 const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
 const UserLists = (lazy(() => import("./pages/userList/UserLists")));
@@ -116,6 +118,29 @@ export const routes = [
     </Suspense>
           },
          
+        ],
+      },
+            {
+        icon: <InformationCircleIcon {...icon} />,
+        name: "FAQ",
+        path: "/faq",
+        children: [
+          {
+            name: "Add Faq",
+            path: "addFaq",
+            element: <Suspense fallback={<Typography>Loading...</Typography>}>
+
+              <PrivateRoute>  <AddFaq /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            name: "FAQ Lists",
+            path: "faqLists",
+            element: <Suspense fallback={<Typography>Loading...</Typography>}>
+
+              <PrivateRoute>  <FaqList /> </PrivateRoute>
+            </Suspense>
+          },
         ],
       },
       
