@@ -30,7 +30,7 @@ export default function TopHeader({
           <div className="w-full md:w-1/3">
             <Input
               label={placeholder}
-             color="blue-gray"
+              color="blue-gray"
               value={searchValue}
               onChange={onSearchChange}
             />
