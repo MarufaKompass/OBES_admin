@@ -18,7 +18,6 @@ export default function AddCategories() {
   } = useForm();
   const { mutateAsync } = useMutation({ mutationFn: addCategory });
   const onSubmit = async (data) => {
-    console.log('data', data)
     try {
       const res = await mutateAsync(data);
       toast.success(res.data.message);
@@ -34,12 +33,10 @@ export default function AddCategories() {
     queryKey: ['userprofile'],
     queryFn: userProfile
   });
-  console.log("userprofile", userprofile?.logmobile)
 
   return (
     <>
-      <Typography variant="h4" color="blue-gray" className="mb-12 mt-12">Category</Typography>
-      <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16">
+      <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16 mt-4">
         <Card className="w-full max-w-md">
           <CardHeader
             floated={false}
