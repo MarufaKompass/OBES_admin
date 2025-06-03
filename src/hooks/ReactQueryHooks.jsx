@@ -41,7 +41,7 @@ export const addFaq = async (addFaqData) => {
 
 
 export const userProfile = async () => {
-  const response = await axiosInstance.get('/public/api/profile');
+  const response = await axiosInstance.get('/public/api/adminprofile');
   return response.data?.data;
 };
 
