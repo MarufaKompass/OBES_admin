@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { Brain, Heart, Info } from "lucide-react"
 export default function ModalQuestionDetails({ showModal, setShowModal, selectedQuestion }) {
   const [language, setLanguage] = useState("en")
-  console.log("selectedQuestion", selectedQuestion);
 
   const currentQuestion = language === "en" ? selectedQuestion?.qeng : selectedQuestion?.qbang
   const currentOptions = language === "en" ? selectedQuestion?.qaoptioneng : selectedQuestion?.qaoptionbng
@@ -30,8 +29,8 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
                   <button
                     onClick={() => setLanguage("en")}
                     className={`px-3 py-1 rounded text-sm border ${language === "en"
-                        ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white text-gray-700 border-gray-300"
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >
                     EN
@@ -39,8 +38,8 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
                   <button
                     onClick={() => setLanguage("bn")}
                     className={`px-3 py-1 rounded text-sm border ${language === "bn"
-                        ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white text-gray-700 border-gray-300"
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >
                     বাং
@@ -59,8 +58,8 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
             {/* Body */}
             <div className="py-4">
               {
-                Array.isArray(currentOptions) && currentOptions.length > 0 &&  (
-                   <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                Array.isArray(currentOptions) && currentOptions.length > 0 && (
+                  <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
                     <h3 className="text-sm font-medium text-blue-800 mb-2">Consequences of Obesity:</h3>
                     <ul className="list-disc pl-5 space-y-2">
                       {currentOptions?.map((option, index) => (
