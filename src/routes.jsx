@@ -1,6 +1,6 @@
 import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser   } from 'lucide-react';
 import { lazy, Suspense } from 'react';
-import { Home, Tables, Notifications } from "@/pages/dashboard";
+import { Home } from "@/pages/dashboard";
 import AddFaq from "./pages/faq/AddFaq";
 import FaqList from "./pages/faq/FaqList";
 import { PuffLoader } from "react-spinners";
