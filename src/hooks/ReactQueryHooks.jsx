@@ -24,14 +24,14 @@ export const addCategory = async ({addCatData,role}) => {
 
 //faq 
 
-export const FaqView = async () => {
-  const response = await axiosInstance.get('/public/api/faqview');
+export const FaqView = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/faqview`);
   return response?.data?.data;
 };
 
 
-export const addFaq = async (addFaqData) => {
-  const response = await axiosInstance.post('/public/api/faqstore', addFaqData);
+export const addFaq = async ({addFaqData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/faqstore`, addFaqData);
   return response;
 };
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import {Typography,Card,CardBody,Button} from "@material-tailwind/react";
 
-import { FaqView } from '@/hooks/ReactQueryHooks';
+import { FaqView, userProfile } from '@/hooks/ReactQueryHooks';
 import TopHeader from '@/components/topHeader/TopHeader';
 
 export default function FaqList() {
@@ -11,11 +11,15 @@ export default function FaqList() {
   const toggleFAQ = (index) => {
     setOpenIndex(index === openIndex ? null : index);
   };
+  const { data: userprofile } = useQuery({
+    queryKey: ['userprofile',],
+    queryFn: userProfile
+  });
 
 
     const { data: faqViews } = useQuery({
-    queryKey: ['faqViews'],
-    queryFn: FaqView
+    queryKey: ['faqViews', userprofile?.role],
+    queryFn: () => FaqView(userprofile?.role)
   });
 
   return (

@@ -61,7 +61,7 @@ export default function Questionnaire() {
 
 
   const { data: catView } = useQuery({
-    queryKey: ['catView',userprofile?.role],
+    queryKey: ['catView', userprofile?.role],
     queryFn: () => CategoryView(userprofile?.role)
   });
 
@@ -225,47 +225,38 @@ export default function Questionnaire() {
 
                       </>
                     ) : questionId === 'input' ? (
-                      <> 
-                      <div  className="grid grid-cols-2 gap-4 relative hidden">
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Option (English)
-                              </label>
-                              <input
-                                type="text"
-                                {...register('qaoptioneng')}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                                placeholder="Enter English option"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                অপশন (বাংলা)
-                              </label>
-                              <input
-                                type="text"
-                                {...register('qaoptionbng')}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                                placeholder="বাংলা অপশন লিখুন"
-                              />
-                            </div>
-                            </div>
-                            </>
+                      <>
+                        <div className="grid grid-cols-2 gap-4 relative hidden">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Option (English)
+                            </label>
+                            <input
+                              type="text"
+                              {...register('qaoptioneng')}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
+                              placeholder="Enter English option"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              অপশন (বাংলা)
+                            </label>
+                            <input
+                              type="text"
+                              {...register('qaoptionbng')}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
+                              placeholder="বাংলা অপশন লিখুন"
+                            />
+                          </div>
+                        </div>
+                      </>
                     ) : (
                       <></>
                     )
                 }
 
-
-
-
-
-
-
-
               </div>
-
-
               <div className="space-y-2 ">
                 <Typography variant="small" color="blue-gray" className="font-medium">
                   Select Status Type

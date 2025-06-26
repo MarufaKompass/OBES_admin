@@ -3,11 +3,11 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
-import {addFaq } from '@/hooks/ReactQueryHooks';
+import {addFaq, userProfile } from '@/hooks/ReactQueryHooks';
 import Title from '@/components/title/TopHeader';
 export default function AddFaq() {
     const { handleNavigation } = useNavigator();
@@ -17,16 +17,23 @@ export default function AddFaq() {
         // formState: { errors },
         reset,
     } = useForm();
+
+
+      const { data: userprofile } = useQuery({
+    queryKey: ['userprofile'],
+    queryFn: userProfile
+  });
+
     const { mutateAsync } = useMutation({ mutationFn: addFaq });
     const onSubmit = async (data) => {
         console.log('data', data)
         try {
-            const res = await mutateAsync(data);
+            const res = await mutateAsync({addFaqData:data,role: userprofile?.role});
             toast.success(res.data.message);
             handleNavigation('/');
             reset();
         } catch (err) {
-            toast.error(err?.response?.data?.message || 'Login failed');
+            toast.error(err?.response?.data?.message || 'add FAQ failed');
             reset();
         }
     };
@@ -84,13 +91,16 @@ export default function AddFaq() {
                                     {...register("fansbn", { required: true })} />
 
                             </div>
-                            <div className="space-y-2">
+                          
+                                 <div className="space-y-2 hidden">
                                 <Typography variant="small" color="blue-gray" className="font-medium">
                                     Category By
                                 </Typography>
-                                <Input label="faq by" type="number"   {...register("faqby", { required: true })} />
+                                <Input type="number" value={userprofile?.logmobile}  {...register("faqby", { required: true })} />
 
                             </div>
+                         
+                           
                             <div className="flex gap-3 pt-4">
                                 <Button variant="outlined" fullWidth>
                                     Cancel
