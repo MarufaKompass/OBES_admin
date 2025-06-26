@@ -10,19 +10,19 @@ export const loginUser = async (userData) => {
 //category 
 
 
-export const CategoryView = async () => {
-  const response = await axiosInstance.get('/public/api/qcatview');
+export const CategoryView = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/qcatview`);
   return response?.data?.data;
 };
 
 
-export const addCategory = async (addCatData) => {
-  const response = await axiosInstance.post('/public/api/qcatstore', addCatData);
+export const addCategory = async ({addCatData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/qcatstore`, addCatData);
   return response;
 };
 
 
-//category 
+//faq 
 
 export const FaqView = async () => {
   const response = await axiosInstance.get('/public/api/faqview');
@@ -35,17 +35,12 @@ export const addFaq = async (addFaqData) => {
   return response;
 };
 
-
 //user
 
-
-
 export const userProfile = async () => {
-  const response = await axiosInstance.get('/public/api/adminprofile');
+  const response = await axiosInstance.get('/public/api/admin/adminprofile');
   return response.data?.data;
 };
-
-
 
 
 export const allUserView = async () => {

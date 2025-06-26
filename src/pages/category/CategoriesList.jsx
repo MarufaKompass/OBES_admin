@@ -1,66 +1,90 @@
 import React from 'react'
-import {Typography,Card,CardBody,Button} from "@material-tailwind/react";
+import { Typography, Card, CardBody, Button,Spinner ,Alert } from "@material-tailwind/react";
 import { useQuery } from '@tanstack/react-query';
-import { CategoryView } from '@/hooks/ReactQueryHooks';
+import { CategoryView, userProfile } from '@/hooks/ReactQueryHooks';
 import TopHeader from '@/components/topHeader/TopHeader';
 export default function CategoriesList() {
-const TABLE_HEAD = ["ID","Category Name", "Category By" ,"Action"];
+  const TABLE_HEAD = ["ID", "Category Name", "Category By", "Action"];
 
-    const { data: catView } = useQuery({
+  const { data: userprofile, isLoading: isUserLoading, isError: isUserError, error: userError } = useQuery({
+    queryKey: ['userprofile'],
+    queryFn: userProfile
+  });
+
+
+  const { data: catView, isLoading: isCatLoading, isError: isCatError, error: catError } = useQuery({
     queryKey: ['catView'],
-    queryFn: CategoryView
+    queryFn: () => CategoryView(userprofile?.role),
+    enabled: !!userprofile?.role,
   });
 
   return (
-   <>
-    <TopHeader
-      title="Questionnaires List"
-    />
-   <Card>
-        <CardBody className="overflow-x-auto p-0">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD?.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal leading-none opacity-70"
-                    >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead> 
-            <tbody>
-               {catView?.map((cat) => (
-                <tr key={cat?.catid} className="even:bg-blue-gray-50/50">
-                  <td className="p-4">{cat?.catid}</td>
-                  <td className="p-4">   {cat?.catname}</td>
-                  <td className="p-4">
-                      {cat?.catby}
-                  </td>
-                  <td className="p-4">
-                    <Button size="sm" color="blue" className="mr-2">
-                      View
-                    </Button>
-                    <Button size="sm" color="green" className="mr-2">
-                      Edit
-                    </Button>
-                    <Button size="sm" color="red">
-                      Delete
-                    </Button>
-                  </td>
+    <>
+      <TopHeader title="Questionnaires List" />
+
+      <Card>
+        <CardBody className="overflow-x-auto p-4">
+
+
+          {isUserLoading && (
+            <div className="flex justify-center items-center h-full">
+              <Spinner color="blue" />
+              <span className="ml-2">Loading user profile...</span>
+            </div>
+          )}
+
+          {isUserError && (
+            <Alert color="red">
+              Failed to load user profile: {userError?.message || "Unknown error"}
+            </Alert>
+          )}
+
+
+          {!isUserLoading && isCatLoading && (
+            <div className="flex justify-center items-center">
+              <Spinner color="blue" />
+              <span className="ml-2">Loading categories...</span>
+            </div>
+          )}
+
+          {!isUserLoading && isCatError && (
+            <Alert color="red">
+              Failed to load categories: {catError?.message || "Unknown error"}
+            </Alert>
+          )}
+
+
+          {!isUserLoading && !isUserError && !isCatLoading && !isCatError && (
+            <table className="w-full min-w-max table-auto text-left">
+              <thead>
+                <tr>
+                  {TABLE_HEAD.map((head) => (
+                    <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                      <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
+                        {head}
+                      </Typography>
+                    </th>
+                  ))}
                 </tr>
-              ))} 
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {catView?.map((cat) => (
+                  <tr key={cat?.catid} className="even:bg-blue-gray-50/50">
+                    <td className="p-4">{cat?.catid}</td>
+                    <td className="p-4">{cat?.catname}</td>
+                    <td className="p-4">{cat?.catby}</td>
+                    <td className="p-4">
+                      <Button size="sm" color="blue" className="mr-2">View</Button>
+                      <Button size="sm" color="green" className="mr-2">Edit</Button>
+                      <Button size="sm" color="red">Delete</Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </CardBody>
-      </Card></>
+      </Card>
+    </>
   )
 }

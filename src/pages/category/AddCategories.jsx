@@ -16,23 +16,29 @@ export default function AddCategories() {
     // formState: { errors },
     reset,
   } = useForm();
+
+    const { data: userprofile } = useQuery({
+    queryKey: ['userprofile'],
+    queryFn: userProfile
+  });
+
+    console.log("userprofile" , userprofile?.role)
+
+
   const { mutateAsync } = useMutation({ mutationFn: addCategory });
   const onSubmit = async (data) => {
     try {
-      const res = await mutateAsync(data);
+      const res = await mutateAsync({ addCatData: data, role: userprofile?.role });
       toast.success(res.data.message);
       handleNavigation('/');
       reset();
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'Login failed');
+      toast.error(err?.response?.data?.message || 'Add category failed');
       reset();
     }
   };
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
-  });
+
 
   return (
     <>
