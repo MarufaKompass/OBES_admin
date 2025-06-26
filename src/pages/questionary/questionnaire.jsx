@@ -54,11 +54,15 @@ export default function Questionnaire() {
   } = useForm()
   const { handleNavigation } = useNavigator();
 
+  const { data: userprofile } = useQuery({
+    queryKey: ['userprofile'],
+    queryFn: userProfile
+  });
 
 
   const { data: catView } = useQuery({
-    queryKey: ['catView'],
-    queryFn: CategoryView
+    queryKey: ['catView',userprofile?.role],
+    queryFn: () => CategoryView(userprofile?.role)
   });
 
   const { mutateAsync } = useMutation({ mutationFn: addQuestion });
@@ -66,7 +70,7 @@ export default function Questionnaire() {
   const onSubmit = async (data) => {
     console.log('data', data)
     try {
-      const res = await mutateAsync(data);
+      const res = await mutateAsync({ addQuesData: data, role: userprofile?.role });
       toast.success(res.data.message);
       handleNavigation('/');
       reset();
@@ -76,10 +80,6 @@ export default function Questionnaire() {
     }
   };
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
-  });
 
   return (
     <>
@@ -225,7 +225,32 @@ export default function Questionnaire() {
 
                       </>
                     ) : questionId === 'input' ? (
-                      <></>
+                      <> 
+                      <div  className="grid grid-cols-2 gap-4 relative hidden">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Option (English)
+                              </label>
+                              <input
+                                type="text"
+                                {...register('qaoptioneng')}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
+                                placeholder="Enter English option"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                অপশন (বাংলা)
+                              </label>
+                              <input
+                                type="text"
+                                {...register('qaoptionbng')}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
+                                placeholder="বাংলা অপশন লিখুন"
+                              />
+                            </div>
+                            </div>
+                            </>
                     ) : (
                       <></>
                     )

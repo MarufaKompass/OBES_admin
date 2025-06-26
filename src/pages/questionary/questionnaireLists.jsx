@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Typography, Card, CardBody, Button, Input } from "@material-tailwind/react";
-import { allQuestionView } from '@/hooks/ReactQueryHooks';
+import { allQuestionView, userProfile } from '@/hooks/ReactQueryHooks';
 import { useQuery } from '@tanstack/react-query';
 import TopHeader from '@/components/topHeader/TopHeader';
 import ModalQuestionDetails from './ModalQuestionDetails';
@@ -16,9 +16,14 @@ export default function QuestionnaireLists() {
 
   const headers = ["ID", "Question", "Category", "Actions"];
 
+ const { data: userprofile} = useQuery({
+    queryKey: ['userprofile'],
+    queryFn: userProfile
+  });
+
   const { data: questionView } = useQuery({
-    queryKey: ['quesView'],
-    queryFn: allQuestionView
+    queryKey: ['quesView',userprofile?.role],
+    queryFn: () => allQuestionView(userprofile?.role)
   });
 
   return (

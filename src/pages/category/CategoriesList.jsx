@@ -13,7 +13,7 @@ export default function CategoriesList() {
 
 
   const { data: catView, isLoading: isCatLoading, isError: isCatError, error: catError } = useQuery({
-    queryKey: ['catView'],
+    queryKey: ['catView',userprofile?.role],
     queryFn: () => CategoryView(userprofile?.role),
     enabled: !!userprofile?.role,
   });

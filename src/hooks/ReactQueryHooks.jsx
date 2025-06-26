@@ -49,12 +49,12 @@ export const allUserView = async () => {
 };
 
 //question
-export const allQuestionView = async () => {
-  const response = await axiosInstance.get('/public/api/quesview');
+export const allQuestionView = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/quesview`);
   return response.data?.data;
 };
 
-export const addQuestion = async (addCatData) => {
-  const response = await axiosInstance.post('/public/api/ques', addCatData);
+export const addQuestion = async ({addQuesData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/ques`, addQuesData);
   return response;
 };
