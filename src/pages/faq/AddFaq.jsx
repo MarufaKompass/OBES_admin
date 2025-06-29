@@ -8,7 +8,7 @@ import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material
 
 import useNavigator from '@/components/navigator/useNavigate';
 import {addFaq, userProfile } from '@/hooks/ReactQueryHooks';
-import Title from '@/components/title/TopHeader';
+
 export default function AddFaq() {
     const { handleNavigation } = useNavigator();
     const {

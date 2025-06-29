@@ -1,6 +1,6 @@
 import Modal from '@/components/modal/Modal'
 import React, { useState } from 'react'
-import { Brain, Heart, Info } from "lucide-react"
+import {  Heart, Info } from "lucide-react"
 export default function ModalQuestionDetails({ showModal, setShowModal, selectedQuestion }) {
   const [language, setLanguage] = useState("en")
 
@@ -10,12 +10,7 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-
-
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <h2 className="text-xl font-bold mb-4">{selectedQuestion?.qid}</h2>
-        <p className="text-gray-700">This is a modal using Tailwind CSS in React.</p>
-
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
             {/* Header */}

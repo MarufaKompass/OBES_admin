@@ -58,3 +58,7 @@ export const addQuestion = async ({addQuesData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/ques`, addQuesData);
   return response;
 };
+export const editQuestion = async ({editQuesData,role,qid}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/ques/${qid}`, editQuesData);
+  return response;
+};
