@@ -2,13 +2,11 @@ import { toast } from 'react-toastify';
 import React, { useState } from "react";
 import { TagIcon, X } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { Card, CardHeader, CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, Typography, Button, Input } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
 import { addQuestion, CategoryView, userProfile } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
-
-
 
 const questionTypes = [
   { qId: '1', label: 'Input', value: 'input' },
@@ -25,8 +23,8 @@ const statusTypes = [
 
 export default function Questionnaire() {
   const [catId, setCatId] = useState('');
-
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
+
   const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
   };
@@ -41,7 +39,6 @@ export default function Questionnaire() {
     setCatId(e.target.value)
   }
   const [questionId, setQuestionId] = useState('');
-  // console.log("questionId", questionId)
   const selectQuestionId = (e) => {
     setQuestionId(e.target.value)
   }
@@ -72,7 +69,7 @@ export default function Questionnaire() {
     try {
       const res = await mutateAsync({ addQuesData: data, role: userprofile?.role });
       toast.success(res.data.message);
-      handleNavigation('/');
+      handleNavigation('/questionary/questionnaireLists');
       reset();
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Login failed');

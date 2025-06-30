@@ -1,6 +1,6 @@
 import Modal from '@/components/modal/Modal'
 import React, { useState } from 'react'
-import {  Heart, Info } from "lucide-react"
+import {  Heart, Info,X } from "lucide-react"
 export default function ModalQuestionDetails({ showModal, setShowModal, selectedQuestion }) {
   const [language, setLanguage] = useState("en")
 
@@ -39,6 +39,12 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
                   >
                     বাং
                   </button>
+                  <div
+              onClick={() => setShowModal(false)}
+              className=" text-[#000] ml-2 cursor-pointer"
+            >
+              <X size={32} />
+            </div>
                 </div>
               </div>
 
@@ -74,12 +80,8 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
             </div>
 
             {/* Footer */}
-            <button
-              onClick={() => setShowModal(false)}
-              className="mt-6 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
+
+            
           </div>
         </div>
       </Modal>

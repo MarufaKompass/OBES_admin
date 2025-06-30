@@ -6,7 +6,7 @@ import { CardBody, Typography, Button, Input, Select, Option } from "@material-t
 import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
-import {CategoryView, editQuestion, userProfile } from "@/hooks/ReactQueryHooks";
+import { CategoryView, editQuestion, userProfile } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -25,41 +25,36 @@ const statusTypes = [
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
-    // console.log("selectedQuestion", selectedQuestion)
     const { handleNavigation } = useNavigator();
     const [catId, setCatId] = useState("");
     const [status, setStatus] = useState("");
     const [questionId, setQuestionId] = useState('');
-
-    //   const { category } = selectedQuestion;
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
+
     const addOption = () => {
         setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
     };
 
     useEffect(() => {
-        if (selectedQuestion?.catid) {
+        if (selectedQuestion) {
             setCatId(selectedQuestion?.catid);
             setStatus(selectedQuestion?.qstatus);
             setQuestionId(selectedQuestion?.qatype);
+            if (selectedQuestion?.qaoptioneng && selectedQuestion?.qaoptionbng) {
+                const engOptions = selectedQuestion?.qaoptioneng;
+                const bngOptions = selectedQuestion?.qaoptionbng;
 
+                const combinedOptions = engOptions.map((eng, index) => ({
+                    qaoptioneng: eng,
+                    qaoptionbng: bngOptions[index] || "",
+                }));
 
- 
-    if (selectedQuestion?.qaoptioneng && selectedQuestion?.qaoptionbng) {
-      const engOptions = selectedQuestion?.qaoptioneng;
-      const bngOptions = selectedQuestion?.qaoptionbng;
+                setOptions(combinedOptions);
+            } else {
+                setOptions([{ qaoptioneng: "", qaoptionbng: "" }]);
+            }
+        }
 
-      const combinedOptions = engOptions.map((eng, index) => ({
-        qaoptioneng: eng,
-        qaoptionbng: bngOptions[index] || "",
-      }));
-
-      setOptions(combinedOptions); // ✅ Set to form
-    } else {
-      setOptions([{ qaoptioneng: "", qaoptionbng: "" }]);
-    }
-  }
-        
     }, [selectedQuestion]);
 
 
@@ -87,12 +82,6 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         formState: { errors },
     } = useForm()
 
-
-
-
-
-
-
     const { data: userprofile } = useQuery({
         queryKey: ['userprofile'],
         queryFn: userProfile
@@ -111,9 +100,9 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const onSubmit = async (data) => {
         console.log('data', data)
         try {
-            const res = await mutateAsync({ editQuesData: data, role: userprofile?.role,qid:selectedQuestion?.qid });
+            const res = await mutateAsync({ editQuesData: data, role: userprofile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);
-            handleNavigation('/');
+            handleNavigation('/questionary/questionnaireLists');
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
@@ -124,20 +113,24 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
 
     return (
         <>
-
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
-
-
                 <Modal isOpen={showModalEdit} onClose={() => setShowModalEdit(false)}>
-
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
 
-                            <div className="flex gap-3 ml-6">
-                                <Pencil size={24} color="#7B1E19" />
-                                <Typography color="#333" className=" text-xl font-bold">
-                                    Update Question for your posts
-                                </Typography>
+                            <div className="flex gap-3 justify-between ml-6">
+                                <div className="flex gap-3 ">
+                                    <Pencil size={24} color="#7B1E19" />
+                                    <Typography color="#333" className=" text-xl font-bold">
+                                        Update Question for your posts
+                                    </Typography>
+                                </div>
+                                <div
+                                    onClick={() => setShowModalEdit(false)}
+                                    className=" text-[#000] cursor-pointer"
+                                >
+                                    <X size={32} />
+                                </div>
                             </div>
                             <form onSubmit={handleSubmit(onSubmit)}  >
                                 <CardBody className="space-y-6">
@@ -147,11 +140,12 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         </Typography>
                                         <select
                                             label="Select Category"
+                                            {...register("catid", { required: true })}
                                             value={catId}
                                             onChange={categoryId}
                                             className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
                                         >
-                                            <option value="" disabled>
+                                            <option value="">
                                                 -- Select Category --
                                             </option>
                                             {catView?.map((category) => (
@@ -161,13 +155,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                             ))}
                                         </select>
                                     </div>
-                                    {
-                                        catId && (
-                                            <div className="space-y-2 hidden">
-                                                <Input label="Question name" value={catId}   {...register("catid", { required: true })} />
-                                            </div>
-                                        )
-                                    }
+
 
                                     <div className="space-y-2">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
@@ -181,63 +169,108 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         </Typography>
                                         <Input label="প্রশ্ন বাংলা" type="text" defaultValue={selectedQuestion?.qbang}   {...register("qbang", { required: true })} />
                                     </div>
-                                
-                                  <div className="space-y-2">
+
+                                    <div className="space-y-2">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             Select Question Type
                                         </Typography>
                                         {
                                             questionId && (
-                                           <select
-                                            {...register("qatype", { required: true })}
-                                            label="Select Category"
-                                            value={questionId}
-                                            onChange={selectQuestionId}
-                                            className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                        >
-                                            <option value="" disabled>
-                                                -- Select Question Type --
-                                            </option>
-                                            {questionTypes?.map((question) => (
-                                                <option key={question?.qId} value={question?.value} >
-                                                    {question?.qatype}
-                                                </option>
-                                            ))}
-                                           </select>
+                                                <select
+                                                    {...register("qatype", { required: true })}
+                                                    label="Select Category"
+                                                    value={questionId}
+                                                    onChange={selectQuestionId}
+                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
+                                                >
+                                                    <option value="" disabled>
+                                                        -- Select Question Type --
+                                                    </option>
+                                                    {questionTypes?.map((question) => (
+                                                        <option key={question?.qId} value={question?.value} >
+                                                            {question?.qatype}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             )
                                         }
-                                    
-                                    </div>
-                                    
-                                  
-                                   { questionId && (
- <div className="space-y-2">
-                                        {
-                                            (questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') ?
-                                                (
-                                                    <>
-                                                        <div className='flex justify-end'>
 
-                                                            <button
-                                                                type="button"
-                                                                onClick={addOption}
-                                                                className="text-white bg-primaryBg hover:bg-primaryBg px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
-                                                            >
-                                                                + Add Option
-                                                            </button>
-                                                        </div>
-                                                        {options.map((_, index) => (
-                                                            <div key={index} className="grid grid-cols-2 gap-4 relative">
+                                    </div>
+
+
+                                    {questionId && (
+                                        <div className="space-y-2">
+                                            {
+                                                (questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') ?
+                                                    (
+                                                        <>
+                                                            <div className='flex justify-end'>
+
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={addOption}
+                                                                    className="text-white bg-primaryBg hover:bg-primaryBg px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
+                                                                >
+                                                                    + Add Option
+                                                                </button>
+                                                            </div>
+                                                            {options.map((_, index) => (
+                                                                <div key={index} className="grid grid-cols-2 gap-4 relative">
+                                                                    <div>
+                                                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                                            Option (English)
+                                                                        </label>
+                                                                        <input
+
+                                                                            type="text"
+                                                                            {...register(`qaoptioneng[${index}]`, { required: true })}
+                                                                            defaultValue={options[index]?.qaoptioneng}
+                                                                            className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm text-[#414141]"
+                                                                            placeholder="Enter English option"
+                                                                        />
+                                                                    </div>
+                                                                    <div>
+                                                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                                            অপশন (বাংলা)
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            {...register(`qaoptionbng[${index}]`, { required: true })}
+                                                                            defaultValue={options[index]?.qaoptionbng}
+                                                                            className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm  text-[#414141]"
+                                                                            placeholder="বাংলা অপশন লিখুন"
+                                                                        />
+                                                                    </div>
+
+                                                                    <div>
+                                                                        {options.length > 1 && (
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => removeOption(index)}
+                                                                                className="absolute top-0 right-2 text-red-600 hover:text-red-800 text-[12px]"
+                                                                                title="Delete option"
+                                                                            >
+                                                                                <X size={16} />
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+
+
+                                                            ))}
+
+                                                        </>
+                                                    ) : questionId === 'input' ? (
+                                                        <>
+                                                            <div className=" grid-cols-2 gap-4 relative hidden">
                                                                 <div>
                                                                     <label className="block text-sm font-medium text-gray-700 mb-1">
                                                                         Option (English)
                                                                     </label>
                                                                     <input
-                                                                  
                                                                         type="text"
-                                                                        {...register(`qaoptioneng[${index}]`, { required: true })}
-                                                                        defaultValue={options[index]?.qaoptioneng}
-                                                                        className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm text-[#414141]"
+                                                                        {...register('qaoptioneng')}
+                                                                        className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
                                                                         placeholder="Enter English option"
                                                                     />
                                                                 </div>
@@ -247,68 +280,20 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                                     </label>
                                                                     <input
                                                                         type="text"
-                                                                        {...register(`qaoptionbng[${index}]`, { required: true })}
-                                                                        defaultValue={options[index]?.qaoptionbng}
-                                                                        className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm  text-[#414141]"
+                                                                        {...register('qaoptionbng')}
+                                                                        className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
                                                                         placeholder="বাংলা অপশন লিখুন"
                                                                     />
                                                                 </div>
-
-                                                                <div>
-                                                                    {options.length > 1 && (
-                                                                        <button
-                                                                            type="button"
-                                                                            onClick={() => removeOption(index)}
-                                                                            className="absolute top-0 right-2 text-red-600 hover:text-red-800 text-[12px]"
-                                                                            title="Delete option"
-                                                                        >
-                                                                            <X size={16} />
-                                                                        </button>
-                                                                    )}
-                                                                </div>
                                                             </div>
+                                                        </>
+                                                    ) : (
+                                                        <></>
+                                                    )
+                                            }
 
-
-                                                        ))}
-
-                                                    </>
-                                                ) : questionId === 'input' ? (
-                                                    <>
-                                                        <div className=" grid-cols-2 gap-4 relative hidden">
-                                                            <div>
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                                    Option (English)
-                                                                </label>
-                                                                <input
-                                                                    type="text"
-                                                                    {...register('qaoptioneng')}
-                                                                    className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                                                                    placeholder="Enter English option"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                                    অপশন (বাংলা)
-                                                                </label>
-                                                                <input
-                                                                    type="text"
-                                                                    {...register('qaoptionbng')}
-                                                                    className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                                                                    placeholder="বাংলা অপশন লিখুন"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                ) : (
-                                                    <></>
-                                                )
-                                        }
-
-                                    </div>
-                                   )}
-
-                    
-
+                                        </div>
+                                    )}
                                     <div className="space-y-2 ">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             Select Status Type
@@ -316,25 +301,25 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
 
                                         {
                                             status && (
-                                          <select
-                                            {...register("qstatus", { required: true })}
-                                            label="Select Status"
-                                            value={status}
-                                            onChange={statusLevel}
-                                            className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                        >
-                                            <option value="">
-                                                -- Select Status Type --
-                                            </option>
-                                            {statusTypes?.map((status) => (
-                                                <option key={status?.qId} value={status?.value} >
-                                                    {status?.qstatus}
-                                                </option>
-                                            ))}
-                                        </select>
+                                                <select
+                                                    {...register("qstatus", { required: true })}
+                                                    label="Select Status"
+                                                    value={status}
+                                                    onChange={statusLevel}
+                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
+                                                >
+                                                    <option value="">
+                                                        -- Select Status Type --
+                                                    </option>
+                                                    {statusTypes?.map((status) => (
+                                                        <option key={status?.qId} value={status?.value} >
+                                                            {status?.qstatus}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             )
                                         }
-                                    
+
                                     </div>
 
                                     {userprofile?.role && (
@@ -358,12 +343,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                     </div>
                                 </CardBody>
                             </form>
-                            <button
-                                onClick={() => setShowModalEdit(false)}
-                                className="mt-6 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                            >
-                                Close
-                            </button>
+
                         </div>
                     </div>
                 </Modal>

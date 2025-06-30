@@ -1,35 +1,38 @@
 import React, { useState } from 'react'
-import { Typography, Card, CardBody, Button } from "@material-tailwind/react";
-import { allQuestionView, userProfile } from '@/hooks/ReactQueryHooks';
 import { useQuery } from '@tanstack/react-query';
-import TopHeader from '@/components/topHeader/TopHeader';
+import { View, Pencil, Trash } from 'lucide-react';
+import { Typography, Card, CardBody } from "@material-tailwind/react";
+
+
+import { allQuestionView, userProfile } from '@/hooks/ReactQueryHooks';
 import ModalQuestionDetails from './ModalQuestionDetails';
-import { View ,Pencil,Trash} from 'lucide-react';
+import TopHeader from '@/components/topHeader/TopHeader';
 import ModalEditQuestion from './ModalEditQuestion';
+
 export default function QuestionnaireLists() {
   const [showModal, setShowModal] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
+  const headers = ["ID", "Question", "Category", "Actions"];
 
   const handleShowingInfo = (question) => {
     setSelectedQuestion(question);
     setShowModal(true)
   }
   const handleShowingInfoEdit = (question) => {
-     setSelectedQuestion(question);
+    setSelectedQuestion(question);
     setShowModalEdit(true)
   }
 
-  const headers = ["ID", "Question", "Category", "Actions"];
 
- const { data: userprofile} = useQuery({
+  const { data: userprofile } = useQuery({
     queryKey: ['userprofile'],
     queryFn: userProfile
   });
 
   const { data: questionView } = useQuery({
-    queryKey: ['quesView',userprofile?.role],
+    queryKey: ['quesView', userprofile?.role],
     queryFn: () => allQuestionView(userprofile?.role)
   });
 
@@ -74,14 +77,14 @@ export default function QuestionnaireLists() {
                     <td className="p-4 text-[16px] ">{question?.category}</td>
 
                     <td className="p-4 flex gap-2">
-                      <div  className="mr-2 cursor-pointer" onClick={() => handleShowingInfo(question)}>
-                         <View size={22} />
+                      <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfo(question)}>
+                        <View size={22} />
                       </div>
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(question)}>
-                      <Pencil size={22}/>
+                        <Pencil size={22} />
                       </div>
                       <div className="mr-2 cursor-pointer">
-                        <Trash size={22}/>
+                        <Trash size={22} />
                       </div>
                     </td>
                   </tr>
