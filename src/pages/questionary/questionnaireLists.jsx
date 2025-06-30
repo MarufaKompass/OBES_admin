@@ -8,10 +8,12 @@ import { allQuestionView, userProfile } from '@/hooks/ReactQueryHooks';
 import ModalQuestionDetails from './ModalQuestionDetails';
 import TopHeader from '@/components/topHeader/TopHeader';
 import ModalEditQuestion from './ModalEditQuestion';
+import ModalDeleteQuestion from './ModalDeleteQuestion';
 
 export default function QuestionnaireLists() {
   const [showModal, setShowModal] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const headers = ["ID", "Question", "Category", "Actions"];
@@ -23,6 +25,11 @@ export default function QuestionnaireLists() {
   const handleShowingInfoEdit = (question) => {
     setSelectedQuestion(question);
     setShowModalEdit(true)
+  }
+
+  const handleShowingInfoDelete = (question) => {
+    setSelectedQuestion(question);
+    setShowModalDelete(true)
   }
 
 
@@ -83,7 +90,7 @@ export default function QuestionnaireLists() {
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(question)}>
                         <Pencil size={22} />
                       </div>
-                      <div className="mr-2 cursor-pointer">
+                      <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoDelete(question)}>
                         <Trash size={22} />
                       </div>
                     </td>
@@ -97,6 +104,7 @@ export default function QuestionnaireLists() {
       </div>
       <ModalQuestionDetails showModal={showModal} setShowModal={setShowModal} selectedQuestion={selectedQuestion}></ModalQuestionDetails>
       <ModalEditQuestion showModalEdit={showModalEdit} setShowModalEdit={setShowModalEdit} selectedQuestion={selectedQuestion}></ModalEditQuestion>
+      <ModalDeleteQuestion showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} selectedQuestion={selectedQuestion}></ModalDeleteQuestion>
     </>
   )
 }
