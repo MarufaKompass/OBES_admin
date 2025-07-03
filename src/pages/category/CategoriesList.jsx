@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { Typography, Card, CardBody, Button,Spinner ,Alert } from "@material-tailwind/react";
+import { Typography, Card, CardBody, Button, Spinner, Alert } from "@material-tailwind/react";
 import { useQuery } from '@tanstack/react-query';
 import { CategoryView, userProfile } from '@/hooks/ReactQueryHooks';
 import TopHeader from '@/components/topHeader/TopHeader';
 import { View, Pencil, Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
 export default function CategoriesList() {
-    const [showModalDelete, setShowModalDelete] = useState(false);
-   const [selectedCategory, setSelectedCategory] = useState(null)
-   const handleShowingInfoDelete = (category) => {
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const handleShowingInfoDelete = (category) => {
     setSelectedCategory(category);
     setShowModalDelete(true)
   }
@@ -24,7 +24,7 @@ export default function CategoriesList() {
 
 
   const { data: catView, isLoading: isCatLoading, isError: isCatError, error: catError } = useQuery({
-    queryKey: ['catView',userprofile?.role],
+    queryKey: ['catView', userprofile?.role],
     queryFn: () => CategoryView(userprofile?.role),
     enabled: !!userprofile?.role,
   });
@@ -84,8 +84,8 @@ export default function CategoriesList() {
                     <td className="p-4">{cat?.catid}</td>
                     <td className="p-4">{cat?.catname}</td>
                     <td className="p-4">{cat?.catby}</td>
-         
-                         <td className="p-4 flex gap-2">
+
+                    <td className="p-4 flex gap-2">
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfo(cat)}>
                         <View size={22} />
                       </div>
@@ -96,7 +96,7 @@ export default function CategoriesList() {
                         <Trash size={22} />
                       </div>
                     </td>
-                 
+
                   </tr>
                 ))}
               </tbody>
@@ -105,7 +105,7 @@ export default function CategoriesList() {
         </CardBody>
       </Card>
 
-     <ModalCategoryDelete selectedCategory={selectedCategory} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete}></ModalCategoryDelete>
+      <ModalCategoryDelete selectedCategory={selectedCategory} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete}></ModalCategoryDelete>
     </>
   )
 }

@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 
-export default function ModalCategoryDelete({ selectedQuestion, showModalDelete, setShowModalDelete }) {
+export default function ModalCategoryDelete({ selectedCategory, showModalDelete, setShowModalDelete }) {
     const { data: userprofile } = useQuery({
         queryKey: ['userprofile'],
         queryFn: userProfile
