@@ -100,7 +100,6 @@ export default function QuestionnaireLists() {
             </table>
           </CardBody>
         </Card>
-
       </div>
       <ModalQuestionDetails showModal={showModal} setShowModal={setShowModal} selectedQuestion={selectedQuestion}></ModalQuestionDetails>
       <ModalEditQuestion showModalEdit={showModalEdit} setShowModalEdit={setShowModalEdit} selectedQuestion={selectedQuestion}></ModalEditQuestion>
