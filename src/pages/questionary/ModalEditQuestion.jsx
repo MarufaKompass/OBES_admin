@@ -122,7 +122,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                 <div className="flex gap-3 ">
                                     <Pencil size={24} color="#7B1E19" />
                                     <Typography color="#333" className=" text-xl font-bold">
-                                        Update Question for your posts
+                                        Update Question
                                     </Typography>
                                 </div>
                                 <div
@@ -333,7 +333,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
 
 
                                     <div className="flex gap-3 pt-4">
-                                        <Button variant="outlined" fullWidth>
+                                        <Button variant="outlined" fullWidth onClose={() => setShowModalEdit(false)}>
                                             Cancel
                                         </Button>
 

@@ -5,17 +5,25 @@ import { CategoryView, userProfile } from '@/hooks/ReactQueryHooks';
 import TopHeader from '@/components/topHeader/TopHeader';
 import { View, Pencil, Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
+import ModalCategoryEdit from './ModalCategoryEdit';
 export default function CategoriesList() {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
+  const [showModalEdit, setShowModalEdit] = useState(null)
+
   const handleShowingInfoDelete = (category) => {
     setSelectedCategory(category);
     setShowModalDelete(true)
   }
 
+  const handleShowingInfoEdit = (category) => {
+    setSelectedCategory(category);
+    setShowModalEdit(true)
+  }
 
 
-  const TABLE_HEAD = ["ID", "Category Name", "Category By", "Action"];
+
+  const TABLE_HEAD = ["ID", "Category Name", "Category Bangla","Category By", "Action"];
 
   const { data: userprofile, isLoading: isUserLoading, isError: isUserError, error: userError } = useQuery({
     queryKey: ['userprofile'],
@@ -83,6 +91,7 @@ export default function CategoriesList() {
                   <tr key={cat?.catid} className="even:bg-blue-gray-50/50">
                     <td className="p-4">{cat?.catid}</td>
                     <td className="p-4">{cat?.catname}</td>
+                    <td className="p-4">{cat?.catbangla}</td>
                     <td className="p-4">{cat?.catby}</td>
 
                     <td className="p-4 flex gap-2">
@@ -106,6 +115,8 @@ export default function CategoriesList() {
       </Card>
 
       <ModalCategoryDelete selectedCategory={selectedCategory} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete}></ModalCategoryDelete>
+      <ModalCategoryEdit setShowModalEdit={setShowModalEdit} showModalEdit={showModalEdit} selectedCategory={selectedCategory}></ModalCategoryEdit>
+
     </>
   )
 }

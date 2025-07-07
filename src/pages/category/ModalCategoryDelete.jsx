@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from '@/components/modal/Modal';
 import { X } from "lucide-react";
-import { deleteQuestion, userProfile } from '@/hooks/ReactQueryHooks';
+import { deleteCategory, userProfile } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
@@ -15,11 +15,11 @@ export default function ModalCategoryDelete({ selectedCategory, showModalDelete,
     const queryClient = useQueryClient();
 
     const { mutate: deleteQues } = useMutation({
-        mutationFn: ({ role, qid }) => deleteQuestion({ role, qid }),
+        mutationFn: ({ role, catid }) => deleteCategory({ role, catid }),
         onSuccess: (data) => {
             toast.success(data.data.message);
             console.log("message", data.data.message)
-            queryClient.invalidateQueries(['questions']);
+            queryClient.invalidateQueries(['category']);
             setShowModalDelete(false);
         },
         onError: () => {
@@ -52,7 +52,7 @@ export default function ModalCategoryDelete({ selectedCategory, showModalDelete,
                                 </div>
                                 <div className='flex gap-3 justify-center mt-5'>
                                     <button className=' px-10 py-2 text-[#333] bg-[#f1f1f1]' onClick={() => setShowModalDelete(false)}>Cancel</button>
-                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => deleteQues({ role: userprofile?.role, qid: selectedQuestion?.qid })}>Delete</button>
+                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => deleteQues({ role: userprofile?.role, catid: selectedCategory?.catid })}>Delete</button>
                                 </div>
                             </div>
                         </div>

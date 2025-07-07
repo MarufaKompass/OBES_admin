@@ -68,12 +68,12 @@ export const deleteQuestion = async ({role,qid}) => {
   const response = await axiosInstance.delete(`/public/api/${role}/ques/${qid}`);
   return response;
 };
-export const editCategory = async ({editCategoryData,role,qid}) => {
-  const response = await axiosInstance.put(`/public/api/${role}/qcat/${qid}`, editCategoryData);
+export const editCategory = async ({editCategoryData,role,catid}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/qcat/${catid}`, editCategoryData);
   return response;
 };
 
-export const deleteCategory = async ({role,qid}) => {
-  const response = await axiosInstance.delete(`/public/api/${role}/qcat/${qid}`);
+export const deleteCategory = async ({role,catid}) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/qcat/${catid}`);
   return response;
 };

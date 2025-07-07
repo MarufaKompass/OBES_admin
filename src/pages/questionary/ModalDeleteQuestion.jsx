@@ -18,7 +18,6 @@ export default function ModalDeleteQuestion({ selectedQuestion, showModalDelete,
         mutationFn: ({ role, qid }) => deleteQuestion({ role, qid }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            console.log("message", data.data.message)
             queryClient.invalidateQueries(['questions']);
             setShowModalDelete(false);
         },
