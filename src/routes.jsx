@@ -1,4 +1,4 @@
-import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser   } from 'lucide-react';
+import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser,LayoutPanelLeft,BetweenHorizontalEnd,AlignStartVertical  , Twitch ,ListTodo ,Map     } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { Home } from "@/pages/dashboard";
 import AddFaq from "./pages/faq/AddFaq";
@@ -32,62 +32,26 @@ export const routes = [
             <PrivateRoute> <Home /> </PrivateRoute></Suspense>
         )
       },
-
-      //   {
-      //     icon: <UserCircleIcon {...icon} />,
-      //     name: "profile",
-      //     path: "/profile",
-      //     element: 
-      //         <Suspense fallback={<Typography>Loading...</Typography>}>
-      //           <PrivateRoute> <Profile /></PrivateRoute>,
-
-      // </Suspense>
-      //   },
-      // {
-      //   icon: <TableCellsIcon {...icon} />,
-      //   name: "tables",
-      //   path: "/tables",
-      //   element: <PrivateRoute>  <Tables /> </PrivateRoute>,
-      // },
-      // {
-      //   icon: <InformationCircleIcon {...icon} />,
-      //   name: "notifications",
-      //   path: "/notifications",
-      //   element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-      //     <PuffLoader color="rgb(123 30 25)" />
-      //   </div>}>
-
-      //     <PrivateRoute>  <Notifications /> </PrivateRoute>,
-      //   </Suspense>
-      // },
-      //   {
-      //     icon: <InformationCircleIcon {...icon} />,
-      //     name: "add questionnaire",
-      //     path: "/questionnaire",
-      //     element:  
-      // <Suspense fallback={<Typography>Loading...</Typography>}>
-      //  <PrivateRoute>  <Questionnaire /> </PrivateRoute>
-      // </Suspense> 
-      //   },
-
-
       {
-        icon: <ChartBarStacked  {...icon} />,
+        icon: <LayoutPanelLeft   {...icon} />,
         name: "Category",
         path: "/category",
         // element: <Questionnaire />,
         children: [
           {
-            name: "Add Category",
-            path: "addCategory",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              icon: <ChartBarStacked  {...icon} />,
+              name: "Add Category",
+              path: "addCategory",
+              element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
+            </div>
+          }>
 
               <PrivateRoute>  <AddCategories /> </PrivateRoute>
             </Suspense>
           },
           {
+            icon: <BetweenHorizontalEnd   {...icon} />,
             name: "Category Lists",
             path: "categoryLists",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
@@ -105,6 +69,7 @@ export const routes = [
         path: "/questionary",
         children: [
           {
+            icon: <Twitch       {...icon} />,
             name: "Questionnaires",
             path: "questionnaires",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
@@ -115,6 +80,7 @@ export const routes = [
             </Suspense>
           },
           {
+            icon: <AlignStartVertical    {...icon} />,
             name: "questionnaire lists",
             path: "questionnaireLists",
             element:
@@ -134,6 +100,7 @@ export const routes = [
         path: "/faq",
         children: [
           {
+            icon: <Map     {...icon} />,
             name: "Add Faq",
             path: "addFaq",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
@@ -144,6 +111,7 @@ export const routes = [
             </Suspense>
           },
           {
+            icon: <ListTodo    {...icon} />,
             name: "FAQ Lists",
             path: "faqLists",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
@@ -155,7 +123,7 @@ export const routes = [
           },
         ],
       },
-
+      
       {
         icon: <ShieldUser  {...icon} />,
         name: "User lists",

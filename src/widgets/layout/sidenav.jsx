@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
-
+import logo from "../../../public/img/favicon.png";
 export function Sidenav({ brandImg, brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
@@ -28,13 +28,8 @@ export function Sidenav({ brandImg, brandName, routes }) {
         } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
     >
       <div>
-        <Link to="/" className="py-6 px-8 text-center block">
-          <Typography
-            variant="h6"
-            color={sidenavType === "dark" ? "white" : "blue-gray"}
-          >
-            {brandName}
-          </Typography>
+        <Link to="/" className="pt-6 pb-2 px-8 text-center block">
+            <img src={logo} alt="logo" style={{width:'60px'}}/>
         </Link>
         <IconButton
           variant="text"
@@ -104,7 +99,13 @@ export function Sidenav({ brandImg, brandName, routes }) {
                                     }`}
                                   fullWidth
                                 >
-                                  {child.name}
+                      
+                                   <span className="  flex items-center gap-3">
+                        {child.icon}
+                        <Typography className="font-medium ">
+                          {child.name}
+                        </Typography>
+                      </span>
                                 </Button>
                               )}
                             </NavLink>
