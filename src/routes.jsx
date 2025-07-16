@@ -4,6 +4,7 @@ import { Home } from "@/pages/dashboard";
 import AddFaq from "./pages/faq/AddFaq";
 import FaqList from "./pages/faq/FaqList";
 import { PuffLoader } from "react-spinners";
+import UserAnswerLists from './pages/ansList/UserAnswerLists';
 const Questionnaire = (lazy(() => import("./pages/questionary/questionnaire")));
 const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
 const UserLists = (lazy(() => import("./pages/userList/UserLists")));
@@ -164,6 +165,18 @@ export const routes = [
         </div>}>
 
           <PrivateRoute> <UserLists /> </PrivateRoute>
+        </Suspense>
+      },
+
+      {
+        icon: <ShieldUser  {...icon} />,
+        name: "Answer lists",
+        path: "/answerLists",
+        element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+          <PuffLoader color="rgb(123 30 25)" />
+        </div>}>
+
+          <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
         </Suspense>
       },
     ],
