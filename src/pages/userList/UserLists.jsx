@@ -3,17 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import { Card,Typography,Avatar,CardBody} from "@material-tailwind/react";
 
 import UserLoader from '@/components/loader/UserLoader';
-import { allUserView } from '@/hooks/ReactQueryHooks';
+import { allUserView, userProfile } from '@/hooks/ReactQueryHooks';
 import TopHeader from '@/components/topHeader/TopHeader';
 
 const TABLE_HEAD = ["Name", "Email", "Phone", "Status", "Role"];
 
 export default function UserLists() {
-    const { data: usersView,isLoading } = useQuery({
-    queryKey: ['userView'],
-    queryFn: allUserView
-  });
 
+  
+      const { data: userprofile } = useQuery({
+      queryKey: ['userprofile'],
+      queryFn: userProfile
+    });
+  
+  
+
+    const { data: usersView,isLoading } = useQuery({
+    queryKey: ['userView', userprofile?.role],
+    queryFn: () => allUserView(userprofile?.role)
+  });
+console.log( "usersView ", usersView)
 
   return (
     <div >

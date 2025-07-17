@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
-import {Typography,Card,CardBody,Button} from "@material-tailwind/react";
-
+import {Card,CardBody} from "@material-tailwind/react";
 import { FaqView, userProfile } from '@/hooks/ReactQueryHooks';
-import TopHeader from '@/components/topHeader/TopHeader';
 
 export default function FaqList() {
   const [openIndex, setOpenIndex] = useState(null);

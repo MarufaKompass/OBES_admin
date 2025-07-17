@@ -43,10 +43,20 @@ export const userProfile = async () => {
 };
 
 
-export const allUserView = async () => {
-  const response = await axiosInstance.get('/public/api/userx');
+export const allUserView = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/users`);
   return response.data?.data;
 };
+
+
+
+export const allUserAnsList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/anslistuser`);
+  return response.data?.data;
+};
+
+
+
 
 //question
 export const allQuestionView = async (role) => {
