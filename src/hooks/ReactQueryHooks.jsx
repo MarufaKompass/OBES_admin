@@ -74,7 +74,7 @@ export const editQuestion = async ({editQuesData,role,qid}) => {
   return response;
 };
 
-export const deleteQuestion = async ({role,qid}) => {
+export const deleteQuestion = async ({role,qid}) => { 
   const response = await axiosInstance.delete(`/public/api/${role}/ques/${qid}`);
   return response;
 };

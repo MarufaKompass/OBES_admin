@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card,Typography,CardBody} from "@material-tailwind/react";
 import UserLoader from '@/components/loader/UserLoader';
 import TopHeader from '@/components/topHeader/TopHeader';
+import {useEffect} from "react"
 import {
   User,
   Mail,
@@ -12,7 +13,7 @@ import {
   Globe,
   Calendar,
 } from "lucide-react"
-const TABLE_HEAD = ["Name", "Email", "Phone", "Status", "Role"];
+
 
 import { allUserAnsList, userProfile } from '@/hooks/ReactQueryHooks';
 export default function UserAnswerLists() {
@@ -29,15 +30,27 @@ export default function UserAnswerLists() {
     queryFn: () => allUserAnsList(userprofile?.role)
   });
 
-  console.log("answerList", answersList)
+const [surveyData, setSurveyData] = useState(null);
 
-    const [language, setLanguage] = useState("en") // "en" or "bn"
+useEffect(() => {
+  if (Array.isArray(answersList) && answersList.length > 0) {
+    setSurveyData(answersList[0]);
+  }
+}, [answersList]);
+
+useEffect(() => {
+  console.log("surveyData", surveyData);
+}, [surveyData]);
+
+
+
+  const [language, setLanguage] = useState("en")
   const [selectedCategory, setSelectedCategory] = useState(null)
 
-  // Create a map of answers for quick lookup
+
 const answersMap = {};
-if (Array.isArray(answersList?.qans_indi)) {
-  answersList.qans_indi.forEach((answer) => {
+if (Array.isArray(surveyData?.qans_indi)) {
+  surveyData.qans_indi.forEach((answer) => {
     if (answer?.qid != null) {
       answersMap[answer.qid] = answer.qans;
     }
@@ -55,8 +68,8 @@ if (Array.isArray(answersList?.qans_indi)) {
   }
 
   // Group questions by category
-const groupedQuestions = Array.isArray(answersList?.quesList) 
-  ? answersList.quesList.reduce((acc, question) => {
+const groupedQuestions = Array.isArray(surveyData?.quesList) 
+  ? surveyData.quesList.reduce((acc, question) => {
       const categoryKey = language === "en" 
         ? question?.category 
         : question?.category_bangla;
@@ -75,8 +88,8 @@ const groupedQuestions = Array.isArray(answersList?.quesList)
     ? { [selectedCategory]: groupedQuestions[selectedCategory] }
     : groupedQuestions
 
-  const totalQuestions = answersList?.quesList?.length
-  const answeredQuestions = answersList?.qans_indi?.length
+  const totalQuestions = surveyData?.quesList?.length
+  const answeredQuestions = surveyData?.qans_indi?.length
   const completionRate = Math.round((answeredQuestions / totalQuestions) * 100)
 
   // You can return JSX here using the parsed/filtered data
@@ -121,18 +134,18 @@ const groupedQuestions = Array.isArray(answersList?.quesList)
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <div className="flex items-center gap-4 mb-4">
             <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center font-semibold text-blue-600">
-              {answersList?.user?.fulname.charAt(0).toUpperCase()}
+              {surveyData?.user?.fulname.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="font-semibold text-lg">{answersList?.user?.fulname}</h3>
+              <h3 className="font-semibold text-lg">{surveyData?.user?.fulname}</h3>
               <div className="flex items-center gap-4 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
                   <Phone className="w-4 h-4" />
-                  {answersList?.user?.smsmobile}
+                  {surveyData?.user?.smsmobile}
                 </span>
                 <span className="flex items-center gap-1">
                   <Mail className="w-4 h-4" />
-                  {answersList?.user?.logemail}
+                  {surveyData?.user?.logemail}
                 </span>
               </div>
             </div>
@@ -170,7 +183,7 @@ const groupedQuestions = Array.isArray(answersList?.quesList)
           <div className="flex flex-wrap gap-2">
             <span
               onClick={() => setSelectedCategory(null)}
-              className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === null ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"}`}
+              // className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === null ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"}`}
             >
               {language === "en" ? "All Categories" : "সব বিভাগ"}
             </span>
@@ -178,7 +191,7 @@ const groupedQuestions = Array.isArray(answersList?.quesList)
   <span
     key={category}
     onClick={() => setSelectedCategory(category === selectedCategory ? null : category)}
-    className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === category ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"} ${categoryColors[category] || ""}`}
+    // className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === category ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"} ${categoryColors[category] || ""}`}
   >
     {category} ({groupedQuestions[category].length})
   </span>
@@ -189,9 +202,10 @@ const groupedQuestions = Array.isArray(answersList?.quesList)
         {/* Questions and Answers */}
         <div className="space-y-6">
          {filteredCategories &&
-  Object.entries(filteredCategories).map(([category, questions]) => (
+      Object.entries(filteredCategories).map(([category, questions]) => (
     <div key={category} className="bg-white rounded-lg shadow">
-      <div className={`px-6 py-4 border-b font-semibold text-lg ${categoryColors[category] || "bg-blue-100 text-blue-800"}`}>
+      <div > 
+        {/* className={`px-6 py-4 border-b font-semibold text-lg ${categoryColors[category] || "bg-blue-100 text-blue-800"}`} */}
         <div className="flex justify-between items-center">
           <span>{category}</span>
           <span className="text-sm bg-white/50 px-2 py-1 rounded">
