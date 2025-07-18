@@ -93,6 +93,22 @@ const groupedQuestions = Array.isArray(surveyData?.quesList)
   const completionRate = Math.round((answeredQuestions / totalQuestions) * 100)
 
   // You can return JSX here using the parsed/filtered data
+const categoryColors = {
+  Knowledge: "bg-blue-100 text-blue-800 border-blue-200",
+  জ্ঞান: "bg-blue-100 text-blue-800 border-blue-200",
+  "Attitude and Perception": "bg-green-100 text-green-800 border-green-200",
+  "মনোভাব ও ধারনা": "bg-green-100 text-green-800 border-green-200",
+  "Motivators to lose weight": "bg-purple-100 text-purple-800 border-purple-200",
+  "ওজন কমানোর অনুপ্রেরনা": "bg-purple-100 text-purple-800 border-purple-200",
+  "Barriers to weight loss": "bg-red-100 text-red-800 border-red-200",
+  "ওজন কমানোর বাধা সমূহ": "bg-red-100 text-red-800 border-red-200",
+  Diet: "bg-orange-100 text-orange-800 border-orange-200",
+  "খাদ্য/ খাদ্যভ্যাস": "bg-orange-100 text-orange-800 border-orange-200",
+  Exercise: "bg-teal-100 text-teal-800 border-teal-200",
+  "শরীর চর্চা/ব্যয়াম": "bg-teal-100 text-teal-800 border-teal-200",
+  "Screen time and sleep": "bg-indigo-100 text-indigo-800 border-indigo-200",
+  "স্ক্রিন টাইম এবং ঘুম": "bg-indigo-100 text-indigo-800 border-indigo-200",
+}
 
   
   return (
@@ -116,14 +132,14 @@ const groupedQuestions = Array.isArray(surveyData?.quesList)
         <div className="flex justify-center mb-6 gap-2">
           <button
             onClick={() => setLanguage("en")}
-            className={`flex items-center px-4 py-2 rounded-md text-sm font-medium border ${language === "en" ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"}`}
+            className={`flex items-center px-8 py-2 rounded-md text-sm font-medium border font-[poppins] ${language === "en" ? "bg-[#7B1E19] text-white" : "bg-white text-gray-700 border-gray-300"}`}
           >
             <Globe className="w-4 h-4 mr-2" />
             English
           </button>
           <button
             onClick={() => setLanguage("bn")}
-            className={`flex items-center px-4 py-2 rounded-md text-sm font-medium border ${language === "bn" ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"}`}
+            className={`flex items-center px-8 py-2 rounded-md text-sm font-medium border font-[poppins] ${language === "bn" ? "bg-[#7B1E19] text-white" : "bg-white text-gray-700 border-gray-300"}`}
           >
             <Globe className="w-4 h-4 mr-2" />
             বাংলা
@@ -181,17 +197,17 @@ const groupedQuestions = Array.isArray(surveyData?.quesList)
           </p>
 
           <div className="flex flex-wrap gap-2">
-            <span
+            <span className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === null ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"}`}
               onClick={() => setSelectedCategory(null)}
-              // className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === null ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"}`}
+              
             >
               {language === "en" ? "All Categories" : "সব বিভাগ"}
             </span>
         {groupedQuestions && Object.keys(groupedQuestions).map((category) => (
-  <span
+  <span className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === category ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"} ${categoryColors[category] || ""}`}
     key={category}
     onClick={() => setSelectedCategory(category === selectedCategory ? null : category)}
-    // className={`cursor-pointer text-sm px-3 py-1.5 rounded-full border ${selectedCategory === category ? "bg-blue-600 text-white" : "bg-white text-gray-700 border-gray-300"} ${categoryColors[category] || ""}`}
+    
   >
     {category} ({groupedQuestions[category].length})
   </span>
@@ -204,12 +220,12 @@ const groupedQuestions = Array.isArray(surveyData?.quesList)
          {filteredCategories &&
       Object.entries(filteredCategories).map(([category, questions]) => (
     <div key={category} className="bg-white rounded-lg shadow">
-      <div > 
-        {/* className={`px-6 py-4 border-b font-semibold text-lg ${categoryColors[category] || "bg-blue-100 text-blue-800"}`} */}
+      <div className={`px-6 py-4 border-b font-semibold text-lg ${categoryColors[category] || "bg-blue-100 text-blue-800"}`}> 
+
         <div className="flex justify-between items-center">
           <span>{category}</span>
           <span className="text-sm bg-white/50 px-2 py-1 rounded">
-            {questions.length} {language === "en" ? "questions" : "প্রশ্ন"}
+            {questions?.length} {language === "en" ? "questions" : "প্রশ্ন"}
           </span>
         </div>
       </div>

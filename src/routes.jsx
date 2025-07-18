@@ -1,4 +1,4 @@
-import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser,LayoutPanelLeft,BetweenHorizontalEnd,AlignStartVertical  , Twitch ,ListTodo ,Map     } from 'lucide-react';
+import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser,LayoutPanelLeft,BetweenHorizontalEnd,AlignStartVertical  , Twitch ,ListTodo ,Map ,CalendarSync     } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { Home } from "@/pages/dashboard";
 import AddFaq from "./pages/faq/AddFaq";
@@ -91,6 +91,17 @@ export const routes = [
                 <PrivateRoute> <QuestionnaireLists /> </PrivateRoute>
               </Suspense>
           },
+                {
+        icon: <CalendarSync   {...icon} />,
+        name: "Answer lists",
+        path: "/answerLists",
+        element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+          <PuffLoader color="rgb(123 30 25)" />
+        </div>}>
+
+          <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
+        </Suspense>
+      },
 
         ],
       },
@@ -136,17 +147,7 @@ export const routes = [
         </Suspense>
       },
 
-      {
-        icon: <ShieldUser  {...icon} />,
-        name: "Answer lists",
-        path: "/answerLists",
-        element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-          <PuffLoader color="rgb(123 30 25)" />
-        </div>}>
 
-          <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
-        </Suspense>
-      },
     ],
   },
 
