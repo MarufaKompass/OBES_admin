@@ -94,7 +94,7 @@ export const routes = [
                 {
         icon: <CalendarSync   {...icon} />,
         name: "Answer lists",
-        path: "/answerLists",
+        path: "answerLists",
         element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
           <PuffLoader color="rgb(123 30 25)" />
         </div>}>
