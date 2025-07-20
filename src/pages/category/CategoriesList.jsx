@@ -6,11 +6,13 @@ import TopHeader from '@/components/topHeader/TopHeader';
 import { View, Pencil, Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
 import ModalCategoryEdit from './ModalCategoryEdit';
+import { useNavigate } from "react-router-dom";
+
 export default function CategoriesList() {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [showModalEdit, setShowModalEdit] = useState(null)
-
+  const navigate = useNavigate();
   const handleShowingInfoDelete = (category) => {
     setSelectedCategory(category);
     setShowModalDelete(true)
@@ -21,7 +23,9 @@ export default function CategoriesList() {
     setShowModalEdit(true)
   }
 
-
+  const handleAddClick = () => {
+    navigate("/dashboard/category/addCategory");
+  };
 
   const TABLE_HEAD = ["ID", "Category Name", "Category Bangla","Category By", "Action"];
 
@@ -39,7 +43,7 @@ export default function CategoriesList() {
 
   return (
     <>
-      <TopHeader title="Questionnaires List" />
+      <TopHeader title="Questionnaires List"  buttonLabel="+ Add New" onAddClick={handleAddClick} />
 
       <Card>
         <CardBody className="overflow-x-auto p-4">

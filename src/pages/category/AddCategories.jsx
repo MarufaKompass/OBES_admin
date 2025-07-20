@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
-
-import useNavigator from '@/components/navigator/useNavigate';
+import { useNavigate } from 'react-router-dom';
+// import useNavigator from '@/components/navigator/useNavigate';
 import { addCategory, userProfile } from '@/hooks/ReactQueryHooks';
 
 export default function AddCategories() {
-  const { handleNavigation } = useNavigator();
+  // const { handleNavigation } = useNavigator();
   const {
     register,
     handleSubmit,
@@ -22,15 +22,19 @@ export default function AddCategories() {
     queryFn: userProfile
   });
 
-    console.log("userprofile" , userprofile?.role)
+const navigate = useNavigate();
 
+const handleNavigation = (path) => {
+  navigate(path);
+};
 
   const { mutateAsync } = useMutation({ mutationFn: addCategory });
   const onSubmit = async (data) => {
     try {
       const res = await mutateAsync({ addCatData: data, role: userprofile?.role });
       toast.success(res.data.message);
-      handleNavigation('/');
+      // handleNavigation('category/categoryLists', { replace: true });
+       navigate('/dashboard/category/categoryLists');
       reset();
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Add category failed');

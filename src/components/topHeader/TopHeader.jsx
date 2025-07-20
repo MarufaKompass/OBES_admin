@@ -2,7 +2,7 @@ import React from 'react'
 import { Typography, Button, Input } from "@material-tailwind/react";
 export default function TopHeader({
   title,
-  buttonLabel = "+ Add New",
+  buttonLabel ,
   onAddClick,
   showSearch = true,
   searchValue = "",

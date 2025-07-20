@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from '@tanstack/react-query';
-import {Input,Button, Typography,} from "@material-tailwind/react";
+import { Input, Button, Typography, } from "@material-tailwind/react";
 
 import { loginUser } from "@/hooks/ReactQueryHooks";
 import useNavigator from "../../components/navigator/useNavigate";
@@ -11,7 +11,7 @@ import { useAdminObeContext } from "@/components/contextProvider/AdminContextPro
 export function SignIn() {
   const { setUser } = useAdminObeContext();
 
- const { handleNavigation } = useNavigator();
+  const { handleNavigation } = useNavigator();
 
   const {
     register,
@@ -20,9 +20,9 @@ export function SignIn() {
     reset,
   } = useForm();
 
-   const { mutateAsync } = useMutation({ mutationFn: loginUser});
+  const { mutateAsync } = useMutation({ mutationFn: loginUser });
   const onSubmit = async (data) => {
-        try {
+    try {
       const res = await mutateAsync(data);
       sessionStorage.setItem("token", JSON.stringify(res.data.token));
       setUser(res.data.token);
@@ -41,8 +41,8 @@ export function SignIn() {
           <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
           <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography>
         </div>
- 
-        <form onSubmit={handleSubmit(onSubmit)}  className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Your email
@@ -51,7 +51,7 @@ export function SignIn() {
               size="lg"
               placeholder="name@mail.com"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              {...register("login" , { required: true })}
+              {...register("login", { required: true })}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Password
@@ -71,7 +71,7 @@ export function SignIn() {
               </a>
             </Typography>
           </div>
-          <Button className="mt-6 bg-[#121926]" fullWidth type="submit">
+          <Button className="mt-6 bg-primaryBg" fullWidth type="submit">
             Sign In
           </Button>
 
@@ -80,7 +80,7 @@ export function SignIn() {
       </div>
       <div className="w-2/5 h-full hidden lg:block">
         <img
-          src="/img/signIn.jpg"
+          src="/img/signIn.png"
           className="h-full w-full object-cover rounded-3xl"
         />
       </div>
