@@ -69,7 +69,7 @@ export default function Questionnaire() {
     try {
       const res = await mutateAsync({ addQuesData: data, role: userprofile?.role });
       toast.success(res.data.message);
-      handleNavigation('/questionary/questionnaireLists');
+      handleNavigation('/dashboard/questionary/questionnaireLists');
       reset();
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Login failed');

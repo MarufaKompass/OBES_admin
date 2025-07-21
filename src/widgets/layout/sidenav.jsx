@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
-import logo from "../../../public/img/favicon.png";
+import logo from "../../../public/img/logo.png";
 export function Sidenav({ brandImg, brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
@@ -29,7 +29,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
     >
       <div>
         <Link to="/" className="pt-6 pb-2 px-8 text-center block">
-            <img src={logo} alt="logo" style={{width:'60px'}}/>
+            <img src={logo} alt="logo" style={{width:'100px'}}/>
         </Link>
         <IconButton
           variant="text"

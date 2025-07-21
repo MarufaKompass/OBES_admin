@@ -3,19 +3,18 @@ import { useQuery } from '@tanstack/react-query';
 import { View, Pencil, Trash } from 'lucide-react';
 import { Typography, Card, CardBody } from "@material-tailwind/react";
 
-
 import { allQuestionView, userProfile } from '@/hooks/ReactQueryHooks';
 import ModalQuestionDetails from './ModalQuestionDetails';
 import TopHeader from '@/components/topHeader/TopHeader';
 import ModalEditQuestion from './ModalEditQuestion';
 import ModalDeleteQuestion from './ModalDeleteQuestion';
-
+import { useNavigate } from "react-router-dom";
 export default function QuestionnaireLists() {
   const [showModal, setShowModal] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-
+  const navigate = useNavigate();
   const headers = ["ID", "Question", "Category", "Actions"];
 
   const handleShowingInfo = (question) => {
@@ -31,6 +30,10 @@ export default function QuestionnaireLists() {
     setSelectedQuestion(question);
     setShowModalDelete(true)
   }
+
+  const handleAddClick = () => {
+    navigate("/dashboard/questionary/questionnaires");
+  };
 
 
   const { data: userprofile } = useQuery({
@@ -49,6 +52,7 @@ export default function QuestionnaireLists() {
         {/* Header */}
         <TopHeader
           title="Questionnaires List"
+          buttonLabel="+ Add New" onAddClick={handleAddClick}
         />
 
         {/* Table */}

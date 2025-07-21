@@ -1,10 +1,14 @@
-import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser,LayoutPanelLeft,BetweenHorizontalEnd,AlignStartVertical  , Twitch ,ListTodo ,Map ,CalendarSync     } from 'lucide-react';
+import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser,LayoutPanelLeft,BetweenHorizontalEnd,AlignStartVertical  , Twitch ,ListTodo ,Map ,CalendarSync  ,Youtube ,TramFront ,ClipboardPlus,Users  ,UserPlus  } from 'lucide-react';
 import { lazy, Suspense } from 'react';
+import { PuffLoader } from "react-spinners";
 import { Home } from "@/pages/dashboard";
+
 import AddFaq from "./pages/faq/AddFaq";
 import FaqList from "./pages/faq/FaqList";
-import { PuffLoader } from "react-spinners";
-import UserAnswerLists from './pages/ansList/UserAnswerLists';
+import AddVideos from './pages/material/AddVideos';
+const UserAnswerLists = (lazy(() => import('./pages/ansList/UserAnswerLists')));
+const Video = (lazy(() => import('./pages/video/Video')));
+const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
 const Questionnaire = (lazy(() => import("./pages/questionary/questionnaire")));
 const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
 const UserLists = (lazy(() => import("./pages/userList/UserLists")));
@@ -132,6 +136,61 @@ export const routes = [
               <PrivateRoute>  <FaqList /> </PrivateRoute>
             </Suspense>
           },
+        ],
+      },
+      
+      {
+        icon: <UserPlus   {...icon} />,
+        name: "User Video",
+        path: "/user",
+        children: [
+          {
+            icon: <Youtube      {...icon} />,
+            name: "Add Video",
+            path: "video",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <Video /> </PrivateRoute>
+            </Suspense>
+          }
+        ],
+      },
+      {
+        icon: <ClipboardPlus   {...icon} />,
+        name: "Doctor",
+        path: "/doctor",
+        children: [
+          {
+            icon: <Users      {...icon} />,
+            name: "Add Doctor",
+            path: "video",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddDoctorInfo /> </PrivateRoute>
+            </Suspense>
+          }
+        ],
+      },
+      {
+        icon: <TramFront   {...icon} />,
+        name: "material",
+        path: "/material",
+        children: [
+          {
+            icon: <Youtube     {...icon} />,
+            name: "Add Videos",
+            path: "video",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddVideos /> </PrivateRoute>
+            </Suspense>
+          }
         ],
       },
       
