@@ -6,7 +6,8 @@ import { Home } from "@/pages/dashboard";
 import AddFaq from "./pages/faq/AddFaq";
 import FaqList from "./pages/faq/FaqList";
 import AddVideos from './pages/material/AddVideos';
-const UserAnswerLists = (lazy(() => import('./pages/ansList/UserAnswerLists')));
+import UserAnswerLists from './pages/ansList/UserAnswerLists';
+const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
 const Questionnaire = (lazy(() => import("./pages/questionary/questionnaire")));
@@ -95,7 +96,8 @@ export const routes = [
                 <PrivateRoute> <QuestionnaireLists /> </PrivateRoute>
               </Suspense>
           },
-                {
+          
+         {
         icon: <CalendarSync   {...icon} />,
         name: "Answer lists",
         path: "answerLists",
@@ -103,12 +105,32 @@ export const routes = [
           <PuffLoader color="rgb(123 30 25)" />
         </div>}>
 
-          <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
+          <PrivateRoute> <AllAnswers /> </PrivateRoute>
         </Suspense>
       },
+      //    {
+
+      //   path: "answerDetails/:id",
+      //   element: (
+        
+      //   <Suspense fallback={<div className="flex justify-center items-center h-screen">
+      //     <PuffLoader color="rgb(123 30 25)" />
+      //   </div>
+      
+      // }>
+
+      //     <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
+      //   </Suspense>
+      //   ),
+      //         hidden: true,
+      // },
+
+
 
         ],
       },
+
+
       {
         icon: <TableOfContents  {...icon} />,
         name: "FAQ",
