@@ -12,10 +12,12 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { allUserAnsList, userProfile } from '@/hooks/ReactQueryHooks';
 import { Mail, Phone, Eye, User } from "lucide-react";
-
+import csv from "../../../public/img/csv.png";
+import txt from "../../../public/img/txt.png";
+import pdf from "../../../public/img/pdf.png";
 export default function AllAnswers() {
- const [surveyData, setSurveyData] = useState([]);
-const navigate = useNavigate();
+    const [surveyData, setSurveyData] = useState([]);
+    const navigate = useNavigate();
 
     const { data: userprofile } = useQuery({
         queryKey: ['userprofile'],
@@ -31,25 +33,38 @@ const navigate = useNavigate();
     console.log("answersList", answersList);
 
 
- const handlePerAnswerHandle = ( answer) => {
-    navigate(`/dashboard/questionary/answerDetails/${answer.qansjson_id}` , {
-      state: { surveyData: answer }
-    });
- }
+    const handlePerAnswerHandle = (answer) => {
+        navigate(`/dashboard/questionary/answerDetails/${answer.qansjson_id}`, {
+            state: { surveyData: answer }
+        });
+    }
     return (
         <>
             <div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
                 <Card className="w-full mx-auto ">
                     <CardHeader floated={false} shadow={false} className="pb-0">
-                        <div className="flex items-center gap-2">
-                            <User className="h-5 w-5 text-gray-700" />
-                            <div>
-                                <Typography variant="h5" color="blue-gray" className="font-poppins">
-                                    User Information
-                                </Typography>
-                                <Typography variant="small" color="gray" className="font-normal font-poppins">
-                                    Manage and view user details
-                                </Typography>
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <User className="h-5 w-5 text-gray-700" />
+                                <div>
+                                    <Typography variant="h5" color="blue-gray" className="font-poppins">
+                                        User Information
+                                    </Typography>
+                                    <Typography variant="small" color="gray" className="font-normal font-poppins">
+                                        Manage and view user details
+                                    </Typography>
+                                </div>
+                            </div>
+                            <div className="flex gap-2 ">
+                                <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
+                                    <img src={csv} alt="" className="w-5 h-5" />
+                                </div>
+                                <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
+                                    <img src={txt} alt="" className="w-5 h-5" />
+                                </div>
+                                <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
+                                    <img src={pdf} alt="" className="w-5 h-5" />
+                                </div>
                             </div>
                         </div>
                     </CardHeader>
@@ -66,7 +81,7 @@ const navigate = useNavigate();
                                         <th className="p-4 font-normal ">Full Name</th>
                                         <th className="p-4 font-normal ">Login Email</th>
                                         <th className="p-4 font-normal "> Mobile</th>
-                                        <th className="p-4  font-normal text-right">Actions</th>
+                                        <th className="p-4  font-normal ">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,10 +111,10 @@ const navigate = useNavigate();
                                             </td >
                                             <td className="p-4 text-right">
                                                 <Button
-                                                     onClick={() =>handlePerAnswerHandle(answer)}
+                                                    onClick={() => handlePerAnswerHandle(answer)}
                                                     variant="outlined"
                                                     size="sm"
-                                                    className="flex items-center gap-1"
+                                                    className="flex items-center gap-1 border border-[#b2b2b2] text-[#878383]"
                                                 >
                                                     <Eye className="h-4 w-4" />
                                                     View

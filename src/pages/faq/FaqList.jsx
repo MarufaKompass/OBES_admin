@@ -46,12 +46,7 @@ export default function FaqList() {
                 </div>
                 <input
                   className="border border-[#a5a5a5] w-full py-2  rounded-lg pl-10 outline-primaryBg"
-                  placeholder='search'
-                // label={placeholder}
-                // color="blue-gray"
-                // value={searchValue}
-                // onChange={onSearchChange}
-                />
+                  placeholder='search'/>
 
               </div>
               <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md">

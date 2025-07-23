@@ -7,7 +7,7 @@ import { View, Pencil, Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
 import ModalCategoryEdit from './ModalCategoryEdit';
 import { useNavigate } from "react-router-dom";
-
+import { Search } from 'lucide-react';
 export default function CategoriesList() {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -43,19 +43,37 @@ export default function CategoriesList() {
 
   return (
     <>
-      <TopHeader title="Questionnaires List"  buttonLabel="+ Add New" onAddClick={handleAddClick} />
-
       <Card>
         <CardBody className="overflow-x-auto p-4">
 
-
+          <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">Category Lists</h2>
+              <p className="text-[16px] text-gray-500 font-poppins">
+                Find answers to common questions about our products and services.
+              </p>
+            </div>
+            <div className="flex justify-end gap-4 ">
+              <div className="relative w-full md:w-1/3">
+                <div className="absolute top-2 left-2">
+                  <Search />
+                </div>
+                <input
+                  className="border border-[#a5a5a5] w-full py-2  rounded-lg pl-10 outline-primaryBg"
+                  placeholder='search'/>
+              </div>
+              <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md">
+                + Add Button
+              </button>
+            </div>
+            <div className="py-6">
+              <hr />
+            </div>
           {isUserLoading && (
             <div className="flex justify-center items-center h-full">
               <Spinner color="blue" />
               <span className="ml-2">Loading user profile...</span>
             </div>
           )}
-
           {isUserError && (
             <Alert color="red">
               Failed to load user profile: {userError?.message || "Unknown error"}

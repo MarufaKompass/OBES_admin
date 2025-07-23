@@ -27,7 +27,7 @@ export default function ModalDeleteQuestion({ selectedQuestion, showModalDelete,
     });
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="flex items-center justify-center bg-gray-100">
             <Modal isOpen={showModalDelete} onClose={() => setShowModalDelete(false)}>
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">

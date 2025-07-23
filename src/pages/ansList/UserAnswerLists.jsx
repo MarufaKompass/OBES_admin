@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Card, Typography, CardBody } from "@material-tailwind/react";
-import UserLoader from '@/components/loader/UserLoader';
-import TopHeader from '@/components/topHeader/TopHeader';
-import { useEffect } from "react"
+
 import {
-  User,
   Mail,
   Phone,
   CheckCircle,
@@ -16,28 +11,12 @@ import {
 import { useParams, useLocation } from "react-router-dom";
 
 export default function UserAnswerLists() {
-
-
-const { qansjson_id } = useParams(); 
-console.log("qansjson_id", qansjson_id)
-  const location = useLocation(); 
-  const surveyData = location.state?.surveyData;
-  console.log("surveyData", surveyData);
-
-//   useEffect(() => {
-//     console.log("surveyData", surveyData);
-//   }, [surveyData]);
-
-// useEffect(() => {
-//   console.log("Answer ID from URL:", id);
-//   console.log("Survey Data from navigation:", surveyData);
-// }, [id, surveyData]);
-
-
   const [language, setLanguage] = useState("en")
   const [selectedCategory, setSelectedCategory] = useState(null)
+const { qansjson_id } = useParams(); 
 
-
+  const location = useLocation(); 
+  const surveyData = location.state?.surveyData;
   const answersMap = {};
   if (Array.isArray(surveyData?.qans_indi)) {
     surveyData.qans_indi.forEach((answer) => {
@@ -55,7 +34,6 @@ console.log("qansjson_id", qansjson_id)
       return [answerString]
     }
   }
-
 
   const groupedQuestions = Array.isArray(surveyData?.quesList)
     ? surveyData.quesList.reduce((acc, question) => {

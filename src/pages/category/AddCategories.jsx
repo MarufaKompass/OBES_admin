@@ -17,24 +17,23 @@ export default function AddCategories() {
     reset,
   } = useForm();
 
-    const { data: userprofile } = useQuery({
+  const { data: userprofile } = useQuery({
     queryKey: ['userprofile'],
     queryFn: userProfile
   });
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const handleNavigation = (path) => {
-  navigate(path);
-};
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   const { mutateAsync } = useMutation({ mutationFn: addCategory });
   const onSubmit = async (data) => {
     try {
       const res = await mutateAsync({ addCatData: data, role: userprofile?.role });
       toast.success(res.data.message);
-      // handleNavigation('category/categoryLists', { replace: true });
-       navigate('/dashboard/category/categoryLists');
+      navigate('/dashboard/category/categoryLists');
       reset();
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Add category failed');
@@ -42,12 +41,10 @@ const handleNavigation = (path) => {
     }
   };
 
-
-
   return (
     <>
-      <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16 mt-4">
-        <Card className="w-full max-w-md">
+      <div className="h-full flex items-center justify-center px-4 py-16 mt-4">
+        <Card className="w-full mx-auto md:px-24 px-2  md:pb-20 pb-6">
           <CardHeader
             floated={false}
             shadow={false}

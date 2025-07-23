@@ -80,9 +80,8 @@ export default function Questionnaire() {
 
   return (
     <>
-
-      <div className="min-h-full bg-gray-50 flex items-center justify-center px-4 py-16 mt-4">
-        <Card className="w-full max-w-xl">
+      <div className="h-full  flex items-center justify-center px-4 py-16 mt-4">
+        <Card className="w-full mx-auto md:px-24 px-2 ">
           <CardHeader
             floated={false}
             shadow={false}
@@ -284,7 +283,7 @@ export default function Questionnaire() {
               )}
 
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-4 pb-6">
                 <Button variant="outlined" fullWidth>
                   Cancel
                 </Button>
