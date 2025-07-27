@@ -7,6 +7,7 @@ import AddFaq from "./pages/faq/AddFaq";
 import FaqList from "./pages/faq/FaqList";
 import AddVideos from './pages/material/AddVideos';
 import UserAnswerLists from './pages/ansList/UserAnswerLists';
+import VideoList from './pages/video/VideoList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
@@ -131,35 +132,7 @@ export const routes = [
       },
 
 
-      {
-        icon: <TableOfContents  {...icon} />,
-        name: "FAQ",
-        path: "/faq",
-        children: [
-          {
-            icon: <Map     {...icon} />,
-            name: "Add Faq",
-            path: "addFaq",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
 
-              <PrivateRoute>  <AddFaq /> </PrivateRoute>
-            </Suspense>
-          },
-          {
-            icon: <ListTodo    {...icon} />,
-            name: "FAQ Lists",
-            path: "faqLists",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
-
-              <PrivateRoute>  <FaqList /> </PrivateRoute>
-            </Suspense>
-          },
-        ],
-      },
       
       {
         icon: <UserPlus   {...icon} />,
@@ -176,7 +149,18 @@ export const routes = [
 
               <PrivateRoute>  <Video /> </PrivateRoute>
             </Suspense>
-          }
+          },
+          // {
+          //   icon: <Youtube      {...icon} />,
+          //   name: "Video List",
+          //   path: "videoList",
+          //   element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+          //     <PuffLoader color="rgb(123 30 25)" />
+          //   </div>}>
+
+          //     <PrivateRoute>  <VideoList /> </PrivateRoute>
+          //   </Suspense>
+          // }
         ],
       },
       {
@@ -226,6 +210,37 @@ export const routes = [
 
           <PrivateRoute> <UserLists /> </PrivateRoute>
         </Suspense>
+      },
+
+
+            {
+        icon: <TableOfContents  {...icon} />,
+        name: "FAQ",
+        path: "/faq",
+        children: [
+          {
+            icon: <Map     {...icon} />,
+            name: "Add Faq",
+            path: "addFaq",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddFaq /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <ListTodo    {...icon} />,
+            name: "FAQ Lists",
+            path: "faqLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <FaqList /> </PrivateRoute>
+            </Suspense>
+          },
+        ],
       },
 
 

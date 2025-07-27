@@ -10,15 +10,14 @@ export default function FaqList() {
   const toggleFAQ = (index) => {
     setOpenIndex(index === openIndex ? null : index);
   };
+    const handleAddClick = () => {
+    navigate("/dashboard/faq/addFaq");
+  };
+
   const { data: userprofile } = useQuery({
     queryKey: ['userprofile',],
     queryFn: userProfile
   });
-
-  const handleAddClick = () => {
-    navigate("/dashboard/faq/addFaq");
-  };
-
 
   const { data: faqViews } = useQuery({
     queryKey: ['faqViews', userprofile?.role],

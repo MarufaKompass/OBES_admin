@@ -39,7 +39,6 @@ export function DashboardNavbar() {
   });
 
 
-
   return (
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}

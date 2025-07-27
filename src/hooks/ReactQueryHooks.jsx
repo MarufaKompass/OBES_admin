@@ -7,6 +7,13 @@ export const loginUser = async (userData) => {
   return response;
 };
 
+export const userProfile = async () => {
+  const response = await axiosInstance.get('/public/api/admin/profile');
+  return response.data?.data;
+};
+
+
+
 //category 
 
 
@@ -37,10 +44,6 @@ export const addFaq = async ({addFaqData,role}) => {
 
 //user
 
-export const userProfile = async () => {
-  const response = await axiosInstance.get('/public/api/admin/adminprofile');
-  return response.data?.data;
-};
 
 
 export const allUserView = async (role) => {
@@ -59,6 +62,7 @@ export const allUserAnsList = async (role) => {
 
 
 //question
+
 export const allQuestionView = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/quesview`);
   return response.data?.data;
@@ -85,5 +89,25 @@ export const editCategory = async ({editCategoryData,role,catid}) => {
 
 export const deleteCategory = async ({role,catid}) => {
   const response = await axiosInstance.delete(`/public/api/${role}/qcat/${catid}`);
+  return response;
+};
+
+
+// Video
+
+export const videoList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/youtubelinkview`);
+  return response?.data?.data;
+}
+
+
+export const addVideo = async ({addVideoData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/youtubelinkstore`, addVideoData);
+  return response;
+};
+
+
+export const editVideo = async ({editVideoData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/youtubelinkupdate/${id}`,editVideoData);
   return response;
 };
