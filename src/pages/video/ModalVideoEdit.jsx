@@ -136,7 +136,7 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
                                         </Button>
 
                                         <Button fullWidth type="submit" className='bg-primaryBg'>
-                                            Add Category
+                                            Update Video
                                         </Button>
                                     </div>
                                 </CardBody>
