@@ -6,7 +6,7 @@ import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
-import {editVideo, userProfile } from "@/hooks/ReactQueryHooks";
+import { adminProfile, editVideo } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -25,23 +25,23 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
         formState: { errors },
     } = useForm()
 
-    const { data: userprofile } = useQuery({
-        queryKey: ['userprofile'],
-        queryFn: userProfile
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
     });
 
 
 
- useEffect(() => {
-  if (selectedVideo && userprofile) {
-    reset({
-      title: selectedVideo.title || "",
-      description: selectedVideo.description || "",
-      link: selectedVideo.link || "",
-      catby: userprofile?.logmobile || "",
-    });
-  }
-}, [selectedVideo, userprofile, reset]);
+    useEffect(() => {
+        if (selectedVideo && profile) {
+            reset({
+                title: selectedVideo.title || "",
+                description: selectedVideo.description || "",
+                link: selectedVideo.link || "",
+                catby: profile?.logmobile || "",
+            });
+        }
+    }, [selectedVideo, profile, reset]);
 
 
 
@@ -51,7 +51,7 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
     const onSubmit = async (data) => {
         console.log('data', data)
         try {
-            const res = await mutateAsync({ editVideoData: data, role: userprofile?.role, id: selectedVideo?.id });
+            const res = await mutateAsync({ editVideoData: data, role: profile?.role, id: selectedVideo?.id });
             toast.success(res.data.message);
             handleNavigation('/questionary/questionnaireLists');
             reset();
@@ -121,11 +121,11 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
                                     </div>
 
                                     <div className="space-y-2 hidden">
-                                   
+
                                         {
-                                            userprofile?.logmobile && (
+                                            profile?.logmobile && (
                                                 <Input label="Video ID" type="number"  {...register("upby", { required: true })}
-                                                    value={userprofile?.id} />
+                                                    value={profile?.id} />
                                             )
                                         }
 

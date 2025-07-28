@@ -23,7 +23,7 @@ import {
 import { useMaterialTailwindController, setOpenConfigurator, setOpenSidenav } from "@/context";
 import { useQuery } from "@tanstack/react-query";
 
-import { userProfile } from "@/hooks/ReactQueryHooks";
+import { adminProfile } from "@/hooks/ReactQueryHooks";
 import Profile from "./profile/Profile";
 
 
@@ -33,9 +33,9 @@ export function DashboardNavbar() {
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: adminProfile
   });
 
 
@@ -91,8 +91,8 @@ export function DashboardNavbar() {
 
 
           {
-            userprofile ? (
-              <Profile userprofile={userprofile}></Profile>
+            profile ? (
+              <Profile profile={profile}></Profile>
             )
               :
               (

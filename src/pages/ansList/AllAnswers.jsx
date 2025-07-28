@@ -10,7 +10,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
-import { allUserAnsList, userProfile } from '@/hooks/ReactQueryHooks';
+import { adminProfile, allUserAnsList } from '@/hooks/ReactQueryHooks';
 import { Mail, Phone, Eye, User } from "lucide-react";
 import csv from "../../../public/img/csv.png";
 import txt from "../../../public/img/txt.png";
@@ -19,15 +19,15 @@ export default function AllAnswers() {
     const [surveyData, setSurveyData] = useState([]);
     const navigate = useNavigate();
 
-    const { data: userprofile } = useQuery({
-        queryKey: ['userprofile'],
-        queryFn: userProfile
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
     });
 
 
     const { data: answersList, isLoading } = useQuery({
-        queryKey: ['answersList', userprofile?.role],
-        queryFn: () => allUserAnsList(userprofile?.role)
+        queryKey: ['answersList', profile?.role],
+        queryFn: () => allUserAnsList(profile?.role)
     });
 
     console.log("answersList", answersList);

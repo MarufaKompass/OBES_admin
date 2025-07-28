@@ -6,20 +6,12 @@ import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 import {Sidenav,DashboardNavbar,Configurator,Footer} from "@/widgets/layout";
 
 import routes from "@/routes";
-import { userProfile } from "@/hooks/ReactQueryHooks";
 
 export function Dashboard() {
 
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
-    const { data: userprofile,isLoading } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
-  });
-
-
-// console.log("userprofile" , userprofile)
 
   return (
     <div className="min-h-screen bg-blue-gray-50/50">
@@ -41,16 +33,7 @@ export function Dashboard() {
         >
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
-        
-        {/* <Routes>
-          {routes.map(
-            ({ layout, pages }) =>
-              layout === "dashboard" &&
-              pages.map(({ path, element }) => (
-                <Route exact path={path} element={element} />
-              ))
-          )}
-        </Routes>  */}
+
 <Routes>
   {routes.map(({ layout, pages }) =>
     layout === "dashboard" &&

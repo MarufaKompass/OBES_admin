@@ -2,8 +2,11 @@ import React from 'react'
 import { Mail, Phone, Calendar, Shield, Clock, MapPin, User } from "lucide-react"
 
 
-export default function ProfileModal({ isOpen, onClose, userprofile }) {
+export default function ProfileModal({ isOpen, onClose, profile }) {
   if (!isOpen) return null;
+
+  console.log("profile", profile)
+
 
   const formatDate = (dateString) =>
     new Date(dateString).toLocaleString("en-US", {
@@ -22,6 +25,7 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
     })
 
   const getStatusColor = (status) => {
+      if (!status) return "bg-gray-100 text-gray-800";
     switch (status.toLowerCase()) {
       case "active":
         return "bg-green-100 text-green-800"
@@ -32,16 +36,18 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
     }
   }
 
-  const getRoleColor = (role) => {
-    switch (role.toLowerCase()) {
-      case "admin":
-        return "bg-purple-100 text-purple-800"
-      case "user":
-        return "bg-blue-100 text-blue-800"
-      default:
-        return "bg-gray-100 text-gray-800"
-    }
+const getRoleColor = (role) => {
+  if (!role) return "bg-gray-100 text-gray-800";
+
+  switch (role.toLowerCase()) {
+    case "admin":
+      return "bg-purple-100 text-purple-800";
+    case "user":
+      return "bg-blue-100 text-blue-800";
+    default:
+      return "bg-gray-100 text-gray-800";
   }
+};
 
 
   return (
@@ -62,20 +68,20 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
           {/* Header */}
           <div className="bg-white border rounded p-4 flex items-center gap-4">
             <img
-              src={`/${userprofile?.imgpath}`}
-              alt={userprofile?.fulname}
+              src={profile?.imgpath}
+              alt={profile?.fulname}
               className="h-16 w-16 rounded-full object-cover"
             />
             <div className="flex-1">
-              <h3 className="text-xl font-semibold text-[#333]">{userprofile?.fulname}</h3>
-              <p className="text-sm text-gray-500">ID: {userprofile?.id}</p>
+              <h3 className="text-xl font-semibold text-[#333]">{profile?.fulname}</h3>
+              <p className="text-sm text-gray-500">ID: {profile?.id}</p>
               <div className="flex gap-2 mt-2 text-xs">
-                <span className={`px-2 py-1 rounded flex items-center gap-1 ${getRoleColor(userprofile?.role)}`}>
+                <span className={`px-2 py-1 rounded flex items-center gap-1 ${getRoleColor(profile?.role)}`}>
                   <Shield className="w-3 h-3" />
-                  {userprofile?.role}
+                  {profile?.role}
                 </span>
-                <span className={`px-2 py-1 rounded ${getStatusColor(userprofile?.status)}`}>
-                  {userprofile?.status}
+                <span className={`px-2 py-1 rounded ${getStatusColor(profile?.status)}`}>
+                  {profile?.status}
                 </span>
               </div>
             </div>
@@ -92,9 +98,9 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
                 <p className="font-medium text-gray-500">Email</p>
                 <div className="flex items-center  gap-2 text-gray-500">
                   <Mail className="w-4 h-4 text-gray-400" />
-                  {userprofile?.logemail}
+                  {profile?.logemail}
                 </div>
-                  {!userprofile?.email_verified_at && (
+                  {!profile?.email_verified_at && (
                     <span className="ml-6 px-2 py-0.5 border rounded text-xs text-[#333] font-[700]">Unverified</span>
                   )}
               </div>
@@ -102,21 +108,21 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
                 <p className="font-medium text-gray-500">Mobile</p>
                 <div className="flex items-center gap-2 text-gray-500">
                   <Phone className="w-4 h-4 text-gray-500" />
-                  {userprofile?.logmobile}
+                  {profile?.logmobile}
                 </div>
               </div>
               <div>
                 <p className="font-medium text-gray-500">SMS Mobile</p>
                 <div className="flex items-center gap-2 text-gray-500">
                   <Phone className="w-4 h-4 text-gray-400" />
-                  {userprofile?.smsmobile}
+                  {profile?.smsmobile}
                 </div>
               </div>
               <div>
                 <p className="font-medium text-gray-500">Country Code</p>
                 <div className="flex items-center gap-2 text-gray-500">
                   <MapPin className="w-4 h-4 text-gray-400" />
-                  +{userprofile?.ccode}
+                  +{profile?.ccode}
                 </div>
               </div>
             </div>
@@ -131,13 +137,13 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="font-medium text-gray-500">Gender</p>
-                <p className="capitalize text-gray-500">{userprofile?.ogender}</p>
+                <p className="capitalize text-gray-500">{profile?.ogender}</p>
               </div>
               <div>
                 <p className="font-medium text-gray-500">Date of Birth</p>
                 <div className="flex items-center gap-2 text-gray-500">
                   <Calendar className="w-4 h-4 text-gray-400" />
-                  {formatDateOfBirth(userprofile?.dob)}
+                  {formatDateOfBirth(profile?.dob)}
                 </div>
               </div>
             </div>
@@ -152,16 +158,16 @@ export default function ProfileModal({ isOpen, onClose, userprofile }) {
             <div className="text-sm space-y-4">
               <div>
                 <p className="font-medium text-gray-500">Account Created</p>
-                <p className='text-gray-500'>{formatDate(userprofile?.created_at)}</p>
+                <p className='text-gray-500'>{formatDate(profile?.created_at)}</p>
               </div>
               <div>
                 <p className="font-medium text-gray-500">Last Updated</p>
-                <p className='text-gray-500'>{formatDate(userprofile?.updated_at)}</p>
+                <p className='text-gray-500'>{formatDate(profile?.updated_at)}</p>
               </div>
               <div>
                 <p className="font-medium text-gray-500">Email Verification</p>
                 <p className='text-deep-orange-700'>
-                  {userprofile?.email_verified_at
+                  {profile?.email_verified_at
                     ? formatDate(userData.email_verified_at)
                     : "Not verified"}
                 </p>

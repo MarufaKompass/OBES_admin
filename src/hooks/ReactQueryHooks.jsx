@@ -7,7 +7,7 @@ export const loginUser = async (userData) => {
   return response;
 };
 
-export const userProfile = async () => {
+export const adminProfile = async () => {
   const response = await axiosInstance.get('/public/api/admin/profile');
   return response.data?.data;
 };

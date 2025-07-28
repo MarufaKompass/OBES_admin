@@ -6,7 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 // import useNavigator from '@/components/navigator/useNavigate';
-import { addCategory, userProfile } from '@/hooks/ReactQueryHooks';
+import { addCategory, adminProfile } from '@/hooks/ReactQueryHooks';
 
 export default function AddCategories() {
   // const { handleNavigation } = useNavigator();
@@ -17,21 +17,19 @@ export default function AddCategories() {
     reset,
   } = useForm();
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: adminProfile
   });
 
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
+
 
   const { mutateAsync } = useMutation({ mutationFn: addCategory });
   const onSubmit = async (data) => {
     try {
-      const res = await mutateAsync({ addCatData: data, role: userprofile?.role });
+      const res = await mutateAsync({ addCatData: data, role: profile?.role });
       toast.success(res.data.message);
       navigate('/dashboard/category/categoryLists');
       reset();
@@ -83,8 +81,8 @@ export default function AddCategories() {
                   Category By
                 </Typography>
                 {
-                  userprofile?.logmobile && (
-                    <Input label="category by" type="number" value={userprofile?.logmobile}  {...register("catby", { required: true })} />
+                  profile?.logmobile && (
+                    <Input label="category by" type="number" value={profile?.logmobile}  {...register("catby", { required: true })} />
                   )
                 }
 

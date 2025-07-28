@@ -6,7 +6,7 @@ import { CardBody, Typography, Button, Input, Select, Option } from "@material-t
 import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { CategoryView, editQuestion, userProfile } from "@/hooks/ReactQueryHooks";
+import { adminProfile, CategoryView, editQuestion } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -82,15 +82,15 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         formState: { errors },
     } = useForm()
 
-    const { data: userprofile } = useQuery({
-        queryKey: ['userprofile'],
-        queryFn: userProfile
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
     });
 
 
     const { data: catView } = useQuery({
-        queryKey: ['catView', userprofile?.role],
-        queryFn: () => CategoryView(userprofile?.role)
+        queryKey: ['catView', profile?.role],
+        queryFn: () => CategoryView(profile?.role)
     });
 
 
@@ -100,7 +100,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const onSubmit = async (data) => {
         console.log('data', data)
         try {
-            const res = await mutateAsync({ editQuesData: data, role: userprofile?.role, qid: selectedQuestion?.qid });
+            const res = await mutateAsync({ editQuesData: data, role: profile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);
             handleNavigation('/questionary/questionnaireLists');
             reset();
@@ -322,12 +322,12 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
 
                                     </div>
 
-                                    {userprofile?.role && (
+                                    {profile?.role && (
                                         <div className="space-y-2 hidden">
                                             <Typography variant="small" color="blue-gray" className="font-medium" >
                                                 Question By
                                             </Typography>
-                                            <Input label="category by" type="text" marginTop='10px' value={userprofile?.role}  {...register("qby", { required: true })} />
+                                            <Input label="category by" type="text" marginTop='10px' value={profile?.role}  {...register("qby", { required: true })} />
                                         </div>
                                     )}
 

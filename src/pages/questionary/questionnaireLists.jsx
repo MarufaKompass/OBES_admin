@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { View, Pencil, Trash } from 'lucide-react';
 import { Typography, Card, CardBody } from "@material-tailwind/react";
 
-import { allQuestionView, userProfile } from '@/hooks/ReactQueryHooks';
+import { adminProfile, allQuestionView } from '@/hooks/ReactQueryHooks';
 import ModalQuestionDetails from './ModalQuestionDetails';
 import ModalEditQuestion from './ModalEditQuestion';
 import ModalDeleteQuestion from './ModalDeleteQuestion';
@@ -38,14 +38,14 @@ export default function QuestionnaireLists() {
   };
 
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
+  const { data:profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: adminProfile
   });
 
   const { data: questionView } = useQuery({
-    queryKey: ['quesView', userprofile?.role],
-    queryFn: () => allQuestionView(userprofile?.role)
+    queryKey: ['quesView', profile?.role],
+    queryFn: () => allQuestionView(profile?.role)
   });
 
   return (

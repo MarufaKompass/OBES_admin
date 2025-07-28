@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { Card, CardHeader, CardBody, Typography, Button, Input } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { addQuestion, CategoryView, userProfile } from "@/hooks/ReactQueryHooks";
+import { addQuestion, adminProfile, CategoryView } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 const questionTypes = [
@@ -51,15 +51,15 @@ export default function Questionnaire() {
   } = useForm()
   const { handleNavigation } = useNavigator();
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: adminProfile
   });
 
 
   const { data: catView } = useQuery({
-    queryKey: ['catView', userprofile?.role],
-    queryFn: () => CategoryView(userprofile?.role)
+    queryKey: ['catView', profile?.role],
+    queryFn: () => CategoryView(profile?.role)
   });
 
   const { mutateAsync } = useMutation({ mutationFn: addQuestion });
@@ -67,7 +67,7 @@ export default function Questionnaire() {
   const onSubmit = async (data) => {
     console.log('data', data)
     try {
-      const res = await mutateAsync({ addQuesData: data, role: userprofile?.role });
+      const res = await mutateAsync({ addQuesData: data, role: profile?.role });
       toast.success(res.data.message);
       handleNavigation('/dashboard/questionary/questionnaireLists');
       reset();
@@ -222,7 +222,7 @@ export default function Questionnaire() {
                       </>
                     ) : questionId === 'input' ? (
                       <>
-                        <div className="grid grid-cols-2 gap-4 relative hidden">
+                        <div className="grid grid-cols-2 gap-4 relative">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               Option (English)
@@ -273,12 +273,12 @@ export default function Questionnaire() {
                 </select>
               </div>
 
-              {userprofile?.role && (
+              {profile?.role && (
                 <div className="space-y-2 hidden">
                   <Typography variant="small" color="blue-gray" className="font-medium" >
                     Question By
                   </Typography>
-                  <Input label="category by" type="text" marginTop='10px' value={userprofile?.role}  {...register("qby", { required: true })} />
+                  <Input label="category by" type="text" marginTop='10px' value={profile?.role}  {...register("qby", { required: true })} />
                 </div>
               )}
 

@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Card,Typography,Avatar,CardBody} from "@material-tailwind/react";
 
 // import UserLoader from '@/components/loader/UserLoader';
-import { allUserView, userProfile } from '@/hooks/ReactQueryHooks';
-import TopHeader from '@/components/topHeader/TopHeader';
-import { CalendarDays, Users, UserCheck, Stethoscope } from "lucide-react"
+import { adminProfile, allUserView } from '@/hooks/ReactQueryHooks';
+
+import {  Users, UserCheck, Stethoscope } from "lucide-react"
 const TABLE_HEAD = ["Name", "Email", "Phone", "Status", "Role"];
 
 
@@ -42,16 +42,16 @@ function getRoleBadge(role) {
 export default function UserLists() {
 
   
-      const { data: userprofile } = useQuery({
-      queryKey: ['userprofile'],
-      queryFn: userProfile
+      const { data: profile } = useQuery({
+      queryKey: ['profile'],
+      queryFn: adminProfile
     });
   
   
 
     const { data: usersView,isLoading } = useQuery({
-    queryKey: ['userView', userprofile?.role],
-    queryFn: () => allUserView(userprofile?.role)
+    queryKey: ['userView', profile?.role],
+    queryFn: () => allUserView(profile?.role)
   });
 console.log( "usersView ", usersView)
 

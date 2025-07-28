@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody } from "@material-tailwind/react";
-import { FaqView, userProfile } from '@/hooks/ReactQueryHooks';
+import { adminProfile, FaqView } from '@/hooks/ReactQueryHooks';
 import { useNavigate } from "react-router-dom";
 import { Search } from 'lucide-react';
 export default function FaqList() {
@@ -14,14 +14,14 @@ export default function FaqList() {
     navigate("/dashboard/faq/addFaq");
   };
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile',],
-    queryFn: userProfile
+  const { data: profile } = useQuery({
+    queryKey: ['profile',],
+    queryFn: adminProfile
   });
 
   const { data: faqViews } = useQuery({
-    queryKey: ['faqViews', userprofile?.role],
-    queryFn: () => FaqView(userprofile?.role)
+    queryKey: ['faqViews', profile?.role],
+    queryFn: () => FaqView(profile?.role)
   });
 
   return (

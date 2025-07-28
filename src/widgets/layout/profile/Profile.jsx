@@ -3,12 +3,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import Modal from '../../../components/modal/ProfileModal';
 import useNavigator from '@/components/navigator/useNavigate';
 
-export default function Profile({ userprofile }) {
+export default function Profile({ profile }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const { handleNavigation } = useNavigator();
+
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -73,7 +75,7 @@ export default function Profile({ userprofile }) {
           </div>
         )}
 
-        <Modal userprofile={userprofile} isOpen={modalOpen} onClose={() => setModalOpen(false)}></Modal>
+        <Modal profile={profile} isOpen={modalOpen} onClose={() => setModalOpen(false)}></Modal>
       </div>
     </div>
   );

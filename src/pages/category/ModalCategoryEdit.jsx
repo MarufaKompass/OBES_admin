@@ -6,7 +6,7 @@ import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { CategoryView, editCategory, userProfile } from "@/hooks/ReactQueryHooks";
+import { adminProfile, editCategory } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -25,22 +25,22 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
         formState: { errors },
     } = useForm()
 
-    const { data: userprofile } = useQuery({
-        queryKey: ['userprofile'],
-        queryFn: userProfile
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
     });
 
 
 
  useEffect(() => {
-  if (selectedCategory && userprofile) {
+  if (selectedCategory && profile) {
     reset({
       catname: selectedCategory.catname || "",
       catbangla: selectedCategory.catbangla || "",
-      catby: userprofile?.logmobile || "",
+      catby: profile?.logmobile || "",
     });
   }
-}, [selectedCategory, userprofile, reset]);
+}, [selectedCategory, profile, reset]);
 
 
 
@@ -50,7 +50,7 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
     const onSubmit = async (data) => {
         console.log('data', data)
         try {
-            const res = await mutateAsync({ editCategoryData: data, role: userprofile?.role, catid: selectedCategory?.catid });
+            const res = await mutateAsync({ editCategoryData: data, role: profile?.role, catid: selectedCategory?.catid });
             toast.success(res.data.message);
             handleNavigation('/questionary/questionnaireLists');
             reset();
@@ -113,9 +113,9 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                             Category By
                                         </Typography>
                                         {
-                                            userprofile?.logmobile && (
+                                            profile?.logmobile && (
                                                 <Input label="category by" type="number"  {...register("catby", { required: true })}
-                                                    value={userprofile?.logmobile} />
+                                                    value={profile?.logmobile} />
                                             )
                                         }
 

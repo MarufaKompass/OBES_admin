@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Typography, Input } from "@material-tailwind/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addVideo, userProfile } from "@/hooks/ReactQueryHooks";
+import { addVideo, adminProfile } from "@/hooks/ReactQueryHooks";
 import { Upload, Link as LinkIcon, Check, AlertCircle } from "lucide-react";
 
 export default function Videos() {
@@ -23,9 +23,9 @@ export default function Videos() {
 
 
 
-  const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: adminProfile
   });
 
 
@@ -35,7 +35,7 @@ export default function Videos() {
   const onSubmit = async (data) => {
     console.log('data', data)
     try {
-      const res = await mutateAsync({ addVideoData: data, role: userprofile?.role });
+      const res = await mutateAsync({ addVideoData: data, role: profile?.role });
       toast.success(res.data.message);
       handleNavigation('/dashboard/user/video');
       reset();
@@ -67,10 +67,10 @@ export default function Videos() {
               <div>
 
                 <div className="hidden">
-                  {userprofile?.id && (
+                  {profile?.id && (
                     <Input
                       {...register("upby", { required: true })}
-                      value={userprofile?.id} />
+                      value={profile?.id} />
                   )}
 
                 </div>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Typography, Card, CardBody, Button, Spinner, Alert } from "@material-tailwind/react";
 import { useQuery } from '@tanstack/react-query';
-import { CategoryView, userProfile } from '@/hooks/ReactQueryHooks';
-import TopHeader from '@/components/topHeader/TopHeader';
+import { adminProfile, CategoryView } from '@/hooks/ReactQueryHooks';
 import { View, Pencil, Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
 import ModalCategoryEdit from './ModalCategoryEdit';
@@ -29,16 +28,16 @@ export default function CategoriesList() {
 
   const TABLE_HEAD = ["ID", "Category Name", "Category Bangla","Category By", "Action"];
 
-  const { data: userprofile, isLoading: isUserLoading, isError: isUserError, error: userError } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
+  const { data: profile, isLoading: isUserLoading, isError: isUserError, error: userError } = useQuery({
+    queryKey: ['profile'],
+    queryFn: adminProfile
   });
 
 
   const { data: catView, isLoading: isCatLoading, isError: isCatError, error: catError } = useQuery({
-    queryKey: ['catView', userprofile?.role],
-    queryFn: () => CategoryView(userprofile?.role),
-    enabled: !!userprofile?.role,
+    queryKey: ['catView', profile?.role],
+    queryFn: () => CategoryView(profile?.role),
+    enabled: !!profile?.role,
   });
 
   return (

@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Card, CardHeader, CardBody, Typography, Input, Button ,Textarea} from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
-import {addFaq, userProfile } from '@/hooks/ReactQueryHooks';
+import { addFaq, adminProfile } from '@/hooks/ReactQueryHooks';
 
 
 export default function AddFaq() {
@@ -21,16 +21,16 @@ export default function AddFaq() {
     } = useForm();
 
 
-      const { data: userprofile } = useQuery({
-    queryKey: ['userprofile'],
-    queryFn: userProfile
-  });
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
+    });
 
     const { mutateAsync } = useMutation({ mutationFn: addFaq });
     const onSubmit = async (data) => {
         console.log('data', data)
         try {
-            const res = await mutateAsync({addFaqData:data,role: userprofile?.role});
+            const res = await mutateAsync({ addFaqData: data, role: profile?.role });
             toast.success(res.data.message);
             handleNavigation('/dashboard/faq/faqLists');
             reset();
@@ -72,10 +72,10 @@ export default function AddFaq() {
                                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                                     FAQ Answer (English)
                                 </Typography>
-                                <Textarea label=" FAQ Answer (English)" 
-                                type="text"  
-                                rows={4}   
-                                 {...register("fansen", { required: true })} />
+                                <Textarea label=" FAQ Answer (English)"
+                                    type="text"
+                                    rows={4}
+                                    {...register("fansen", { required: true })} />
                             </div>
 
                             <div className="space-y-2">
@@ -93,16 +93,16 @@ export default function AddFaq() {
                                 </Typography>
                                 <Textarea label="FAQ  উত্তর  (বাংলা)"
                                     type="text"
-                                      rows={4}   
+                                    rows={4}
                                     {...register("fansbn", { required: true })} />
 
                             </div>
-                          
-                                 <div className="space-y-2 hidden">
+
+                            <div className="space-y-2 hidden">
                                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                                     Category By
                                 </Typography>
-                                <Input type="number" value={userprofile?.logmobile}  {...register("faqby", { required: true })} />
+                                <Input type="number" value={profile?.logmobile}  {...register("faqby", { required: true })} />
                             </div>
                             <div className="flex gap-3 pt-4 pb-6">
                                 {/* <Button variant="outlined" fullWidth >
