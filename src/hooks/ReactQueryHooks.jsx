@@ -111,3 +111,11 @@ export const editVideo = async ({editVideoData,role,id}) => {
   const response = await axiosInstance.put(`/public/api/${role}/youtubelinkupdate/${id}`,editVideoData);
   return response;
 };
+
+
+
+
+export const stepsList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/my7stepview`);
+  return response?.data?.data;
+}

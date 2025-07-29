@@ -8,6 +8,7 @@ import FaqList from "./pages/faq/FaqList";
 import AddVideos from './pages/material/AddVideos';
 import UserAnswerLists from './pages/ansList/UserAnswerLists';
 import VideoList from './pages/video/VideoList';
+import Steps from './pages/steps/Steps';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
@@ -200,6 +201,18 @@ export const routes = [
         ],
       },
       
+      {
+        icon: <ShieldUser  {...icon} />,
+        name: "7 Steps List",
+        path: "/steps",
+        element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+          <PuffLoader color="rgb(123 30 25)" />
+        </div>}>
+
+          <PrivateRoute> <Steps /> </PrivateRoute>
+        </Suspense>
+      },
+
       {
         icon: <ShieldUser  {...icon} />,
         name: "User lists",
