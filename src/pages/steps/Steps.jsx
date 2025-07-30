@@ -39,31 +39,30 @@ export default function Steps() {
       year: "numeric",
     });
 
+function getRandomHexColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 
   return (
     <>
       <div className="mx-auto p-6 space-y-6">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Total Users */}
-          <div className="bg-white shadow rounded p-4">
-            <div className="flex items-center space-x-2">
-              <Users className="h-4 w-4 text-gray-500" />
-
-            </div>
-          </div>
-
-
         </div>
-
         {/* User Table */}
         <div className="bg-white shadow rounded">
           <div className="border-b p-4">
             <h2 className="flex items-center gap-2 text-lg font-semibold font-poppins">
               <Users className="h-5 w-5" />
-              User Management
+              User 7 Steps List
             </h2>
-            <p className="text-sm text-gray-500 font-poppins">Manage and view all users in your system</p>
+            <p className="text-sm text-gray-500 font-poppins">Manage and view all users 7 steps list in your system</p>
           </div>
 
           <div className="overflow-x-auto">
@@ -84,7 +83,7 @@ export default function Steps() {
               <tbody>
                 {stepsView?.map((entry) => (
                   <tr key={entry.id} className="hover:bg-gray-50 border-t">
-                    <td className="px-4 py-2 font-medium">{entry.user_id}</td>
+                    <td className="px-4 py-2 font-medium"  style={{ color: getRandomHexColor() }}>{entry.user_id}</td>
 
                     <td className="px-4 py-2">{formatDate(entry.recorded_at)}</td>
                     <td className="px-4 py-2">

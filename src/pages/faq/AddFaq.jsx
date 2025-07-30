@@ -29,6 +29,7 @@ export default function AddFaq() {
     const { mutateAsync } = useMutation({ mutationFn: addFaq });
     const onSubmit = async (data) => {
         console.log('data', data)
+        
         try {
             const res = await mutateAsync({ addFaqData: data, role: profile?.role });
             toast.success(res.data.message);
@@ -44,7 +45,7 @@ export default function AddFaq() {
 
             {/* <Title title="Add Faq"></Title> */}
             <div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
-                <Card className="w-full    mx-auto md:px-24 px-2 ">
+                <Card className="w-full mx-auto md:px-24 px-2 ">
                     <CardHeader
                         floated={false}
                         shadow={false}

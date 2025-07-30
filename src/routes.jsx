@@ -9,6 +9,8 @@ import AddVideos from './pages/material/AddVideos';
 import UserAnswerLists from './pages/ansList/UserAnswerLists';
 import VideoList from './pages/video/VideoList';
 import Steps from './pages/steps/Steps';
+import AddNewsLetter from './pages/newsletter/AddNewsLetter';
+import NewsletterList from './pages/newsletter/NewsletterList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
@@ -226,7 +228,7 @@ export const routes = [
       },
 
 
-            {
+       {
         icon: <TableOfContents  {...icon} />,
         name: "FAQ",
         path: "/faq",
@@ -251,6 +253,36 @@ export const routes = [
             </div>}>
 
               <PrivateRoute>  <FaqList /> </PrivateRoute>
+            </Suspense>
+          },
+        ],
+      },
+
+       {
+        icon: <TableOfContents  {...icon} />,
+        name: "Newsletter",
+        path: "/newsletter",
+        children: [
+          {
+            icon: <Map     {...icon} />,
+            name: "Add Newsletter",
+            path: "addNewsletter",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddNewsLetter /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <ListTodo    {...icon} />,
+            name: "Newsletter Lists",
+            path: "newsletterLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <NewsletterList /> </PrivateRoute>
             </Suspense>
           },
         ],

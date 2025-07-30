@@ -119,3 +119,17 @@ export const stepsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/my7stepview`);
   return response?.data?.data;
 }
+
+
+// newsletter
+
+export const addNewsletter = async ({addNewsletterData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/newsletter`, addNewsletterData);
+  return response;
+};
+
+
+export const newsletterList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/newsletterview`);
+  return response?.data?.data;
+}
