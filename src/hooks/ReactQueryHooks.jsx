@@ -138,3 +138,11 @@ export const deleteNewsletter = async ({role,id}) => {
   const response = await axiosInstance.delete(`/public/api/${role}/newsletter/${id}`);
   return response;
 };
+
+
+// Diet Charts
+
+export const dietChartsList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/dietchartview`);
+  return response?.data?.data;
+}

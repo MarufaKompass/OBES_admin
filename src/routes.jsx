@@ -11,6 +11,8 @@ import VideoList from './pages/video/VideoList';
 import Steps from './pages/steps/Steps';
 import AddNewsLetter from './pages/newsletter/AddNewsLetter';
 import NewsletterList from './pages/newsletter/NewsletterList';
+import AddDietChart from './pages/dietCharts/AddDietChart';
+import DietChartList from './pages/dietCharts/DietChartList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
@@ -283,6 +285,35 @@ export const routes = [
             </div>}>
 
               <PrivateRoute>  <NewsletterList /> </PrivateRoute>
+            </Suspense>
+          },
+        ],
+      },
+       {
+        icon: <TableOfContents  {...icon} />,
+        name: "Diet Chart",
+        path: "/dietChart",
+        children: [
+          {
+            icon: <Map     {...icon} />,
+            name: "Add Diet Chart",
+            path: "addDietChart",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddDietChart /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <ListTodo    {...icon} />,
+            name: "Diet Chart Lists",
+            path: "dietChartLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <DietChartList /> </PrivateRoute>
             </Suspense>
           },
         ],
