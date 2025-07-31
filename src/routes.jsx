@@ -1,4 +1,4 @@
-import { ChartBarStacked ,House,ShieldQuestion ,TableOfContents,ShieldUser,LayoutPanelLeft,BetweenHorizontalEnd,AlignStartVertical  , Twitch ,ListTodo ,Map ,CalendarSync  ,Youtube ,TramFront ,ClipboardPlus,Users  ,UserPlus  } from 'lucide-react';
+import { ChartBarStacked, House, ShieldQuestion, TableOfContents, ShieldUser, LayoutPanelLeft, BetweenHorizontalEnd, AlignStartVertical, Twitch, ListTodo, Map, CalendarSync, Youtube, TramFront, ClipboardPlus, Users, UserPlus } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { PuffLoader } from "react-spinners";
 import { Home } from "@/pages/dashboard";
@@ -13,6 +13,7 @@ import AddNewsLetter from './pages/newsletter/AddNewsLetter';
 import NewsletterList from './pages/newsletter/NewsletterList';
 import AddDietChart from './pages/dietCharts/AddDietChart';
 import DietChartList from './pages/dietCharts/DietChartList';
+import DoctorList from './pages/doctor/DoctorList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
@@ -50,13 +51,13 @@ export const routes = [
         // element: <Questionnaire />,
         children: [
           {
-              icon: <ChartBarStacked  {...icon} />,
-              name: "Add Category",
-              path: "addCategory",
-              element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+            icon: <ChartBarStacked  {...icon} />,
+            name: "Add Category",
+            path: "addCategory",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
             </div>
-          }>
+            }>
 
               <PrivateRoute>  <AddCategories /> </PrivateRoute>
             </Suspense>
@@ -102,34 +103,34 @@ export const routes = [
                 <PrivateRoute> <QuestionnaireLists /> </PrivateRoute>
               </Suspense>
           },
-          
-         {
-        icon: <CalendarSync   {...icon} />,
-        name: "Answer lists",
-        path: "answerLists",
-        element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-          <PuffLoader color="rgb(123 30 25)" />
-        </div>}>
 
-          <PrivateRoute> <AllAnswers /> </PrivateRoute>
-        </Suspense>
-      },
-      //    {
+          {
+            icon: <CalendarSync   {...icon} />,
+            name: "Answer lists",
+            path: "answerLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
 
-      //   path: "answerDetails/:id",
-      //   element: (
-        
-      //   <Suspense fallback={<div className="flex justify-center items-center h-screen">
-      //     <PuffLoader color="rgb(123 30 25)" />
-      //   </div>
-      
-      // }>
+              <PrivateRoute> <AllAnswers /> </PrivateRoute>
+            </Suspense>
+          },
+          //    {
 
-      //     <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
-      //   </Suspense>
-      //   ),
-      //         hidden: true,
-      // },
+          //   path: "answerDetails/:id",
+          //   element: (
+
+          //   <Suspense fallback={<div className="flex justify-center items-center h-screen">
+          //     <PuffLoader color="rgb(123 30 25)" />
+          //   </div>
+
+          // }>
+
+          //     <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
+          //   </Suspense>
+          //   ),
+          //         hidden: true,
+          // },
 
 
 
@@ -138,7 +139,7 @@ export const routes = [
 
 
 
-      
+
       {
         icon: <UserPlus   {...icon} />,
         name: "User Video",
@@ -183,6 +184,17 @@ export const routes = [
 
               <PrivateRoute>  <AddDoctorInfo /> </PrivateRoute>
             </Suspense>
+          },
+          {
+            icon: <Users      {...icon} />,
+            name: "Doctor List",
+            path: "docList",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <DoctorList /> </PrivateRoute>
+            </Suspense>
           }
         ],
       },
@@ -204,7 +216,7 @@ export const routes = [
           }
         ],
       },
-      
+
       {
         icon: <ShieldUser  {...icon} />,
         name: "7 Steps List",
@@ -230,7 +242,7 @@ export const routes = [
       },
 
 
-       {
+      {
         icon: <TableOfContents  {...icon} />,
         name: "FAQ",
         path: "/faq",
@@ -260,7 +272,7 @@ export const routes = [
         ],
       },
 
-       {
+      {
         icon: <TableOfContents  {...icon} />,
         name: "Newsletter",
         path: "/newsletter",
@@ -289,7 +301,7 @@ export const routes = [
           },
         ],
       },
-       {
+      {
         icon: <TableOfContents  {...icon} />,
         name: "Diet Chart",
         path: "/dietChart",
