@@ -133,3 +133,8 @@ export const newsletterList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/newsletterview`);
   return response?.data?.data;
 }
+
+export const deleteNewsletter = async ({role,id}) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/newsletter/${id}`);
+  return response;
+};

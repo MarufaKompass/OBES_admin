@@ -14,7 +14,7 @@ import NewsletterList from './pages/newsletter/NewsletterList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
-const Questionnaire = (lazy(() => import("./pages/questionary/questionnaire")));
+const Questionnaire = (lazy(() => import("./pages/questionary/Questionnaire")));
 const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
 const UserLists = (lazy(() => import("./pages/userList/UserLists")));
 const AddCategories = (lazy(() => import("./pages/category/AddCategories")));

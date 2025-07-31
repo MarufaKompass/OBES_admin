@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from "react-hook-form";
-import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea, Select, Option } from "@material-tailwind/react";
-import { TagIcon } from "@heroicons/react/24/solid";
-import { addNewsletter, adminProfile } from '@/hooks/ReactQueryHooks';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom"; 
+import React, { useEffect, useState } from 'react';
+import { TagIcon } from "@heroicons/react/24/solid";
+import { useForm, Controller } from "react-hook-form";
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { addNewsletter, adminProfile } from '@/hooks/ReactQueryHooks';
+import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea, Select, Option } from "@material-tailwind/react";
+
 export default function AddNewsLetter() {
     const [preview, setPreview] = useState(null);
     const [pdfName, setPdfName] = useState(null);
-
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -31,12 +33,9 @@ export default function AddNewsLetter() {
         queryFn: adminProfile
     });
 
-
-
     const { mutateAsync } = useMutation({ mutationFn: addNewsletter });
 
     const onSubmit = async (data) => {
-        console.log("Form Data:", data);
         const formData = new FormData();
         formData.append("issuenumber", data.issuenumber);
         formData.append("title", data.title);
@@ -44,22 +43,15 @@ export default function AddNewsLetter() {
         formData.append("status", data.status);
         formData.append("upby", data.upby);
         formData.append("coverimage", data?.coverimage);
-         formData.append("pdfdoc", data?.pdfdoc);
+        formData.append("pdfdoc", data?.pdfdoc);
         formData.append("published_date", data?.published_date);
-    try {
-      const result = await mutateAsync(formData);
-      toast.success('Newsletter added successfully!');
-      // Reset form
-      setPreview(null);
-      setPdfName(null);
-    } catch (error) {
-      toast.error('Failed to add newsletter');
-    }
-
+    
+        console.log("Form Data:", formData);
+        
         try {
-            const res = await mutateAsync({ addNewsletterData: data, role: profile?.role });
+            const res = await mutateAsync({ addNewsletterData: formData, role: profile?.role });
             toast.success(res.data.message);
-            handleNavigation('/dashboard/faq/faqLists');
+            navigate('/dashboard/newsletter/newsletterLists');
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'add Newsletter failed');
@@ -127,97 +119,106 @@ export default function AddNewsLetter() {
                         </div>
 
                         {/* Image Upload */}
-                        <div>
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <Typography variant="small" className="mb-2">
-                                    Upload Image
-                                </Typography>
-                                <Controller
-                                    name="coverimage"
-                                    control={control}
-                                    defaultValue={null}
-                                    rules={{
-                                        required: "Image is required",
-                                        validate: {
-                                            isImage: (file) => {
-                                                if (!file) return true; // Skip if no file (handled by required)
-                                                const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                                                return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                                            }
-                                        }
-                                    }}
-                                    render={({ field: { onChange }, fieldState: { error } }) => (
-                                        <>
-                                            <Input
-                                                type="file"
-                                                accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                                                onChange={(e) => {
-                                                    const file = e.target.files[0];
-                                                    if (file) {
-                                                        onChange(file);
-                                                        setPreview(URL.createObjectURL(file));
-                                                    } else {
-                                                        onChange(null);
-                                                        setPreview(null);
+                                <div>
+                                    <div>
+                                        <Typography variant="small" className="mb-2">
+                                            Upload Image
+                                        </Typography>
+                                        <Controller
+                                            name="coverimage"
+                                            control={control}
+                                            defaultValue={null}
+                                            rules={{
+                                                required: "Image is required",
+                                                validate: {
+                                                    isImage: (file) => {
+                                                        if (!file) return true; // Skip if no file (handled by required)
+                                                        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                                                        return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
                                                     }
-                                                }}
-                                                label="Choose File"
-                                            />
-                                            {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                                        </>
-                                    )}
-                                />
-                                {preview && (
-                                    <div className="mt-4">
-                                        <img src={preview} alt="Preview" className="h-40 object-cover rounded-md" />
+                                                }
+                                            }}
+                                            render={({ field: { onChange }, fieldState: { error } }) => (
+                                                <>
+                                                    <Input
+                                                        type="file"
+                                                        accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                                                        onChange={(e) => {
+                                                            const file = e.target.files[0];
+                                                            if (file) {
+                                                                onChange(file);
+                                                                setPreview(URL.createObjectURL(file));
+                                                            } else {
+                                                                onChange(null);
+                                                                setPreview(null);
+                                                            }
+                                                        }}
+                                                        label="Choose File"
+                                                    />
+                                                    {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+                                                </>
+                                            )}
+                                        />
+                                        {/* {preview && (
+                                            <div className="mt-4">
+                                                <img src={preview} alt="Preview" className="h-40 object-cover rounded-md" />
+                                            </div>
+                                        )} */}
                                     </div>
-                                )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <div>
+                                        <Typography variant="small" className="mb-2">
+                                            Upload PDF
+                                        </Typography>
+                                        <Controller
+                                            name="pdfdoc"
+                                            control={control}
+                                            defaultValue={null}
+                                            rules={{
+                                                required: "PDF is required",
+                                                validate: {
+                                                    isPDF: (file) => {
+                                                        if (!file) return true; // Skip if no file (handled by required)
+                                                        return file.type === 'application/pdf' || "File must be a PDF";
+                                                    }
+                                                }
+                                            }}
+                                            render={({ field: { onChange }, fieldState: { error } }) => (
+                                                <>
+                                                    <Input
+                                                        type="file"
+                                                        accept="application/pdf"
+                                                        label="Upload PDF"
+                                                        onChange={(e) => {
+                                                            const file = e.target.files[0];
+                                                            if (file) {
+                                                                onChange(file);
+                                                                setPdfName(file.name);
+                                                            } else {
+                                                                onChange(null);
+                                                                setPdfName(null);
+                                                            }
+                                                        }}
+                                                    />
+                                                    {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+                                                    {pdfName && (
+                                                        <p className="mt-2 text-sm text-gray-700">Selected PDF: {pdfName}</p>
+                                                    )}
+                                                </>
+                                            )}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                    <div>
-  <Typography variant="small" className="mb-2">
-    Upload PDF
-  </Typography>
-  <Controller
-    name="pdfdoc"
-    control={control}
-    defaultValue={null}
-    rules={{ 
-      required: "PDF is required",
-      validate: {
-        isPDF: (file) => {
-          if (!file) return true; // Skip if no file (handled by required)
-          return file.type === 'application/pdf' || "File must be a PDF";
-        }
-      }
-    }}
-    render={({ field: { onChange }, fieldState: { error } }) => (
-      <>
-        <Input
-          type="file"
-          accept="application/pdf"
-          label="Upload PDF"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            if (file) {
-              onChange(file);
-              setPdfName(file.name);
-            } else {
-              onChange(null);
-              setPdfName(null);
-            }
-          }}
-        />
-        {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-        {pdfName && (
-          <p className="mt-2 text-sm text-gray-700">Selected PDF: {pdfName}</p>
-        )}
-      </>
-    )}
-  />
-</div>
-                        </div>
+
+
 
                         <div className="">
                             <Typography variant="small" className="mb-2">
