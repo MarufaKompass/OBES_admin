@@ -146,3 +146,9 @@ export const dietChartsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/dietchartview`);
   return response?.data?.data;
 }
+
+
+export const addDietCharts = async ({addDietChartData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/dietchartstore`, addDietChartData);
+  return response;
+};
