@@ -152,3 +152,18 @@ export const addDietCharts = async ({addDietChartData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/dietchartstore`, addDietChartData);
   return response;
 };
+
+
+//Expert
+
+export const expertsList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/expertlist`);
+  return response?.data?.data;
+}
+
+
+export const addExpertsCharts = async ({addExpertsData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/expert`, addExpertsData);
+  return response;
+};
+

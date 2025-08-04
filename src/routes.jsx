@@ -6,17 +6,15 @@ import { Home } from "@/pages/dashboard";
 import AddFaq from "./pages/faq/AddFaq";
 import FaqList from "./pages/faq/FaqList";
 import AddVideos from './pages/material/AddVideos';
-import UserAnswerLists from './pages/ansList/UserAnswerLists';
-import VideoList from './pages/video/VideoList';
 import Steps from './pages/steps/Steps';
 import AddNewsLetter from './pages/newsletter/AddNewsLetter';
 import NewsletterList from './pages/newsletter/NewsletterList';
 import AddDietChart from './pages/dietCharts/AddDietChart';
 import DietChartList from './pages/dietCharts/DietChartList';
-import DoctorList from './pages/doctor/DoctorList';
+import ExpertsList from './pages/experts/ExpertsList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
-const AddDoctorInfo = (lazy(() => import('./pages/doctor/addDoctorInfo')));
+const AddExpertsInfo = (lazy(() => import('./pages/experts/AddExpertsInfo')));
 const Questionnaire = (lazy(() => import("./pages/questionary/Questionnaire")));
 const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
 const UserLists = (lazy(() => import("./pages/userList/UserLists")));
@@ -171,36 +169,36 @@ export const routes = [
       },
       {
         icon: <ClipboardPlus   {...icon} />,
-        name: "Doctor",
-        path: "/doctor",
+        name: "Experts",
+        path: "/experts",
         children: [
           {
             icon: <Users      {...icon} />,
-            name: "Add Doctor",
-            path: "video",
+            name: "Add Experts",
+            path: "addExpert",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
             </div>}>
 
-              <PrivateRoute>  <AddDoctorInfo /> </PrivateRoute>
+              <PrivateRoute>  <AddExpertsInfo /> </PrivateRoute>
             </Suspense>
           },
           {
             icon: <Users      {...icon} />,
-            name: "Doctor List",
-            path: "docList",
+            name: "Experts List",
+            path: "expertsList",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
             </div>}>
 
-              <PrivateRoute>  <DoctorList /> </PrivateRoute>
+              <PrivateRoute>  <ExpertsList /> </PrivateRoute>
             </Suspense>
           }
         ],
       },
       {
         icon: <TramFront   {...icon} />,
-        name: "material",
+        name: "Doctor material",
         path: "/material",
         children: [
           {

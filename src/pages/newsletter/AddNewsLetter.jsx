@@ -23,7 +23,7 @@ export default function AddNewsLetter() {
 
 
     useEffect(() => {
-        const today = new Date().toISOString().split("T")[0]; // Format: "2025-07-30"
+        const today = new Date().toISOString().split("T")[0];
         setValue("published_date", today);
     }, [setValue]);
 
