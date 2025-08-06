@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody } from "@material-tailwind/react";
 import { adminProfile, expertsList } from '@/hooks/ReactQueryHooks';
-import { Mail, Phone, Building2, MapPin, Calendar } from "lucide-react"
+import { Mail, Phone, Building2, MapPin, Calendar,Pencil } from "lucide-react"
+import ModalExpertUpdate from './ModalExpertUpdate';
 export default function ExpertsList() {
+  const [showModalEdit, setShowModalEdit] = useState(null);
+  const [showModalExpert, setSelectedExpert] = useState(null);
+
+    const handleShowingInfoEdit = (expertid) => {
+    setSelectedExpert(expertid);
+    setShowModalEdit(true)
+  }
+
 
     const { data: profile } = useQuery({
     queryKey: ['profile',],
@@ -14,7 +23,7 @@ export default function ExpertsList() {
     queryKey: ['experts', profile?.role],
     queryFn: () => expertsList(profile?.role)
   });
-console.log("experts", experts)
+
 
   // const experts = experts.length > 0 ? experts : sampleExperts
 
@@ -79,6 +88,13 @@ console.log("experts", experts)
                 <div className="text-xs text-gray-400 pt-2 border-t">
                   Updated: {formatDate(expert.updated_at)}
                 </div>
+
+
+                <button >
+                   <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(expert)}>
+                        <Pencil size={22} />
+                      </div>
+                </button>
 {/* 
                 <div className="flex gap-2 pt-3">
                   <button className="flex-1 bg-blue-600 text-white py-1.5 rounded hover:bg-blue-700 transition">
@@ -101,7 +117,7 @@ console.log("experts", experts)
           </div>
         </CardBody>
       </Card>
-      
+      <ModalExpertUpdate showModalEdit={showModalEdit} setShowModalEdit={setShowModalEdit} showModalExpert={showModalExpert}></ModalExpertUpdate>
       </>
   )
 }

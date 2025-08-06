@@ -167,3 +167,7 @@ export const addExpertsList = async ({addExpertsData,role}) => {
   return response;
 };
 
+export const editExpert = async ({editExpertData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/expert/${id}`, editExpertData);
+  return response;
+};

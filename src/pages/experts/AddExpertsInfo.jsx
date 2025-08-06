@@ -11,7 +11,7 @@ import { addExpertsList, adminProfile } from '@/hooks/ReactQueryHooks';
 
 
 export default function AddExpertsInfo() {
-      const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(null);
   const { handleNavigation } = useNavigator();
 
   const {
@@ -34,26 +34,26 @@ export default function AddExpertsInfo() {
   const onSubmit = async (data) => {
 
     console.log('data', data)
-       const formData = new FormData();
-        formData.append("drname", data.drname);
-        formData.append("drimg", data.drimg);
-        formData.append("hospital", data.hospital);
-        formData.append("designation", data.designation);
-        formData.append("add_desig", data.add_desig);
-        formData.append("add_org", data?.add_org);
-        formData.append("email", data?.email);
-        formData.append("mobile", data?.mobile);
-        formData.append("status", data?.status);
-    
-        console.log("Form Data:", formData);
+    const formData = new FormData();
+    formData.append("drname", data.drname);
+    formData.append("drimg", data.drimg);
+    formData.append("hospital", data.hospital);
+    formData.append("designation", data.designation);
+    formData.append("add_desig", data.add_desig);
+    formData.append("add_org", data?.add_org);
+    formData.append("email", data?.email);
+    formData.append("mobile", data?.mobile);
+    formData.append("status", data?.status);
+
+    console.log("Form Data:", formData);
     try {
-        const res = await mutateAsync({ addExpertsData: formData, role: profile?.role });
-        toast.success(res.data.message);
-        handleNavigation('/dashboard/experts/expertsList');
-        reset();
+      const res = await mutateAsync({ addExpertsData: formData, role: profile?.role });
+      toast.success(res.data.message);
+      handleNavigation('/dashboard/experts/expertsList');
+      reset();
     } catch (err) {
-        toast.error(err?.response?.data?.message || 'add Expert failed');
-        reset();
+      toast.error(err?.response?.data?.message || 'add Expert failed');
+      reset();
     }
   };
   return (
@@ -144,7 +144,7 @@ export default function AddExpertsInfo() {
               </div>
 
               <div className='flex gap-3 border-b pb-4'>
-                <User></User>
+                <Building2></Building2>
                 <p>
                   Professional Information
                 </p>
@@ -154,11 +154,11 @@ export default function AddExpertsInfo() {
                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                   Hospital/Clinic*
                 </Typography>
-                <Input label="Hospital/Clinic" 
-                {...register("hospital", { required: true })}
+                <Input label="Hospital/Clinic"
+                  {...register("hospital", { required: true })}
                   type="text"
                   rows={4}
-                   />
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -193,7 +193,7 @@ export default function AddExpertsInfo() {
               </div>
 
               <div className='flex gap-3 border-b pb-4'>
-                <User></User>
+                <Mail></Mail>
                 <p>
                   Contact Information
                 </p>
@@ -223,10 +223,8 @@ export default function AddExpertsInfo() {
                 </div>
               </div>
 
-
-
               <div className='flex gap-3 border-b pb-4'>
-                <User></User>
+                <CheckCircle></CheckCircle>
                 <p>
                   Account Status
                 </p>
@@ -236,8 +234,8 @@ export default function AddExpertsInfo() {
                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                   Status
                 </Typography>
-                <Select label="Select Status" {...register("status", { required: true })}  
-                 value={watch("status") || ""}
+                <Select label="Select Status" {...register("status", { required: true })}
+                  value={watch("status") || ""}
                   onChange={(value) => setValue("status", value)} >
                   <Option value="active">Active</Option>
                   <Option value="inactive">Inactive</Option>
