@@ -226,7 +226,7 @@ export default function AddNewsLetter() {
                             </Typography>
                             <Select label="Select Status" {...register("status", { required: true })}
                                 value={watch("status") || ""}
-                                onChange={(value) => setValue("status", value)}  >
+                                onChange={(value) => setValue("status", value)} >
                                 <Option value="published">Published</Option>
                                 <Option value="draft">Draft</Option>
 

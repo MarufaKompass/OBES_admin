@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm, Controller } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
@@ -7,16 +7,19 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card, CardHeader, CardBody, Typography, Input, Button, Select, Option } from "@material-tailwind/react";
 import { Upload, User, Building2, Mail, CheckCircle } from "lucide-react"
 import useNavigator from '@/components/navigator/useNavigate';
-import { addFaq, adminProfile } from '@/hooks/ReactQueryHooks';
+import { addExpertsList, adminProfile } from '@/hooks/ReactQueryHooks';
 
 
 export default function AddExpertsInfo() {
+      const [preview, setPreview] = useState(null);
   const { handleNavigation } = useNavigator();
 
   const {
     register,
     handleSubmit,
     control,
+    watch,
+    setValue,
     // formState: { errors },
     reset,
   } = useForm();
@@ -27,19 +30,31 @@ export default function AddExpertsInfo() {
     queryFn: adminProfile
   });
 
-  const { mutateAsync } = useMutation({ mutationFn: addFaq });
+  const { mutateAsync } = useMutation({ mutationFn: addExpertsList });
   const onSubmit = async (data) => {
-    console.log('data', data)
 
-    // try {
-    //     const res = await mutateAsync({ addFaqData: data, role: profile?.role });
-    //     toast.success(res.data.message);
-    //     handleNavigation('/dashboard/faq/faqLists');
-    //     reset();
-    // } catch (err) {
-    //     toast.error(err?.response?.data?.message || 'add FAQ failed');
-    //     reset();
-    // }
+    console.log('data', data)
+       const formData = new FormData();
+        formData.append("drname", data.drname);
+        formData.append("drimg", data.drimg);
+        formData.append("hospital", data.hospital);
+        formData.append("designation", data.designation);
+        formData.append("add_desig", data.add_desig);
+        formData.append("add_org", data?.add_org);
+        formData.append("email", data?.email);
+        formData.append("mobile", data?.mobile);
+        formData.append("status", data?.status);
+    
+        console.log("Form Data:", formData);
+    try {
+        const res = await mutateAsync({ addExpertsData: formData, role: profile?.role });
+        toast.success(res.data.message);
+        handleNavigation('/dashboard/experts/expertsList');
+        reset();
+    } catch (err) {
+        toast.error(err?.response?.data?.message || 'add Expert failed');
+        reset();
+    }
   };
   return (
     <>
@@ -75,7 +90,7 @@ export default function AddExpertsInfo() {
                   <Typography variant="small" color="blue-gray" className="font-medium pb-1">
                     Doctor Name*
                   </Typography>
-                  <Input label="Doctor Name" type="text"     {...register("faqen", { required: true })} />
+                  <Input label="Doctor Name" type="text" {...register("drname", { required: true })} />
                 </div>
                 <div className="space-y-2 mt-3">
                   <div>
@@ -139,10 +154,11 @@ export default function AddExpertsInfo() {
                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                   Hospital/Clinic*
                 </Typography>
-                <Input label="Hospital/Clinic"
+                <Input label="Hospital/Clinic" 
+                {...register("hospital", { required: true })}
                   type="text"
                   rows={4}
-                  {...register("fansen", { required: true })} />
+                   />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -153,7 +169,7 @@ export default function AddExpertsInfo() {
                   <Input label="Primary Designation"
                     type="text"
                     rows={4}
-                    {...register("fansen", { required: true })} />
+                    {...register("designation", { required: true })} />
                 </div>
                 <div className="space-y-2">
                   <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
@@ -162,7 +178,7 @@ export default function AddExpertsInfo() {
                   <Input label="Secondary Designation"
                     type="text"
                     rows={4}
-                    {...register("fansen", { required: true })} />
+                    {...register("add_desig", { required: true })} />
                 </div>
               </div>
 
@@ -172,7 +188,7 @@ export default function AddExpertsInfo() {
                 </Typography>
                 <Input label="organization"
                   type="text"
-                  {...register("faqbn", { required: true })} />
+                  {...register("add_org", { required: true })} />
 
               </div>
 
@@ -190,9 +206,9 @@ export default function AddExpertsInfo() {
                     Email Address
                   </Typography>
                   <Input label="email address"
-                    type="text"
+                    type="email"
                     rows={4}
-                    {...register("fansbn", { required: true })} />
+                    {...register("email", { required: true })} />
 
                 </div>
                 <div className="space-y-2">
@@ -202,7 +218,7 @@ export default function AddExpertsInfo() {
                   <Input label="019********"
                     type="number"
                     rows={4}
-                    {...register("fansbn", { required: true })} />
+                    {...register("mobile", { required: true })} />
 
                 </div>
               </div>
@@ -220,18 +236,16 @@ export default function AddExpertsInfo() {
                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                   Status
                 </Typography>
-                <Select label="Select Status" {...register("status", { required: true })} >
+                <Select label="Select Status" {...register("status", { required: true })}  
+                 value={watch("status") || ""}
+                  onChange={(value) => setValue("status", value)} >
                   <Option value="active">Active</Option>
                   <Option value="inactive">Inactive</Option>
                 </Select>
               </div>
               <div className="flex gap-3 pt-4 pb-6">
-                {/* <Button variant="outlined" fullWidth >
-                                    Cancel
-                                </Button> */}
-
                 <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
-                  + Add FAQ
+                  + Add Expert
                 </Button>
               </div>
             </CardBody>

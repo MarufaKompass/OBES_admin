@@ -162,7 +162,7 @@ export const expertsList = async (role) => {
 }
 
 
-export const addExpertsCharts = async ({addExpertsData,role}) => {
+export const addExpertsList = async ({addExpertsData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/expert`, addExpertsData);
   return response;
 };
