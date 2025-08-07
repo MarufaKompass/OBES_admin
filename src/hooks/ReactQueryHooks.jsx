@@ -171,3 +171,9 @@ export const editExpert = async ({editExpertData,role,id}) => {
   const response = await axiosInstance.put(`/public/api/${role}/expert/${id}`, editExpertData);
   return response;
 };
+
+
+export const deleteExpert = async ({role,id}) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/expert/${id}`);
+  return response;
+};

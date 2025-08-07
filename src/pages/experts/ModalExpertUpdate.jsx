@@ -11,9 +11,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, showModalExpert }) {
-    console.log("show", showModalExpert)
-     const [preview, setPreview] = useState(null);
-    const [updateStatus, setUpdateStatus] = useState("");
+    console.log("show", showModalExpert?.id)
+    const [preview, setPreview] = useState(null);
     const { handleNavigation } = useNavigator();
     const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm()
 
@@ -24,23 +23,23 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
         queryFn: adminProfile
     });
 
-    const statusLevel = (e) => {
-        setUpdateStatus(e.target.value)
-    }
+
 
     useEffect(() => {
         if (showModalExpert && profile) {
             reset({
                 drname: showModalExpert?.drname || "",
-                drimg: showModalExpert?.drimg || "",
+                drimg: "",
                 hospital: showModalExpert?.hospital || "",
                 designation: showModalExpert?.designation || "",
                 add_desig: showModalExpert?.add_desig || "",
                 add_org: showModalExpert?.add_org || "",
                 email: showModalExpert?.email || "",
                 mobile: showModalExpert?.mobile || "",
-                status: setUpdateStatus(showModalExpert?.status || ""),
+                status: showModalExpert?.status || "",
+                
             });
+          
         }
     }, [showModalExpert, profile, reset]);
 
@@ -50,11 +49,34 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
     const { mutateAsync } = useMutation({ mutationFn: editExpert });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
+        console.log('data', data);
         try {
-            const res = await mutateAsync({ editExpertData: data, role: profile?.role, id: showModalExpert?.id });
+
+            // const formData = new FormData();
+              // Only append the image if a new file was selected
+            // if (data.drimg && data.drimg instanceof File) {
+            //     formData.append("drimg", data.drimg);
+            // }
+            // formData.append("drname", data.drname);
+            // formData.append("drimg", data?.drimg);
+            // formData.append("hospital", data.hospital);
+            // formData.append("designation", data.designation);
+            // formData.append("add_desig", data.add_desig);
+            // formData.append("add_org", data.add_org);
+            // formData.append("email", data.email);
+            // formData.append("mobile", data.mobile);
+            // formData.append("status", data.status);
+            // console.log('formData', formData);
+
+
+            const res = await mutateAsync({
+                 editExpertData: data,
+                 role: profile?.role,
+                 id: showModalExpert?.id
+                 });
             toast.success(res.data.message);
-            handleNavigation('/experts/expertsList');
+            handleNavigation('/dashboard/experts/expertsList');
+            setShowModalEdit(false)
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
@@ -93,8 +115,8 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                                             type="text"
                                             defaultValue={showModalExpert?.drname}
                                             {...register("drname", { required: true })} />
-                                  </div>
-                                      <div>
+                                    </div>
+                                    <div>
 
                                         <Typography variant="small" color="blue-gray" className="font-medium pb-3">
                                             Experts Image
@@ -102,17 +124,7 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                                         <Controller
                                             name="drimg"
                                             control={control}
-                                            defaultValue={showModalExpert?.drimg}
-                                            rules={{
-                                                // required: "Image is required",
-                                                // validate: {
-                                                //     isImage: (file) => {
-                                                //         if (!file) return true;
-                                                //         const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                                                //         return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                                                //     }
-                                                // }
-                                            }}
+                                            defaultValue={null}
                                             render={({ field: { onChange }, fieldState: { error } }) => (
                                                 <>
                                                     <Input
@@ -121,11 +133,11 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                                                         onChange={(e) => {
                                                             const file = e.target.files[0];
                                                             if (file) {
-                                                                onChange(file);
+                                                                onChange(file); 
                                                                 setPreview(URL.createObjectURL(file));
                                                             } else {
                                                                 onChange(null);
-                                                                setPreview(null)
+                                                                setPreview(null);
                                                             }
                                                         }}
                                                         label="Choose File"
@@ -134,6 +146,7 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                                                 </>
                                             )}
                                         />
+
 
                                     </div>
 
@@ -203,20 +216,44 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
 
                                         />
                                     </div>
-                                  <div className="space-y-2 ">
-                                        <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+
+                                    <div className="space-y-2 ">
+                                        {/* <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                                             Status
                                         </Typography>
-                                        <Select label="Select Status" {...register("status", { required: true })}
-                                            //    value={watch("status") || ""}
-                                            value={updateStatus}
-                                            onChange={statusLevel}
-                                        // onChange={(value) => setValue("status", value)}
+                                        <Select label="Select Status"
+                                            value={showModalExpert?.status}
+                                            {...register("status", { required: true })}
+                                        // value={updateStatus}
+                                        // onChange={statusLevel}
+
                                         >
                                             <Option value="active">Active</Option>
                                             <Option value="inactive">Inactive</Option>
-                                        </Select>
-                                    </div> 
+                                        </Select> */}
+
+
+                                        <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+            Status
+        </Typography>
+        <Controller
+            name="status"
+            control={control}
+            defaultValue={showModalExpert?.status}
+            render={({ field }) => (
+                <Select 
+                    label="Select Status"
+                    value={field.value}
+                    onChange={(value) => field.onChange(value)}
+                >
+                    <Option value="active">Active</Option>
+                    <Option value="inactive">Inactive</Option>
+                </Select>
+            )}
+        />
+
+
+                                    </div>
 
 
                                     <div className="flex gap-3 pt-4">
