@@ -62,17 +62,30 @@ export default function ExpertsList() {
                     <img
                       src={expert.drimg}
                       alt={expert.drname}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = `/placeholder.svg?height=200&width=200`
-                      }}
+                      className="w-full h-[330px] object-cover"
+
                     />
                     <span
-                      className={`absolute top-3 right-3 text-xs px-2 py-1 rounded-full text-white ${expert.status === "active" ? "bg-green-500" : "bg-gray-500"
+                      className={`absolute  top-3 left-3 text-xs px-2 py-1 rounded-full text-white ${expert.status === "active" ? "bg-green-500" : "bg-gray-500"
                         }`}
                     >
                       {expert.status}
                     </span>
+
+                    <div className='absolute  top-3 right-3  flex gap-2'>
+                      <button className="text-white  bg-primaryBg h-8 w-8 flex justify-center items-center rounded-full" onClick={() => handleShowingInfoEdit(expert)}>
+                        <div className="cursor-pointer" >
+                          <Pencil size={18} />
+                        </div>
+                      </button>
+
+                      <button className="text-white  bg-primaryBg  h-8 w-8 flex justify-center items-center rounded-full" onClick={() => handleShowingInfoDelete(expert)}>
+                        <div className="cursor-pointer" >
+                          <Trash size={18} />
+                        </div>
+                      </button>
+                    </div>
+
                   </div>
 
                   <div className="p-4 space-y-3">
@@ -95,25 +108,10 @@ export default function ExpertsList() {
                     <div className="text-xs text-gray-400 pt-2 border-t">
                       Updated: {formatDate(expert.updated_at)}
                     </div>
-
-
-                    <button>
-                      <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(expert)}>
-                        <Pencil size={22} />
-                      </div>
-                    </button>
-
-                    <button>
-                      <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoDelete(expert)}>
-                        <Trash size={22} />
-                      </div>
-                    </button>
-
                   </div>
                 </div>
               ))}
             </div>
-
             {experts?.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg">No experts found</p>
