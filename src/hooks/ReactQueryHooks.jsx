@@ -139,6 +139,10 @@ export const deleteNewsletter = async ({role,id}) => {
   return response;
 };
 
+export const updateNewsletter = async ({updateNewsletterData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/newsletter/${id}`, updateNewsletterData);
+  return response;
+};
 
 // Diet Charts
 

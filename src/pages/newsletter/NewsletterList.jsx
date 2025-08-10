@@ -128,9 +128,9 @@ export default function NewsletterList() {
                           <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoDelete(newsletter)}>
                             <Trash className="w-4 h-4" />
                           </Button>
-                          <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoEdit(newsletter)}>
+                          {/* <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoEdit(newsletter)}>
                             <Eye className="w-4 h-4" />
-                          </Button>
+                          </Button> */}
                           <a href={newsletter?.pdflink} target="_blank">
                             <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  >
                               <ArrowDown className="w-4 h-4" />

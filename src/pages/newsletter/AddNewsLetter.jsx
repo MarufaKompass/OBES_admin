@@ -76,7 +76,7 @@ export default function AddNewsLetter() {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardBody className="space-y-6">
-                        <div className="">
+                        <div className="hidden">
                             {
                                 profile?.role && (
                                     <div>
