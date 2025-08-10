@@ -7,14 +7,15 @@ import {
     Button,
     IconButton,
 } from "@material-tailwind/react";
-
+import 'react-tooltip/dist/react-tooltip.css';
+import { Tooltip } from 'react-tooltip'
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
-import { adminProfile, allUserAnsList } from '@/hooks/ReactQueryHooks';
+import { adminProfile, allUserAnsList, csvExport } from '@/hooks/ReactQueryHooks';
 import { Mail, Phone, Eye, User } from "lucide-react";
 import csv from "../../../public/img/csv.png";
-import txt from "../../../public/img/txt.png";
-import pdf from "../../../public/img/pdf.png";
+// import txt from "../../../public/img/txt.png";
+// import pdf from "../../../public/img/pdf.png";
 export default function AllAnswers() {
     const [surveyData, setSurveyData] = useState([]);
     const navigate = useNavigate();
@@ -23,14 +24,29 @@ export default function AllAnswers() {
         queryKey: ['profile'],
         queryFn: adminProfile
     });
+    const { refetch } = useQuery({
+        queryKey: ['csvEx'],
+        queryFn: () => csvExport(profile?.role),
+        enabled: false
+    });
 
+    const handleCsvDownload = async () => {
+        const res = await refetch();
+        if (res.data) {
+            const url = window.URL.createObjectURL(new Blob([res.data.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "AnswerList.csv");
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }
+    };
 
     const { data: answersList, isLoading } = useQuery({
         queryKey: ['answersList', profile?.role],
         queryFn: () => allUserAnsList(profile?.role)
     });
-
-    console.log("answersList", answersList);
 
 
     const handlePerAnswerHandle = (answer) => {
@@ -55,16 +71,23 @@ export default function AllAnswers() {
                                     </Typography>
                                 </div>
                             </div>
-                            <div className="flex gap-2 ">
-                                <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
-                                    <img src={csv} alt="" className="w-5 h-5" />
-                                </div>
-                                <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
+                            <div className="flex gap-2">
+
+
+                                     <button className="border border-[#f1f1f1] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]" onClick={handleCsvDownload}  id="csv-download-btn" >
+                                      <img src={csv} alt="" className="w-6 h-6" />
+                                      </button>
+
+                                <Tooltip anchorSelect="#csv-download-btn" place="top">
+                           Download CSV file
+                                </Tooltip>
+                             
+                                {/* <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
                                     <img src={txt} alt="" className="w-5 h-5" />
                                 </div>
                                 <div className="border border-[#b2b2b2] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]">
                                     <img src={pdf} alt="" className="w-5 h-5" />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </CardHeader>

@@ -62,7 +62,7 @@ export default function ExpertsList() {
                     <img
                       src={expert.drimg}
                       alt={expert.drname}
-                      className="w-full h-[330px] object-cover"
+                      className="w-full h-[360px] object-cover"
 
                     />
                     <span

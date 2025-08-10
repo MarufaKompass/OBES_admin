@@ -177,3 +177,11 @@ export const deleteExpert = async ({role,id}) => {
   const response = await axiosInstance.delete(`/public/api/${role}/expert/${id}`);
   return response;
 };
+
+//csv
+
+
+export const csvExport = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/csv`);
+  return response;
+};
