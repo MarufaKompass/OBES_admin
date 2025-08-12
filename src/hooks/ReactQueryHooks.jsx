@@ -189,3 +189,11 @@ export const csvExport = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/csv`);
   return response;
 };
+
+//Education
+
+export const educationList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/obeseduv`);
+  return response?.data?.data;
+}
+

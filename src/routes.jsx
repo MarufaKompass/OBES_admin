@@ -12,6 +12,7 @@ import NewsletterList from './pages/newsletter/NewsletterList';
 import AddDietChart from './pages/dietCharts/AddDietChart';
 import DietChartList from './pages/dietCharts/DietChartList';
 import ExpertsList from './pages/experts/ExpertsList';
+import ObesEducation from './pages/obesSchool/ObesEducation';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddExpertsInfo = (lazy(() => import('./pages/experts/AddExpertsInfo')));
@@ -326,6 +327,35 @@ export const routes = [
               <PrivateRoute>  <DietChartList /> </PrivateRoute>
             </Suspense>
           },
+        ],
+      },
+      {
+        icon: <TableOfContents  {...icon} />,
+        name: "Obes School",
+        path: "/school",
+        children: [
+          {
+            icon: <Map     {...icon} />,
+            name: "Education Info List",
+            path: "eduList",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <ObesEducation /> </PrivateRoute>
+            </Suspense>
+          },
+          // {
+          //   icon: <ListTodo    {...icon} />,
+          //   name: "Diet Chart Lists",
+          //   path: "dietChartLists",
+          //   element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+          //     <PuffLoader color="rgb(123 30 25)" />
+          //   </div>}>
+
+          //     <PrivateRoute>  <DietChartList /> </PrivateRoute>
+          //   </Suspense>
+          // },
         ],
       },
 
