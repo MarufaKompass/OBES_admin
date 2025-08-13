@@ -13,6 +13,7 @@ import AddDietChart from './pages/dietCharts/AddDietChart';
 import DietChartList from './pages/dietCharts/DietChartList';
 import ExpertsList from './pages/experts/ExpertsList';
 import ObesEducation from './pages/obesSchool/ObesEducation';
+import EducationForm from './pages/obesSchool/EducationForm';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddExpertsInfo = (lazy(() => import('./pages/experts/AddExpertsInfo')));
@@ -114,23 +115,7 @@ export const routes = [
               <PrivateRoute> <AllAnswers /> </PrivateRoute>
             </Suspense>
           },
-          //    {
-
-          //   path: "answerDetails/:id",
-          //   element: (
-
-          //   <Suspense fallback={<div className="flex justify-center items-center h-screen">
-          //     <PuffLoader color="rgb(123 30 25)" />
-          //   </div>
-
-          // }>
-
-          //     <PrivateRoute> <UserAnswerLists /> </PrivateRoute>
-          //   </Suspense>
-          //   ),
-          //         hidden: true,
-          // },
-
+          
 
 
         ],
@@ -155,17 +140,6 @@ export const routes = [
               <PrivateRoute>  <Video /> </PrivateRoute>
             </Suspense>
           },
-          // {
-          //   icon: <Youtube      {...icon} />,
-          //   name: "Video List",
-          //   path: "videoList",
-          //   element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-          //     <PuffLoader color="rgb(123 30 25)" />
-          //   </div>}>
-
-          //     <PrivateRoute>  <VideoList /> </PrivateRoute>
-          //   </Suspense>
-          // }
         ],
       },
       {
@@ -345,21 +319,19 @@ export const routes = [
               <PrivateRoute>  <ObesEducation /> </PrivateRoute>
             </Suspense>
           },
-          // {
-          //   icon: <ListTodo    {...icon} />,
-          //   name: "Diet Chart Lists",
-          //   path: "dietChartLists",
-          //   element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-          //     <PuffLoader color="rgb(123 30 25)" />
-          //   </div>}>
+          {
+            icon: <ListTodo    {...icon} />,
+            name: "Education Form",
+            path: "dietChartLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
 
-          //     <PrivateRoute>  <DietChartList /> </PrivateRoute>
-          //   </Suspense>
-          // },
+              <PrivateRoute>  <EducationForm /> </PrivateRoute>
+            </Suspense>
+          },
         ],
       },
-
-
     ],
   },
 

@@ -197,3 +197,8 @@ export const educationList = async (role) => {
   return response?.data?.data;
 }
 
+
+export const addEducation = async ({addEducationData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/obesedustore`, addEducationData);
+  return response;
+};

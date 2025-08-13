@@ -55,10 +55,10 @@ export default function AddDietChart() {
                             <TagIcon className="h-6 w-6 text-primaryBg" />
                         </div>
                         <Typography variant="h4" color="blue-gray" className='font-poppins'>
-                            Add New Frequently Asked Questions
+                            Add New Diet Chart
                         </Typography>
                         <Typography color="gray" className="text-center font-normal text-sm font-poppins">
-                            Create a new frequently asked questions for your posts
+                            Create a new Diet Chart for your posts
                         </Typography>
                     </CardHeader>
                     <form onSubmit={handleSubmit(onSubmit)}  >

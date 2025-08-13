@@ -6,11 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Clock, Coffee, Sun, Utensils, Moon, Milk } from "lucide-react";
 import MealSection from './MealSection';
 
-
-
-
-
-
 export default function DietChartList() {
   const [language, setLanguage] = useState("en")
   const navigate = useNavigate();
