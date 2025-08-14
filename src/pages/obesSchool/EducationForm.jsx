@@ -129,16 +129,16 @@ export default function EducationForm() {
                                             name="mimage"
                                             control={control}
                                             defaultValue={null}
-                                            rules={{
-                                                required: "Image is required",
-                                                validate: {
-                                                    isImage: (file) => {
-                                                        if (!file) return true; // Skip if no file (handled by required)
-                                                        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                                                        return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                                                    }
-                                                }
-                                            }}
+                                            // rules={{
+                                            //     required: "Image is required",
+                                            //     validate: {
+                                            //         isImage: (file) => {
+                                            //             if (!file) return true; // Skip if no file (handled by required)
+                                            //             const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                                            //             return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
+                                            //         }
+                                            //     }
+                                            // }}
                                             render={({ field: { onChange }, fieldState: { error } }) => (
                                                 <>
                                                     <Input
