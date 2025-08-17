@@ -1,13 +1,13 @@
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useForm, Controller } from "react-hook-form";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { addEducation, adminProfile } from '@/hooks/ReactQueryHooks';
 import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea, Select, Option } from "@material-tailwind/react";
 export default function EducationForm() {
-     const [preview, setPreview] = useState(null);
+    const [preview, setPreview] = useState(null);
     const navigate = useNavigate();
     const {
         register,
@@ -25,7 +25,7 @@ export default function EducationForm() {
         queryFn: adminProfile
     });
 
-      const { mutateAsync } = useMutation({ mutationFn: addEducation });
+    const { mutateAsync } = useMutation({ mutationFn: addEducation });
 
     const onSubmit = async (data) => {
         const formData = new FormData();
@@ -33,11 +33,11 @@ export default function EducationForm() {
         formData.append("modnum", data.modnum);
         formData.append("modtype", data.modtype);
         formData.append("topic", data.topic);
-        formData.append("mimage", data?.mimage );
+        formData.append("mimage", data?.mimage);
         formData.append("modinfo", data?.modinfo);
-    
+
         console.log("Form Data:", formData);
-        
+
         try {
             const res = await mutateAsync({ addEducationData: formData, role: profile?.role });
             toast.success(res.data.message);
@@ -49,8 +49,8 @@ export default function EducationForm() {
         }
     };
 
-  return (
-<div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
+    return (
+        <div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
             <Card className="w-full mx-auto md:px-24 px-2">
                 <CardHeader floated={false} shadow={false} className="flex flex-col items-center bg-transparent">
                     <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
@@ -63,10 +63,9 @@ export default function EducationForm() {
                         Add Education asked title and image
                     </Typography>
                 </CardHeader>
-
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <CardBody className="space-y-6">
-                    <div className="">
+                        <div className="">
                             <Typography variant="small" className="mb-2">
                                 Select Category
                             </Typography>
@@ -79,10 +78,9 @@ export default function EducationForm() {
 
                             </Select>
                         </div>
-
-                    <div className="">
+                        <div className="">
                             <Typography variant="small" className="mb-2">
-                               Select Module Number
+                                Select Module Number
                             </Typography>
                             <Select label="Select Module Number" {...register("modnum", { required: true })}
                                 value={watch("modnum") || ""}
@@ -94,9 +92,7 @@ export default function EducationForm() {
 
                             </Select>
                         </div>
-
-
-                    <div className="">
+                        <div className="">
                             <Typography variant="small" className="mb-2">
                                 Select Module Type
                             </Typography>
@@ -111,11 +107,7 @@ export default function EducationForm() {
                         </div>
 
                         <div>
-                            {/* <Typography variant="small" className="mb-1">
-                                Issue Number
-                            </Typography> */}
-                            <Input label="bmi" type="text" value="BMI" {...register("topic", { required: true })} />
-                            
+                            <Input label="Topic" type="text"  {...register("topic", { required: true })} />
                         </div>
                         {/* Image Upload */}
                         <div className="">
@@ -168,19 +160,14 @@ export default function EducationForm() {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-
-                             <div>
+                        <div>
                             <Typography variant="small" className="mb-1">
                                 Module Information
                             </Typography>
-                            <Textarea label="Module Information"  rows={4} {...register("modinfo", { required: true })} />
+                            <Textarea label="Module Information" rows={4} {...register("modinfo", { required: true })} />
                             {errors.fansbn && <p className="text-red-500 text-sm">This field is required</p>}
                         </div>
-
-
                         {/* Submit */}
                         <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
                             + Add Education
@@ -189,5 +176,5 @@ export default function EducationForm() {
                 </form>
             </Card>
         </div>
-  )
+    )
 }

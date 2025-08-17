@@ -202,3 +202,15 @@ export const addEducation = async ({addEducationData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/obesedustore`, addEducationData);
   return response;
 };
+
+
+export const editEducation = async ({editEducationData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/obeseduupdate/${id}`, editEducationData);
+  return response;
+};
+
+
+export const deleteEducation = async ({role,id}) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/obesedudelete/${id}`);
+  return response;
+};
