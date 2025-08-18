@@ -13,7 +13,7 @@ export default function ObesEducation() {
     queryKey: ['eduList', profile?.role],
     queryFn: () => educationList(profile?.role)
   });
-  console.log("eduList", eduList)
+
   const getFilteredModules = (category) =>
     eduList?.filter((module) => {
       const cat = module.category.toLowerCase();
@@ -25,11 +25,7 @@ export default function ObesEducation() {
       }
       return cat === "both"
     }
-
-
-
     );
-
 
   const getTabIcon = (tab) => {
     switch (tab) {

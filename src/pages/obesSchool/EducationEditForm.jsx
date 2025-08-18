@@ -4,33 +4,33 @@ import { Pencil, X } from "lucide-react";
 import { useForm, Controller } from "react-hook-form"
 import { CardBody, Typography, Button, Input, Select, Option, Textarea } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-import { editEducation } from '@/hooks/ReactQueryHooks';
-import { useMutation } from '@tanstack/react-query';
+import { adminProfile, editEducation } from '@/hooks/ReactQueryHooks';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export default function EducationEditForm({ showModalEdit, setShowModalEdit, selectedEdu }) {
-    console.log(" selectedEdu", selectedEdu)
     const [preview, setPreview] = useState(null);
-
     const {
         register,
         handleSubmit,
         reset,
         control,
-        watch,
-        setValue,
         formState: { errors },
     } = useForm({
         defaultValues: {
-            category: selectedEdu?.category || "",
-            modnum: selectedEdu?.modnum || "",
-            modtype: selectedEdu?.modtype || "",
-            topic: selectedEdu?.topic || "",
+            category: selectedEdu?.category,
+            modnum: selectedEdu?.modnum,
+            modtype: selectedEdu?.modtype,
+            topic: selectedEdu?.topic,
+            mimage: selectedEdu?.mimage || null,
             modinfo: selectedEdu?.modinfo || "",
-            mimage: selectedEdu?.mimage || "",
 
         },
     });
 
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
+    });
 
     useEffect(() => {
         if (selectedEdu) {
@@ -39,22 +39,27 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                 modnum: selectedEdu?.modnum,
                 modtype: selectedEdu?.modtype,
                 topic: selectedEdu?.topic,
+                mimage: selectedEdu?.mimage || null,
                 modinfo: selectedEdu?.modinfo,
-                mimage: selectedEdu?.mimage,
 
             });
+
         }
     }, [selectedEdu, reset]);
 
-
     const { mutateAsync } = useMutation({ mutationFn: editEducation });
+
     const onSubmit = async (data) => {
-        console.log('data', data)
+        console.log('data', data);
+        // const formData = new FormData();
+        // formData.append("mimage", data.mimage);
+
         try {
             const res = await mutateAsync({ editEducationData: data, role: profile?.role, id: selectedEdu?.id });
             toast.success(res.data.message);
             handleNavigation('/questionary/questionnaireLists');
             reset();
+            showModalEdit(false)
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
             reset();
@@ -77,15 +82,14 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                                 </div>
                                 <div
                                     onClick={() => setShowModalEdit(false)}
-                                    className=" text-[#000] cursor-pointer"
-                                >
+                                    className=" text-[#000] cursor-pointer">
                                     <X size={32} />
                                 </div>
                             </div>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <CardBody className="space-y-1">
+                                <CardBody className="space-y-4">
 
-                                    <div>
+                                    <div >
                                         <Typography variant="small" className="mb-1">
                                             Category
                                         </Typography>
@@ -93,19 +97,70 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
 
                                     </div>
 
-
-
-                                    {/* Answer EN */}
-                                    <div>
+                                    <div >
                                         <Typography variant="small" className="mb-1">
-                                            Title
+                                            Module Type
                                         </Typography>
-                                        <Input label="" type='number' {...register("modnum", { required: true })} />
-
+                                        <Input label="" type='text' {...register("modtype", { required: true })} />
+                                    </div>
+                                    <div >
+                                        <Typography variant="small" className="mb-1">
+                                            Module Topic
+                                        </Typography>
+                                        <Input label="" type='text' {...register("topic", { required: true })} />
                                     </div>
 
 
-                                    <div className="">
+
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <Typography variant="small" className="mb-2">
+                                                    Module Image
+                                                </Typography>
+                                                <Controller
+                                                    name="mimage"
+                                                    control={control}
+                                                    defaultValue={null}
+                                                    render={({ field: { onChange } }) => (
+                                                        <>
+                                                            <Input
+                                                                type="file"
+                                                                accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                                                                onChange={(e) => {
+                                                                    const file = e.target.files[0];
+                                                                    if (file) {
+                                                                        onChange(file);
+                                                                        setPreview(URL.createObjectURL(file));
+                                                                    } else {
+                                                                        onChange(null);
+                                                                        setPreview(null);
+                                                                    }
+                                                                }}
+                                                                label="Choose File"
+                                                            />
+
+                                                        </>
+                                                    )}
+                                                />
+                                            </div>
+
+                                            {preview && (
+                                                <div className="mt-4">
+                                                    <img src={preview} alt="Preview" className="h-40 object-cover rounded-md" />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <Typography variant="small" className="mb-1">
+                                            Short Summary
+                                        </Typography>
+                                        <Textarea label="" rows={4}  {...register("modinfo", { required: true })} />
+                                    </div>
+                                    <div >
                                         <Typography variant="small" className="mb-2">
                                             Select Status
                                         </Typography>
@@ -115,11 +170,11 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                                             rules={{ required: true }}
                                             render={({ field }) => (
                                                 <div>
-                                                    <Typography variant="small" className="mb-2">Select Status</Typography>
+
                                                     <Select
                                                         label="Select Status"
-                                                        value={field.value || ""}   // bind value
-                                                        onChange={(val) => field.onChange(val)} // bind onChange
+                                                        value={field.value || ""}   
+                                                        onChange={(val) => field.onChange(val)}
                                                     >
                                                         <Option value="M1">M1</Option>
                                                         <Option value="M2">M2</Option>
@@ -130,8 +185,6 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                                             )}
                                         />
                                     </div>
-
-
                                     {/* Submit */}
                                     <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
                                         + Update Education
