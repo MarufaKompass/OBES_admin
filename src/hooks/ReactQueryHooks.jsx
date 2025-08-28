@@ -13,7 +13,6 @@ export const adminProfile = async () => {
 };
 
 
-
 //category 
 
 
@@ -44,22 +43,15 @@ export const addFaq = async ({addFaqData,role}) => {
 
 //user
 
-
-
 export const allUserView = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/users`);
   return response.data?.data;
 };
 
-
-
 export const allUserAnsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/anslistuser`);
   return response.data?.data;
 };
-
-
-
 
 //question
 
@@ -92,42 +84,32 @@ export const deleteCategory = async ({role,catid}) => {
   return response;
 };
 
-
 // Video
-
 export const videoList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/youtubelinkview`);
   return response?.data?.data;
 }
-
 
 export const addVideo = async ({addVideoData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/youtubelinkstore`, addVideoData);
   return response;
 };
 
-
 export const editVideo = async ({editVideoData,role,id}) => {
   const response = await axiosInstance.put(`/public/api/${role}/youtubelinkupdate/${id}`,editVideoData);
   return response;
 };
-
-
-
 
 export const stepsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/my7stepview`);
   return response?.data?.data;
 }
 
-
 // newsletter
-
 export const addNewsletter = async ({addNewsletterData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/newsletter`, addNewsletterData);
   return response;
 };
-
 
 export const newsletterList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/newsletterview`);
