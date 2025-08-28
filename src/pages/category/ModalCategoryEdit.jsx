@@ -1,23 +1,16 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-
 import useNavigator from '@/components/navigator/useNavigate';
+import { useMutation,useQueryClient , useQuery } from "@tanstack/react-query";
 import { adminProfile, editCategory } from "@/hooks/ReactQueryHooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
-
+import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 
 export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, selectedCategory }) {
-
-    // console.log("selectedCategory", selectedCategory)
-
     const { handleNavigation } = useNavigator();
-
-
-
+     const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
@@ -29,7 +22,6 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
         queryKey: ['profile'],
         queryFn: adminProfile
     });
-
 
 
  useEffect(() => {
@@ -45,19 +37,29 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
 
 
 
-    const { mutateAsync } = useMutation({ mutationFn: editCategory });
+    const { mutateAsync } = useMutation({
+         mutationFn: editCategory,
+         onSuccess: (res) => {
+            queryClient.invalidateQueries(["catView"]);
+
+            toast.success(res.data.message);
+            setShowModalEdit(false)
+            reset();
+
+         },
+        onError: (err) => {
+            toast.error(err?.response?.data?.message || "Update failed")
+}
+         });
 
     const onSubmit = async (data) => {
         console.log('data', data)
-        try {
-            const res = await mutateAsync({ editCategoryData: data, role: profile?.role, catid: selectedCategory?.catid });
-            toast.success(res.data.message);
-            handleNavigation('/questionary/questionnaireLists');
-            reset();
-        } catch (err) {
-            toast.error(err?.response?.data?.message || 'update failed');
-            reset();
-        }
+            await mutateAsync({ 
+            editCategoryData: data,
+            role: profile?.role,
+            catid: selectedCategory?.catid 
+        });
+
     };
 
     return (

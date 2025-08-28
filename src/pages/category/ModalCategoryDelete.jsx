@@ -18,7 +18,6 @@ export default function ModalCategoryDelete({ selectedCategory, showModalDelete,
         mutationFn: ({ role, catid }) => deleteCategory({ role, catid }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            console.log("message", data.data.message)
             queryClient.invalidateQueries(['category']);
             setShowModalDelete(false);
         },

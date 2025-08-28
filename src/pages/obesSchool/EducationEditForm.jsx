@@ -170,12 +170,10 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                                             rules={{ required: true }}
                                             render={({ field }) => (
                                                 <div>
-
                                                     <Select
                                                         label="Select Status"
                                                         value={field.value || ""}   
-                                                        onChange={(val) => field.onChange(val)}
-                                                    >
+                                                        onChange={(val) => field.onChange(val)}>
                                                         <Option value="M1">M1</Option>
                                                         <Option value="M2">M2</Option>
                                                         <Option value="M3">M3</Option>
