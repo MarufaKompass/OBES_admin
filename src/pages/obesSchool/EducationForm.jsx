@@ -35,9 +35,6 @@ export default function EducationForm() {
         formData.append("topic", data.topic);
         formData.append("mimage", data?.mimage );
         formData.append("modinfo", data?.modinfo);
-    
-        console.log("Form Data:", formData);
-        
         try {
             const res = await mutateAsync({ addEducationData: formData, role: profile?.role });
             toast.success(res.data.message);

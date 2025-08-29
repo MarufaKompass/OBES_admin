@@ -59,7 +59,7 @@ export default function AddCategories() {
             </Typography>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}  >
-            <CardBody className="space-y-6">
+            <CardBody className="space-y-6 " >
               <div className="space-y-2">
                 <Typography variant="small" color="blue-gray" className="font-medium">
                   Category Name (English)
