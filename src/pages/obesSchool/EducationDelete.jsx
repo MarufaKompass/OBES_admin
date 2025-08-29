@@ -1,12 +1,12 @@
-import React from 'react'
 import Modal from '@/components/modal/Modal';
 import { X } from "lucide-react";
-import { adminProfile, deleteCategory } from '@/hooks/ReactQueryHooks';
+import { adminProfile, deleteEducation, deleteNewsletter } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 
-export default function ModalCategoryDelete({ selectedCategory, showModalDelete, setShowModalDelete }) {
+export default function EducationDelete({ setShowModalDelete, showModalDelete, selectedEdu }) {
+  
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile
@@ -15,14 +15,14 @@ export default function ModalCategoryDelete({ selectedCategory, showModalDelete,
     const queryClient = useQueryClient();
 
     const { mutate: deleteQues } = useMutation({
-        mutationFn: ({ role, catid }) => deleteCategory({ role, catid }),
+        mutationFn: ({ role, id }) => deleteEducation({ role, id }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            queryClient.invalidateQueries(['category']);
+            queryClient.invalidateQueries(['newsletter']);
             setShowModalDelete(false);
         },
         onError: () => {
-            toast.error("Failed to delete question");
+            toast.error("Failed to delete newsletter");
         }
     });
 
@@ -47,11 +47,11 @@ export default function ModalCategoryDelete({ selectedCategory, showModalDelete,
                                 </div>
                                 <div className='text-center'>
                                     <h2 className='mt-4 text-[26px] text-[#333] font-[poppins] font-semibold'>Are You sure?</h2>
-                                    <p className='mt-4 text-[14px] text-[#595959] font-[poppins]'>Do you really want to delete these Category? This <br></br>process cannot be undone.</p>
+                                    <p className='mt-4 text-[14px] text-[#595959] font-[poppins]'>Do you really want to delete these newsletter? This <br></br>process cannot be undone.</p>
                                 </div>
                                 <div className='flex gap-3 justify-center mt-5'>
                                     <button className=' px-10 py-2 text-[#333] bg-[#f1f1f1]' onClick={() => setShowModalDelete(false)}>Cancel</button>
-                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => deleteQues({ role: profile?.role, catid: selectedCategory?.catid })}>Delete</button>
+                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => deleteQues({ role: profile?.role, id: selectedEdu?.id })}>Delete</button>
                                 </div>
                             </div>
                         </div>

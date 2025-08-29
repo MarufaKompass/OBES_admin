@@ -5,27 +5,34 @@ import { Users, Baby, Globe } from "lucide-react";
 import ModuleCard from './ModuleCard';
 export default function ObesEducation() {
   const [activeTab, setActiveTab] = useState("adult")
-    const { data: profile } = useQuery({
+  const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-const { data: eduList, isLoading } = useQuery({
-  queryKey: ['eduList', profile?.role],
-  queryFn: () => educationList(profile?.role)
-});
+  const { data: eduList, isLoading } = useQuery({
+    queryKey: ['eduList', profile?.role],
+    queryFn: () => educationList(profile?.role)
+  });
 
-const getFilteredModules = (category) => 
-  eduList?.filter((module) => module.category.toLowerCase() === category.toLowerCase());
+  const getFilteredModules = (category) =>
+    eduList?.filter((module) => {
+      const cat = module.category.toLowerCase();
+      if (category === "adult") {
+        return cat === "adult" || cat === "both"
+      }
+      if (category === "child") {
+        return cat === "child" || cat === "both"
+      }
+      return cat === "both"
+    }
+    );
 
-
- const getTabIcon = (tab) => {
+  const getTabIcon = (tab) => {
     switch (tab) {
       case "adult":
         return <Users className="w-4 h-4" />;
       case "child":
         return <Baby className="w-4 h-4" />;
-      case "both":
-        return <Globe className="w-4 h-4" />;
       default:
         return null;
     }
@@ -34,21 +41,19 @@ const getFilteredModules = (category) =>
   const tabs = [
     { key: "adult", label: "Adult", color: "blue" },
     { key: "child", label: "Child", color: "green" },
-    { key: "both", label: "Both", color: "purple" },
   ];
 
   return (
-  <div className="mx-auto p-4">
+    <div className="mx-auto p-4">
       {/* Tabs */}
-       <div className="grid grid-cols-3 mb-8 shadow-sm bg-white rounded-lg overflow-hidden">
+      <div className="grid grid-cols-2 mb-8 shadow-sm bg-white rounded-lg overflow-hidden">
         {tabs.map((tab) => (
           <button
             key={tab.key}
-            className={`flex items-center justify-center gap-2 py-3 font-medium transition-colors ${
-              activeTab === tab.key
+            className={`flex items-center justify-center gap-2 py-3 font-medium transition-colors ${activeTab === tab.key
                 ? `bg-${tab.color}-500 text-white`
                 : `bg-white text-gray-700 hover:bg-${tab.color}-100`
-            }`}
+              }`}
             onClick={() => setActiveTab(tab.key)}
           >
             {getTabIcon(tab.key)}
@@ -62,7 +67,7 @@ const getFilteredModules = (category) =>
         ))}
       </div>
     </div>
-  
+
   );
 }
 

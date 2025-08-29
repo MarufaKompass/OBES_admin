@@ -13,6 +13,7 @@ const questionTypes = [
   { qId: '2', label: 'Checkbox', value: 'checkbox' },
   { qId: '3', label: 'Radio', value: 'radio' },
   { qId: '4', label: 'Dropdown', value: 'dropdown' },
+  { qId: '5', label: 'Clock', value: 'clock' },
 ];
 const statusTypes = [
   { qId: '1', label: 'Draft', value: 'draft' },

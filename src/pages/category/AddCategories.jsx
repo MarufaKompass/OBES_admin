@@ -1,15 +1,13 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
-import { useNavigate } from 'react-router-dom';
-// import useNavigator from '@/components/navigator/useNavigate';
 import { addCategory, adminProfile } from '@/hooks/ReactQueryHooks';
+import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
 
 export default function AddCategories() {
-  // const { handleNavigation } = useNavigator();
   const {
     register,
     handleSubmit,
@@ -23,9 +21,6 @@ export default function AddCategories() {
   });
 
   const navigate = useNavigate();
-
-
-
   const { mutateAsync } = useMutation({ mutationFn: addCategory });
   const onSubmit = async (data) => {
     try {
@@ -46,8 +41,7 @@ export default function AddCategories() {
           <CardHeader
             floated={false}
             shadow={false}
-            className="flex flex-col items-center bg-transparent"
-          >
+            className="flex flex-col items-center bg-transparent">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
               <TagIcon className="h-6 w-6 text-primaryBg" />
             </div>
@@ -66,7 +60,6 @@ export default function AddCategories() {
                 </Typography>
                 <Input label="category name (English)" type="text"      {...register("catname", { required: true })} />
               </div>
-
               <div className="space-y-2">
                 <Typography variant="small" color="blue-gray" className="font-medium">
                   ক্যাটাগরি নাম (বাংলা)
@@ -74,7 +67,6 @@ export default function AddCategories() {
                 <Input label="ক্যাটাগরি নাম (বাংলা)"
                   type="text"
                   {...register("catbangla", { required: true })} />
-
               </div>
               <div className="space-y-2 hidden">
                 <Typography variant="small" color="blue-gray" className="font-medium">
@@ -85,7 +77,6 @@ export default function AddCategories() {
                     <Input label="category by" type="number" value={profile?.logmobile}  {...register("catby", { required: true })} />
                   )
                 }
-
               </div>
               <div className="flex gap-3 pt-4">
                 <Button variant="outlined" fullWidth>

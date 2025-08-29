@@ -26,7 +26,7 @@ export default function CategoriesList() {
     navigate("/dashboard/category/addCategory");
   };
 
-  const TABLE_HEAD = ["ID", "Category Name", "Category Bangla","Category By", "Action"];
+  const TABLE_HEAD = ["ID", "Category Name", "Category Bangla", "Category By", "Action"];
 
   const { data: profile, isLoading: isUserLoading, isError: isUserError, error: userError } = useQuery({
     queryKey: ['profile'],
@@ -46,27 +46,27 @@ export default function CategoriesList() {
         <CardBody className="overflow-x-auto p-4">
 
           <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">Category Lists</h2>
-              <p className="text-[16px] text-gray-500 font-poppins">
-                Find answers to common questions about our products and services.
-              </p>
-            </div>
-            <div className="flex justify-end gap-4 ">
-              <div className="relative w-full md:w-1/3">
-                <div className="absolute top-2 left-2">
-                  <Search />
-                </div>
-                <input
-                  className="border border-[#a5a5a5] w-full py-2  rounded-lg pl-10 outline-primaryBg"
-                  placeholder='search'/>
+            <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">Category Lists</h2>
+            <p className="text-[16px] text-gray-500 font-poppins">
+              Find answers to common questions about our products and services.
+            </p>
+          </div>
+          <div className="flex justify-end gap-4 ">
+            <div className="relative w-full md:w-1/3">
+              <div className="absolute top-2 left-2">
+                <Search />
               </div>
-              <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md">
-                + Add Button
-              </button>
+              <input
+                className="border border-[#a5a5a5] w-full py-2  rounded-lg pl-10 outline-primaryBg"
+                placeholder='search' />
             </div>
-            <div className="py-6">
-              <hr />
-            </div>
+            <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md">
+              + Add Button
+            </button>
+          </div>
+          <div className="py-6">
+            <hr />
+          </div>
           {isUserLoading && (
             <div className="flex justify-center items-center h-full">
               <Spinner color="blue" />
@@ -116,9 +116,9 @@ export default function CategoriesList() {
                     <td className="p-4">{cat?.catby}</td>
 
                     <td className="p-4 flex gap-2">
-                      <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfo(cat)}>
+                      {/* <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfo(cat)}>
                         <View size={22} />
-                      </div>
+                      </div> */}
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(cat)}>
                         <Pencil size={22} />
                       </div>
