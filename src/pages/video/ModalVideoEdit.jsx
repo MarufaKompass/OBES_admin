@@ -41,11 +41,11 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
     const { mutateAsync } = useMutation({ mutationFn: editVideo });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
         try {
             const res = await mutateAsync({ editVideoData: data, role: profile?.role, id: selectedVideo?.id });
             toast.success(res.data.message);
-            handleNavigation('/questionary/questionnaireLists');
+            setShowModalEdit(false)
+            handleNavigation('/dashboard/user/video');
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
