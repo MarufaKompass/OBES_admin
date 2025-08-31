@@ -118,7 +118,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
 
-                            <div className="flex gap-3 justify-between ml-6">
+                            <div className="flex gap-3 justify-between ml-6 border-b pb-3">
                                 <div className="flex gap-3 ">
                                     <Pencil size={24} color="#7B1E19" />
                                     <Typography color="#333" className=" text-xl font-bold">
@@ -333,7 +333,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
 
 
                                     <div className="flex gap-3 pt-4">
-                                        <Button variant="outlined" fullWidth onClose={() => setShowModalEdit(false)}>
+                                        <Button variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
                                             Cancel
                                         </Button>
 

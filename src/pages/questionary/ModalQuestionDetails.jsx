@@ -18,13 +18,13 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
                   <Heart className="h-3 w-3 mr-1" />
-                  {currentCategory} (ID: {selectedQuestion?.catid})
+                  {currentCategory}
                 </span>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setLanguage("en")}
                     className={`px-3 py-1 rounded text-sm border ${language === "en"
-                      ? "bg-blue-600 text-white border-blue-600"
+                      ? "bg-primaryBg text-white border-primaryBg"
                       : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >
@@ -33,7 +33,7 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
                   <button
                     onClick={() => setLanguage("bn")}
                     className={`px-3 py-1 rounded text-sm border ${language === "bn"
-                      ? "bg-blue-600 text-white border-blue-600"
+                      ? "bg-primaryBg text-white border-primaryBg"
                       : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >

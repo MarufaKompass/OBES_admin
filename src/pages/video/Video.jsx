@@ -6,20 +6,16 @@ import { useForm } from "react-hook-form";
 import { Typography, Input } from "@material-tailwind/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addVideo, adminProfile } from "@/hooks/ReactQueryHooks";
-import { Upload, Link as LinkIcon, Check, AlertCircle } from "lucide-react";
+import { Upload, Link as LinkIcon} from "lucide-react";
 
 export default function Videos() {
 
-  const { mutateAsync } = useMutation({ mutationFn: addVideo });
-
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm()
+  const { mutateAsync } = useMutation({ mutationFn: addVideo ,
+       onSuccess: () => {
+      queryClient.invalidateQueries(['videoLists']);
+    }
+  });
+  const { register,handleSubmit,reset, formState: { errors }} = useForm()
 
 
 
@@ -28,25 +24,20 @@ export default function Videos() {
     queryFn: adminProfile
   });
 
-
-
-
-
   const onSubmit = async (data) => {
     console.log('data', data)
     try {
-      const res = await mutateAsync({ addVideoData: data, role: profile?.role });
+          const res = await mutateAsync({ addVideoData: data,
+          role: profile?.role
+         });
       toast.success(res.data.message);
-      handleNavigation('/dashboard/user/video');
+      // handleNavigation('/dashboard/user/video');
       reset();
     } catch (err) {
-      // toast.error(err?.response?.data?.message || 'Video failed');
+      toast.error(err?.response?.data?.message || 'Video failed');
       reset();
     }
   };
-
-
-
   return (
     <div className="mx-auto p-6 space-y-6 bg-white mt-12">
       {/* Header */}
