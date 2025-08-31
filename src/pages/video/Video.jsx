@@ -24,20 +24,18 @@ export default function Videos() {
     queryFn: adminProfile
   });
 
-  const onSubmit = async (data) => {
-    console.log('data', data)
-    try {
-          const res = await mutateAsync({ addVideoData: data,
-          role: profile?.role
-         });
-      toast.success(res.data.message);
-      // handleNavigation('/dashboard/user/video');
-      reset();
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Video failed');
-      reset();
-    }
-  };
+const onSubmit = async (data) => {
+  console.log('data', data)
+  try {
+    const res = await mutateAsync({ addVideoData: data, role: profile?.role });
+    toast.success(res.data.message);
+    console.log(res);
+    reset();
+  } catch (err) {
+    reset();
+  }
+};
+
   return (
     <div className="mx-auto p-6 space-y-6 bg-white mt-12">
       {/* Header */}
