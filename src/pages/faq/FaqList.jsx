@@ -31,7 +31,7 @@ export default function FaqList() {
         <CardBody className="overflow-x-auto p-0">
           <div className="w-full  mx-auto   py-6">
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">Frequently Asked Questions</h2>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900 font-poppins">Frequently Asked Questions</h2>
               <p className="text-[16px] text-gray-500 font-poppins">
                 Find answers to common questions about our products and services.
               </p>

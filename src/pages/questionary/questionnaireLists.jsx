@@ -107,9 +107,9 @@ export default function QuestionnaireLists() {
                 </tr>
               </thead>
               <tbody>
-                {questionView?.map((question) => (
+                {questionView?.map((question, index) => (
                   <tr key={question?.qid} className="even:bg-blue-gray-50/50">
-                    <td className="p-4 text-[16px] ">{question?.qid}</td>
+                    <td className="p-4 text-[16px] ">{index}</td>
                     <td className="p-4 ">
                       <Typography className="text-[16px] font-semibold"> {question?.qeng?.slice(0, 65)}...</Typography>
                       <Typography className="text-[15px] font-medium">{question?.qbang?.slice(0, 65)}...</Typography>
