@@ -29,7 +29,6 @@ const onSubmit = async (data) => {
   try {
     const res = await mutateAsync({ addVideoData: data, role: profile?.role });
     toast.success(res.data.message);
-    console.log(res);
     reset();
   } catch (err) {
     reset();
@@ -37,7 +36,7 @@ const onSubmit = async (data) => {
 };
 
   return (
-    <div className="mx-auto p-6 space-y-6 bg-white mt-12">
+    <div className="mx-auto p-6 space-y-6 bg-white mt-12 rounded-lg">
       {/* Header */}
       <div className="text-center space-y-2 py-6">
         <h1 className="text-3xl font-bold">YouTube Link Upload</h1>
@@ -82,7 +81,7 @@ const onSubmit = async (data) => {
                   <Input
                     {...register("link", { required: true })}
                     type="url"
-                    label="https://www.youtube.com/embed?v=..."
+                    label="https://www.youtube.com/embed/..."
                     className="flex-1 px-3 py-2 border rounded-md "
 
                   />

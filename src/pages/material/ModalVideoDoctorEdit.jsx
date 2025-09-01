@@ -1,17 +1,18 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
 
-import useNavigator from '@/components/navigator/useNavigate';
-import { adminProfile, editVideo } from "@/hooks/ReactQueryHooks";
+
+import { adminProfile, editDoctorVideo } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
-export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, selectedVideo }) {
-   const queryClient = useQueryClient();
+export default function ModalVideoDoctorEdit({ setShowModalEdit, showModalEdit, selectedVideo }) {
+    const queryClient = useQueryClient();
+
     const {
         register,
         handleSubmit,
@@ -30,20 +31,19 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
                 title: selectedVideo.title || "",
                 description: selectedVideo.description || "",
                 link: selectedVideo.link || "",
-                
             });
         }
     }, [selectedVideo, profile, reset]);
 
 
-    const { mutateAsync } = useMutation({ mutationFn: editVideo });
+    const { mutateAsync } = useMutation({ mutationFn: editDoctorVideo });
 
     const onSubmit = async (data) => {
         try {
-            const res = await mutateAsync({ editVideoData: data, role: profile?.role, id: selectedVideo?.id });
+            const res = await mutateAsync({ editVideoDoctorData: data, role: profile?.role, id: selectedVideo?.id });
             toast.success(res.data.message);
-            setShowModalEdit(false);
-             queryClient.invalidateQueries(['videoLists']);  
+            setShowModalEdit(false)
+              queryClient.invalidateQueries(['videoDoctorLists']);
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');

@@ -89,9 +89,17 @@ export const videoList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/youtubelinkview`);
   return response?.data?.data;
 }
+export const videoDoctorList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/youtubedoctorview`);
+  return response?.data?.data;
+}
 
 export const addVideo = async ({addVideoData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/youtubelinkstore`, addVideoData);
+  return response;
+};
+export const addDoctorVideo = async ({addDoctorVideoData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/youtubedoctorstore`, addDoctorVideoData);
   return response;
 };
 
@@ -99,6 +107,21 @@ export const editVideo = async ({editVideoData,role,id}) => {
   const response = await axiosInstance.put(`/public/api/${role}/youtubelinkupdate/${id}`,editVideoData);
   return response;
 };
+export const editDoctorVideo = async ({editVideoDoctorData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/youtubedoctorupdate/${id}`,editVideoDoctorData);
+  return response;
+};
+
+export const deletedVideo = async ({role,id}) => { 
+  const response = await axiosInstance.delete(`/public/api/${role}/youtubelinkdelete/${id}`);
+  return response;
+};
+export const deletedDoctorVideo = async ({role,id}) => { 
+  const response = await axiosInstance.delete(`/public/api/${role}/youtubedoctordelete/${id}`);
+  return response;
+};
+
+// stepsList
 
 export const stepsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/my7stepview`);
@@ -196,3 +219,5 @@ export const deleteEducation = async ({role,id}) => {
   const response = await axiosInstance.delete(`/public/api/${role}/obesedudelete/${id}`);
   return response;
 };
+
+

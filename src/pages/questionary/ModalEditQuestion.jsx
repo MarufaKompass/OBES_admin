@@ -16,6 +16,7 @@ const questionTypes = [
     { qId: '2', qatype: 'Checkbox', value: 'checkbox' },
     { qId: '3', qatype: 'Radio', value: 'radio' },
     { qId: '4', qatype: 'Dropdown', value: 'dropdown' },
+    { qId: '5', qatype: 'Clock', value: 'clock' },
 ];
 const statusTypes = [
     { qId: '1', qstatus: 'Draft', value: 'draft' },
@@ -27,6 +28,7 @@ const statusTypes = [
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
     const { handleNavigation } = useNavigator();
     const [catId, setCatId] = useState("");
+    console.log("catId", catId)
     const [status, setStatus] = useState("");
     const [questionId, setQuestionId] = useState('');
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
@@ -138,7 +140,9 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             Select Category
                                         </Typography>
-                                        <select
+                                        {
+                                            catId && (
+                                         <select
                                             label="Select Category"
                                             {...register("catid", { required: true })}
                                             value={catId}
@@ -154,6 +158,9 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                 </option>
                                             ))}
                                         </select>
+                                            )
+                                        }
+                                      
                                     </div>
 
 
@@ -260,7 +267,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                             ))}
 
                                                         </>
-                                                    ) : questionId === 'input' ? (
+                                                    ) : questionId === 'input' || questionId === 'clock' ? (
                                                         <>
                                                             <div className=" grid-cols-2 gap-4 relative hidden">
                                                                 <div>
@@ -338,7 +345,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         </Button>
 
                                         <Button fullWidth type="submit" className='bg-primaryBg'>
-                                            Add Questionnaires
+                                            Update Questionnaires
                                         </Button>
                                     </div>
                                 </CardBody>
