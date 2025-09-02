@@ -5,27 +5,18 @@ import { useForm, Controller } from "react-hook-form"
 import { CardBody, Typography, Button, Input, Select, Option, Textarea } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
 import { adminProfile, editEducation } from '@/hooks/ReactQueryHooks';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function EducationEditForm({ showModalEdit, setShowModalEdit, selectedEdu }) {
     const [preview, setPreview] = useState(null);
+    const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
         reset,
         control,
         formState: { errors },
-    } = useForm({
-        defaultValues: {
-            category: selectedEdu?.category,
-            modnum: selectedEdu?.modnum,
-            modtype: selectedEdu?.modtype,
-            topic: selectedEdu?.topic,
-            mimage: selectedEdu?.mimage || null,
-            modinfo: selectedEdu?.modinfo || "",
-
-        },
-    });
+    } = useForm();
 
     const { data: profile } = useQuery({
         queryKey: ['profile'],
@@ -39,7 +30,7 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                 modnum: selectedEdu?.modnum,
                 modtype: selectedEdu?.modtype,
                 topic: selectedEdu?.topic,
-                mimage: selectedEdu?.mimage || null,
+                mimage: "",
                 modinfo: selectedEdu?.modinfo,
 
             });
@@ -57,7 +48,7 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
         try {
             const res = await mutateAsync({ editEducationData: data, role: profile?.role, id: selectedEdu?.id });
             toast.success(res.data.message);
-            handleNavigation('/questionary/questionnaireLists');
+            queryClient.invalidateQueries(['eduList']);
             reset();
             showModalEdit(false)
         } catch (err) {
@@ -172,7 +163,7 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                                                 <div>
                                                     <Select
                                                         label="Select Status"
-                                                        value={field.value || ""}   
+                                                        value={field.value || ""}
                                                         onChange={(val) => field.onChange(val)}>
                                                         <Option value="M1">M1</Option>
                                                         <Option value="M2">M2</Option>
