@@ -43,7 +43,7 @@ export default function ModalVideoDoctorEdit({ setShowModalEdit, showModalEdit, 
             const res = await mutateAsync({ editVideoDoctorData: data, role: profile?.role, id: selectedVideo?.id });
             toast.success(res.data.message);
             setShowModalEdit(false)
-              queryClient.invalidateQueries(['videoDoctorLists']);
+            queryClient.invalidateQueries(['videoDoctorLists']);
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');

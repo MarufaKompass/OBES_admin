@@ -7,7 +7,7 @@ import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
 import { adminProfile, CategoryView, editQuestion, updateNewsletter } from "@/hooks/ReactQueryHooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, selectedNewsLetterId }) {
@@ -19,7 +19,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
     const [title, setTitle] = useState('');
     const [summery, setSummery] = useState('');
     const [status, setStatus] = useState('');
-
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (selectedNewsLetterId) {
@@ -57,7 +57,9 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
         try {
             const res = await mutateAsync({ updateNewsletterData: data, role: profile?.role, id: selectedNewsLetterId?.id });
             toast.success(res.data.message);
-            handleNavigation('/questionary/questionnaireLists');
+            queryClient.invalidateQueries(['newsList']);
+            // handleNavigation('/dashboard/newsletter/newsletterLists');
+            setShowModalEdit(false)
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
@@ -73,7 +75,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
 
-                            <div className="flex gap-3 justify-between ml-6">
+                            <div className="flex gap-3 justify-between ml-6 border-b pb-3">
                                 <div className="flex gap-3 ">
                                     <Pencil size={24} color="#7B1E19" />
                                     <Typography color="#333" className=" text-xl font-bold">
@@ -88,7 +90,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                 </div>
                             </div>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <CardBody className="space-y-1">
+                                <CardBody className="space-y-3">
                                     <div className="hidden">
                                         {
                                             profile?.role && (
@@ -102,34 +104,45 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                             )
                                         }
                                     </div>
+                                    {
+                                        issueNo && (
+                                            <div>
+                                                <Typography variant="small" className="mb-1">
+                                                    Issue Number
+                                                </Typography>
+                                                <Input label="" defaultValue={issueNo} type="number" {...register("issuenumber", { required: true })} />
+                                                {errors.faqen && <p className="text-red-500 text-sm">This field is required</p>}
+                                            </div>
+                                        )
+                                    }
 
-                                    <div>
-                                        <Typography variant="small" className="mb-1">
-                                            Issue Number
-                                        </Typography>
-                                        <Input label="" defaultValue={issueNo} type="number" {...register("issuenumber", { required: true })} />
-                                        {errors.faqen && <p className="text-red-500 text-sm">This field is required</p>}
-                                    </div>
 
                                     {/* Answer EN */}
-                                    <div>
-                                        <Typography variant="small" className="mb-1">
-                                            Title
-                                        </Typography>
-                                        <Input label="" defaultValue={title} {...register("title", { required: true })} />
-                                        {errors.fansen && <p className="text-red-500 text-sm">This field is required</p>}
-                                    </div>
+                                    {title && (
+                                        <div>
+                                            <Typography variant="small" className="mb-1">
+                                                Title
+                                            </Typography>
+                                            <Input label="" defaultValue={title} {...register("title", { required: true })} />
+                                            {errors.fansen && <p className="text-red-500 text-sm">This field is required</p>}
+                                        </div>
+                                    )
+                                    }
+
 
                                     {/* FAQ BN */}
 
                                     {/* Answer BN */}
-                                    <div>
-                                        <Typography variant="small" className="mb-1">
-                                            Short Summary
-                                        </Typography>
-                                        <Textarea label="" rows={4} defaultValue={summery} {...register("short_summary", { required: true })} />
-                                        {errors.fansbn && <p className="text-red-500 text-sm">This field is required</p>}
-                                    </div>
+                                    {summery && (
+                                        <div>
+                                            <Typography variant="small" className="mb-1">
+                                                Short Summary
+                                            </Typography>
+                                            <Textarea label="" rows={4} defaultValue={summery} {...register("short_summary", { required: true })} />
+                                            {errors.fansbn && <p className="text-red-500 text-sm">This field is required</p>}
+                                        </div>
+                                    )}
+
 
                                     {/* Image Upload */}
                                     <div class="grid grid-cols-2 gap-4">
@@ -264,17 +277,20 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                             })}
                                         </Typography>
 
+                                        {/* Hidden input to store date in form */}
                                         <input
-
+                                            type="hidden"
+                                            value={new Date().toISOString().split("T")[0]} // saves YYYY-MM-DD
                                             {...register("published_date")}
                                         />
                                     </div>
 
-
                                     {/* Submit */}
-                                    <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
-                                        + Update Newsletter
-                                    </Button>
+                                    <div className='pt-4'>
+                                        <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px] ' >
+                                            + Update Newsletter
+                                        </Button>
+                                    </div>
                                 </CardBody>
                             </form>
 

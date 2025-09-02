@@ -163,6 +163,18 @@ export const addDietCharts = async ({addDietChartData,role}) => {
 };
 
 
+export const deleteDietChart = async ({role,id}) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/dietchart/${id}`);
+  return response;
+};
+
+export const editDietChart = async ({editDietData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/dietchartup/${id}`, editDietData);
+  return response;
+};
+
+
+
 //Expert
 
 export const expertsList = async (role) => {
