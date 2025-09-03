@@ -7,7 +7,7 @@ import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
 import { adminProfile, CategoryView, editQuestion } from "@/hooks/ReactQueryHooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -26,9 +26,8 @@ const statusTypes = [
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
-    const { handleNavigation } = useNavigator();
+    const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
-    console.log("catId", catId)
     const [status, setStatus] = useState("");
     const [questionId, setQuestionId] = useState('');
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
@@ -104,7 +103,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         try {
             const res = await mutateAsync({ editQuesData: data, role: profile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);
-            handleNavigation('/questionary/questionnaireLists');
+            queryClient.invalidateQueries(['newsList']);
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');

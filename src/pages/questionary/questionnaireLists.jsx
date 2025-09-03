@@ -55,7 +55,7 @@ export default function QuestionnaireLists() {
           <CardBody className="overflow-x-auto py-6">
             <div className='flex justify-between'>
               <div className="">
-                <h2 className="text-3xl font-bold mb-1 text-gray-900 font-poppins">Questionnaires  Lists</h2>
+                <h2 className="text-3xl font-bold mb-1 text-gray-900 font-poppins">Questionnaires Lists</h2>
                 <p className="text-[16px] text-gray-500 font-poppins">
                   Find answers to common questions about our products and services.
                 </p>

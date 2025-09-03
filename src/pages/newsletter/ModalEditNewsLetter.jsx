@@ -11,8 +11,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, selectedNewsLetterId }) {
-    // console.log("selectedNewsLetterId", selectedNewsLetterId)
-    const { handleNavigation } = useNavigator();
     const [pdfName, setPdfName] = useState(null);
     const [preview, setPreview] = useState(null);
     const [issueNo, setIssueNo] = useState('');
@@ -57,7 +55,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
         try {
             const res = await mutateAsync({ updateNewsletterData: data, role: profile?.role, id: selectedNewsLetterId?.id });
             toast.success(res.data.message);
-            queryClient.invalidateQueries(['newsList']);
+            queryClient.invalidateQueries(['quesView']);
             // handleNavigation('/dashboard/newsletter/newsletterLists');
             setShowModalEdit(false)
             reset();
