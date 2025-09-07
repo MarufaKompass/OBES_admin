@@ -25,46 +25,87 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
 
 
 
-    useEffect(() => {
-        if (showModalExpert && profile) {
-            reset({
-                drname: showModalExpert?.drname || "",
-                drimg: "",
-                hospital: showModalExpert?.hospital || "",
-                designation: showModalExpert?.designation || "",
-                add_desig: showModalExpert?.add_desig || "",
-                add_org: showModalExpert?.add_org || "",
-                email: showModalExpert?.email || "",
-                mobile: showModalExpert?.mobile || "",
-                status: showModalExpert?.status || "",
+    // useEffect(() => {
+    //     if (showModalExpert && profile) {
+    //         reset({
+    //             drname: showModalExpert?.drname || "",
+    //             drimg: "",
+    //             hospital: showModalExpert?.hospital || "",
+    //             designation: showModalExpert?.designation || "",
+    //             add_desig: showModalExpert?.add_desig || "",
+    //             add_org: showModalExpert?.add_org || "",
+    //             email: showModalExpert?.email || "",
+    //             mobile: showModalExpert?.mobile || "",
+    //             status: showModalExpert?.status || "",
 
-            });
+    //         });
 
-        }
-    }, [showModalExpert, profile, reset]);
-
-
+    //     }
+    // }, [showModalExpert, profile, reset]);
 
 
-    const { mutateAsync } = useMutation({ mutationFn: editExpert });
+
+
+     const { mutateAsync } = useMutation({ mutationFn: editExpert });
+
+    // const onSubmit = async (data) => {
+    //     console.log("data", data);
+    //     try {
+    //         const res = await mutateAsync({
+    //             editExpertData: data,
+    //             role: profile?.role,
+    //             id: showModalExpert?.id
+    //         });
+    //         toast.success(res.data.message);
+    //         handleNavigation('/dashboard/experts/expertsList');
+    //         queryClient.invalidateQueries(['experts']);
+    //         setShowModalEdit(false)
+    //         reset();
+    //     } catch (err) {
+    //         toast.error(err?.response?.data?.message || 'update failed');
+    //         reset();
+    //     }
+    // };
+
 
     const onSubmit = async (data) => {
-        try {
-            const res = await mutateAsync({
-                editExpertData: data,
-                role: profile?.role,
-                id: showModalExpert?.id
-            });
-            toast.success(res.data.message);
-            handleNavigation('/dashboard/experts/expertsList');
-            queryClient.invalidateQueries(['experts']);
-            setShowModalEdit(false)
-            reset();
-        } catch (err) {
-            toast.error(err?.response?.data?.message || 'update failed');
-            reset();
-        }
-    };
+    console.log("data before FormData:", data);
+
+    const formData = new FormData();
+    formData.append("drname", data.drname);
+    formData.append("hospital", data.hospital);
+    formData.append("designation", data.designation);
+    formData.append("add_desig", data.add_desig);
+    formData.append("add_org", data.add_org);
+    formData.append("email", data.email);
+    formData.append("mobile", data.mobile);
+    formData.append("status", data.status);
+
+    if (data.drimg instanceof File) {
+        formData.append("drimg", data.drimg);
+    }
+
+    try {
+        const res = await mutateAsync({
+            editExpertData: formData,   // ✅ send FormData
+            role: profile?.role,
+            id: showModalExpert?.id
+        });
+
+        toast.success(res.data.message);
+        // handleNavigation('/dashboard/experts/expertsList');
+        queryClient.invalidateQueries(['experts']);
+        setShowModalEdit(false);
+        reset();
+    } catch (err) {
+        toast.error(err?.response?.data?.message || 'update failed');
+        reset();
+    }
+};
+
+
+
+
 
     return (
         <>

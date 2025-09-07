@@ -189,13 +189,13 @@ export const addExpertsList = async ({addExpertsData,role}) => {
 };
 
 export const editExpert = async ({editExpertData,role,id}) => {
-  const response = await axiosInstance.put(`/public/api/${role}/expert/${id}`, editExpertData);
+  const response = await axiosInstance.put(`/public/api/${role}/expertup/${id}`, editExpertData);
   return response;
 };
 
 
 export const deleteExpert = async ({role,id}) => {
-  const response = await axiosInstance.delete(`/public/api/${role}/expert/${id}`);
+  const response = await axiosInstance.delete(`/public/api/${role}/expertdel/${id}`);
   return response;
 };
 

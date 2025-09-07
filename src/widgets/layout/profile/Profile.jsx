@@ -4,7 +4,7 @@ import Modal from '../../../components/modal/ProfileModal';
 import useNavigator from '@/components/navigator/useNavigate';
 
 export default function Profile({ profile }) {
-  console.log("profile", profile)
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
