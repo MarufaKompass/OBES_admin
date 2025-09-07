@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, showModalExpert }) {
     const queryClient = useQueryClient();
     const [preview, setPreview] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
     const { handleNavigation } = useNavigator();
     const { register, handleSubmit, reset, control, formState: { errors } } = useForm()
 
@@ -22,55 +23,72 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
     });
 
 
-
-useEffect(() => {
-    if (showModalExpert && profile) {
-        reset({
-            drname: showModalExpert?.drname || "",
-            drimg: "",
-            hospital: showModalExpert?.hospital || "",
-            designation: showModalExpert?.designation || "",
-            add_desig: showModalExpert?.add_desig || "",
-            add_org: showModalExpert?.add_org || "",
-            email: showModalExpert?.email || "",
-            mobile: showModalExpert?.mobile || "",
-            status: showModalExpert?.status || "",
-        });
-        
-        // Set existing image preview if available
-        if (showModalExpert?.drimg) {
-            setPreview(null); // Assuming this is the image URL
-        } else {
-            setPreview(null);
+ useEffect(() => {
+        if (showModalExpert && profile) {
+            reset({
+                drname: showModalExpert?.drname || "",
+                hospital: showModalExpert?.hospital || "",
+                designation: showModalExpert?.designation || "",
+                add_desig: showModalExpert?.add_desig || "",
+                add_org: showModalExpert?.add_org || "",
+                email: showModalExpert?.email || "",
+                mobile: showModalExpert?.mobile || "",
+                status: showModalExpert?.status || "",
+            });
+            // Reset file state
+            setSelectedFile(null);
+            setPreview(showModalExpert?.drimg || null);
         }
-    }
-}, [showModalExpert, profile, reset]);
+    }, [showModalExpert, profile, reset]);
 
 
 
      const { mutateAsync } = useMutation({ mutationFn: editExpert });
 
-    const onSubmit = async (data) => {
-        console.log("data", data);
-         console.log("4. drimg type:", typeof data.drimg);
+   const onSubmit = async (data) => {
+        console.log("Form data:", data);
+        console.log("Selected file:", selectedFile);
+        
         try {
+            const formData = new FormData();
+            
+            // Add all form fields
+            Object.keys(data).forEach(key => {
+                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                    formData.append(key, data[key]);
+                }
+            });
+            
+            // Add file manually from state (not from form data)
+            if (selectedFile) {
+                console.log("Adding file to FormData:", selectedFile.name);
+                formData.append('drimg', selectedFile);
+            }
+
+            // Debug FormData
+            console.log("FormData entries:");
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}:`, value instanceof File ? `File(${value.name})` : value);
+            }
+
             const res = await mutateAsync({
-                editExpertData: data,
+                editExpertData: formData,
                 role: profile?.role,
                 id: showModalExpert?.id
             });
+            
             toast.success(res.data.message);
             handleNavigation('/dashboard/experts/expertsList');
             queryClient.invalidateQueries(['experts']);
-            setShowModalEdit(false)
+            setShowModalEdit(false);
             reset();
+            setSelectedFile(null);
+            setPreview(null);
         } catch (err) {
+            console.error("Error:", err);
             toast.error(err?.response?.data?.message || 'update failed');
-            reset();
         }
     };
-
-
 
 
     return (
