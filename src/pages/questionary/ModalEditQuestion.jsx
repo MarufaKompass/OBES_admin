@@ -24,7 +24,7 @@ const statusTypes = [
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
-    console.log("selectedQuestion", selectedQuestion)
+    // console.log("selectedQuestion", selectedQuestion)
     const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
     const [status, setStatus] = useState("");
