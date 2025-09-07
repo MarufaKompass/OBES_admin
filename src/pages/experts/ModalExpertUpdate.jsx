@@ -16,8 +16,6 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
     const { handleNavigation } = useNavigator();
     const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm()
 
-
-
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile
