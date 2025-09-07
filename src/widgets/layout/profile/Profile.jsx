@@ -4,6 +4,7 @@ import Modal from '../../../components/modal/ProfileModal';
 import useNavigator from '@/components/navigator/useNavigate';
 
 export default function Profile({ profile }) {
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -36,10 +37,10 @@ export default function Profile({ profile }) {
 
         <button
           onClick={() => setOpen(!open)}
-          className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300 focus:outline-none"
+          className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300 focus:outline-none md:mr-6 mr-0"
         >
           <img
-            src="https://i.pravatar.cc/150?img=3"
+            src={profile?.imgpath}
             alt="User Avatar"
             className="w-full h-full object-cover"
           />

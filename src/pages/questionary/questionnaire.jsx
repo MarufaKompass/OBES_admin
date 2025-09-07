@@ -221,9 +221,9 @@ export default function Questionnaire() {
                         ))}
 
                       </>
-                    ) : questionId === 'input' ? (
+                    ) : questionId === 'input' || questionId === 'clock' ? (
                       <>
-                        {/* <div className="grid grid-cols-2 gap-4 relative">
+                        <div className=" grid-cols-2 gap-4 relative hidden">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               Option (English)
@@ -246,7 +246,7 @@ export default function Questionnaire() {
                               placeholder="বাংলা অপশন লিখুন"
                             />
                           </div>
-                        </div> */}
+                        </div>
                       </>
                     ) : questionId === 'clock' ?(
                       <></>

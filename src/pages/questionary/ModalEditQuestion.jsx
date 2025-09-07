@@ -2,12 +2,10 @@ import { toast } from 'react-toastify';
 import React, { useEffect, useState } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
+import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-
-import useNavigator from '@/components/navigator/useNavigate';
 import { adminProfile, CategoryView, editQuestion } from "@/hooks/ReactQueryHooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -16,6 +14,7 @@ const questionTypes = [
     { qId: '2', qatype: 'Checkbox', value: 'checkbox' },
     { qId: '3', qatype: 'Radio', value: 'radio' },
     { qId: '4', qatype: 'Dropdown', value: 'dropdown' },
+    { qId: '5', qatype: 'Clock', value: 'clock' },
 ];
 const statusTypes = [
     { qId: '1', qstatus: 'Draft', value: 'draft' },
@@ -25,9 +24,12 @@ const statusTypes = [
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
-    const { handleNavigation } = useNavigator();
+    // console.log("selectedQuestion", selectedQuestion)
+    const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
     const [status, setStatus] = useState("");
+    const [quesEng, setQuesEng] = useState("");
+    const [quesBangla, setQuesBangla] = useState("");
     const [questionId, setQuestionId] = useState('');
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
 
@@ -40,6 +42,20 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
             setCatId(selectedQuestion?.catid);
             setStatus(selectedQuestion?.qstatus);
             setQuestionId(selectedQuestion?.qatype);
+            setQuesEng(selectedQuestion?.qeng);
+            setQuesBangla(selectedQuestion?.qbang);
+
+            // reset form values dynamically
+            reset({
+                catid: selectedQuestion?.catid || "",
+                qstatus: selectedQuestion?.qstatus || "",
+                qatype: selectedQuestion?.qatype || "",
+                qeng: selectedQuestion?.qeng || "",
+                qbang: selectedQuestion?.qbang || "",
+                qaoptioneng: selectedQuestion?.qaoptioneng || [""],
+                qaoptionbng: selectedQuestion?.qaoptionbng || [""],
+            });
+
             if (selectedQuestion?.qaoptioneng && selectedQuestion?.qaoptionbng) {
                 const engOptions = selectedQuestion?.qaoptioneng;
                 const bngOptions = selectedQuestion?.qaoptionbng;
@@ -54,8 +70,8 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                 setOptions([{ qaoptioneng: "", qaoptionbng: "" }]);
             }
         }
-
     }, [selectedQuestion]);
+
 
 
     const removeOption = (index) => {
@@ -74,6 +90,12 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const selectQuestionId = (e) => {
         setQuestionId(e.target.value)
     }
+    // const selectQuestionEng = (e) => {
+    //     setQuesEng(e.target.value)
+    // }
+    // const selectQuestionBangla = (e) => {
+    //     setQuesBangla(e.target.value)
+    // }
 
     const {
         register,
@@ -102,7 +124,8 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         try {
             const res = await mutateAsync({ editQuesData: data, role: profile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);
-            handleNavigation('/questionary/questionnaireLists');
+            queryClient.invalidateQueries(['quesView']);
+            setShowModalEdit(false)
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
@@ -118,7 +141,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
 
-                            <div className="flex gap-3 justify-between ml-6">
+                            <div className="flex gap-3 justify-between ml-6 border-b pb-3">
                                 <div className="flex gap-3 ">
                                     <Pencil size={24} color="#7B1E19" />
                                     <Typography color="#333" className=" text-xl font-bold">
@@ -138,22 +161,27 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             Select Category
                                         </Typography>
-                                        <select
-                                            label="Select Category"
-                                            {...register("catid", { required: true })}
-                                            value={catId}
-                                            onChange={categoryId}
-                                            className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                        >
-                                            <option value="">
-                                                -- Select Category --
-                                            </option>
-                                            {catView?.map((category) => (
-                                                <option key={category?.catid} value={category?.catid} >
-                                                    {category?.catname}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        {
+                                            catId && (
+                                                <select
+                                                    label="Select Category"
+                                                    {...register("catid", { required: true })}
+                                                    value={catId}
+                                                    onChange={categoryId}
+                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
+                                                >
+                                                    <option value="">
+                                                        -- Select Category --
+                                                    </option>
+                                                    {catView?.map((category) => (
+                                                        <option key={category?.catid} value={category?.catid} >
+                                                            {category?.catname}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            )
+                                        }
+
                                     </div>
 
 
@@ -161,14 +189,17 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             Question (English)
                                         </Typography>
-                                        <Input label="Question English" type="text" defaultValue={selectedQuestion?.qeng}   {...register("qeng", { required: true })} />
+                                        <Input label="Question English" type="text"  {...register("qeng", { required: true })} />
                                     </div>
+
                                     <div className="space-y-2">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             প্রশ্ন (বাংলা)
                                         </Typography>
-                                        <Input label="প্রশ্ন বাংলা" type="text" defaultValue={selectedQuestion?.qbang}   {...register("qbang", { required: true })} />
+                                        <Input label="প্রশ্ন বাংলা" type="text"    {...register("qbang", { required: true })} />
                                     </div>
+
+
 
                                     <div className="space-y-2">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
@@ -260,7 +291,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                             ))}
 
                                                         </>
-                                                    ) : questionId === 'input' ? (
+                                                    ) : questionId === 'input' || questionId === 'clock' ? (
                                                         <>
                                                             <div className=" grid-cols-2 gap-4 relative hidden">
                                                                 <div>
@@ -333,12 +364,12 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
 
 
                                     <div className="flex gap-3 pt-4">
-                                        <Button variant="outlined" fullWidth onClose={() => setShowModalEdit(false)}>
+                                        <Button variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
                                             Cancel
                                         </Button>
 
                                         <Button fullWidth type="submit" className='bg-primaryBg'>
-                                            Add Questionnaires
+                                            Update Questionnaires
                                         </Button>
                                     </div>
                                 </CardBody>

@@ -6,20 +6,16 @@ import { useForm } from "react-hook-form";
 import { Typography, Input } from "@material-tailwind/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addVideo, adminProfile } from "@/hooks/ReactQueryHooks";
-import { Upload, Link as LinkIcon, Check, AlertCircle } from "lucide-react";
+import { Upload, Link as LinkIcon} from "lucide-react";
 
 export default function Videos() {
 
-  const { mutateAsync } = useMutation({ mutationFn: addVideo });
-
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm()
+  const { mutateAsync } = useMutation({ mutationFn: addVideo ,
+       onSuccess: () => {
+      queryClient.invalidateQueries(['videoLists']);
+    }
+  });
+  const { register,handleSubmit,reset, formState: { errors }} = useForm()
 
 
 
@@ -28,27 +24,19 @@ export default function Videos() {
     queryFn: adminProfile
   });
 
-
-
-
-
-  const onSubmit = async (data) => {
-    console.log('data', data)
-    try {
-      const res = await mutateAsync({ addVideoData: data, role: profile?.role });
-      toast.success(res.data.message);
-      handleNavigation('/dashboard/user/video');
-      reset();
-    } catch (err) {
-      // toast.error(err?.response?.data?.message || 'Video failed');
-      reset();
-    }
-  };
-
-
+const onSubmit = async (data) => {
+  console.log('data', data)
+  try {
+    const res = await mutateAsync({ addVideoData: data, role: profile?.role });
+    toast.success(res.data.message);
+    reset();
+  } catch (err) {
+    reset();
+  }
+};
 
   return (
-    <div className="mx-auto p-6 space-y-6 bg-white mt-12">
+    <div className="mx-auto p-6 space-y-6 bg-white mt-12 rounded-lg">
       {/* Header */}
       <div className="text-center space-y-2 py-6">
         <h1 className="text-3xl font-bold">YouTube Link Upload</h1>
@@ -93,7 +81,7 @@ export default function Videos() {
                   <Input
                     {...register("link", { required: true })}
                     type="url"
-                    label="https://www.youtube.com/embed?v=..."
+                    label="https://www.youtube.com/embed/..."
                     className="flex-1 px-3 py-2 border rounded-md "
 
                   />

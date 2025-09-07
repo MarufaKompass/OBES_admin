@@ -18,7 +18,6 @@ export default function ModalExpertDelete({ showModalExpert, showModalDelete, se
         mutationFn: ({ role, id }) => deleteExpert({ role, id }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            console.log("message", data.data.message)
             queryClient.invalidateQueries(['expert']);
             setShowModalDelete(false);
         },

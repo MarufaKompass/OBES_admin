@@ -1,28 +1,28 @@
 import React from 'react'
 import Modal from '@/components/modal/Modal';
 import { X } from "lucide-react";
-import { adminProfile, deleteNewsletter } from '@/hooks/ReactQueryHooks';
+import { adminProfile, deletedDoctorVideo } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 
-export default function ModalDeleteNewsletter({ selectedNewsLetterId, showModalDelete, setShowModalDelete }) {
+export default function ModalVideoDoctorDelete({ selectedVideo, showModalDelete, setShowModalDelete }) {
+    // console.log("selectedVideo", selectedVideo)
+    const queryClient = useQueryClient();
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile
     });
 
-    const queryClient = useQueryClient();
-
-    const { mutate: deleteQues } = useMutation({
-        mutationFn: ({ role, id }) => deleteNewsletter({ role, id }),
+    const { mutate: videoDelete } = useMutation({
+        mutationFn: ({ role, id }) => deletedDoctorVideo({ role, id }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            queryClient.invalidateQueries(['newsletter']);
+            queryClient.invalidateQueries(['videoDoctorLists']);
             setShowModalDelete(false);
         },
         onError: () => {
-            toast.error("Failed to delete newsletter");
+            toast.error("Failed to delete question");
         }
     });
 
@@ -47,11 +47,11 @@ export default function ModalDeleteNewsletter({ selectedNewsLetterId, showModalD
                                 </div>
                                 <div className='text-center'>
                                     <h2 className='mt-4 text-[26px] text-[#333] font-[poppins] font-semibold'>Are You sure?</h2>
-                                    <p className='mt-4 text-[14px] text-[#595959] font-[poppins]'>Do you really want to delete these newsletter? This <br></br>process cannot be undone.</p>
+                                    <p className='mt-4 text-[14px] text-[#595959] font-[poppins]'>Do you really want to delete these Question? This <br></br>process cannot be undone.</p>
                                 </div>
                                 <div className='flex gap-3 justify-center mt-5'>
                                     <button className=' px-10 py-2 text-[#333] bg-[#f1f1f1]' onClick={() => setShowModalDelete(false)}>Cancel</button>
-                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => deleteQues({ role: profile?.role, id: selectedNewsLetterId?.id })}>Delete</button>
+                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => videoDelete({ role: profile?.role, id: selectedVideo?.id })}>Delete</button>
                                 </div>
                             </div>
                         </div>

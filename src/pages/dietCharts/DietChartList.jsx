@@ -2,17 +2,24 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody } from "@material-tailwind/react";
 import { adminProfile, dietChartsList, FaqView } from '@/hooks/ReactQueryHooks';
-import { useNavigate } from "react-router-dom";
-import { Clock, Coffee, Sun, Utensils, Moon, Milk } from "lucide-react";
+import { Clock, Coffee, Sun, Utensils, Moon, Milk, Trash, SquarePen } from "lucide-react";
 import MealSection from './MealSection';
+import ModalDeleteChart from './ModalDeleteChart';
+import ModalEditChart from './ModalEditChart';
 
 export default function DietChartList() {
   const [language, setLanguage] = useState("en")
-  const navigate = useNavigate();
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [selectedDietData, setSelectedDietData] = useState(null);
 
-
-  const handleAddClick = () => {
-    navigate("/dashboard/dietChart/addDietChart");
+    const handleShowingInfoDelete = (diet) => {
+    setSelectedDietData(diet);
+    setShowModalDelete(true);
+  };
+    const handleShowingInfoEdit = (diet) => {
+    setSelectedDietData(diet);
+    setShowModalEdit(true);
   };
 
   const { data: profile } = useQuery({
@@ -26,16 +33,13 @@ export default function DietChartList() {
   });
 
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  }
-
-
-
+  // const formatDate = (dateString) => {
+  //   return new Date(dateString).toLocaleDateString("en-US", {
+  //     year: "numeric",
+  //     month: "short",
+  //     day: "numeric",
+  //   })
+  // }
 
   return (
     <>
@@ -43,7 +47,7 @@ export default function DietChartList() {
       <Card className="mt-8 px-4">
         <CardBody className="overflow-x-auto p-0">
           <div className="min-h-screen p-4">
-            <div className="max-w-7xl mx-auto space-y-6">
+            <div className=" mx-auto space-y-6">
               {/* Header */}
               <div className="text-center space-y-4">
                 <h1 className="text-4xl font-bold text-gray-900">{language === "bn" ? "ডায়েট চার্ট" : "Diet Charts"}</h1>
@@ -63,7 +67,7 @@ export default function DietChartList() {
                         }`}
                       onClick={() => setLanguage("en")}
                     >
-                      English
+                      En
                     </button>
                     <button
                       className={`px-4 py-2 text-sm font-medium ${language === "bn"
@@ -72,30 +76,39 @@ export default function DietChartList() {
                         }`}
                       onClick={() => setLanguage("bn")}
                     >
-                      বাংলা
+                      {/* বাংলা */}
+                      Bn
                     </button>
                   </div>
                 </div>
               </div>
 
               {/* Diet Plan Cards */}
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mt-4">
                 {dietChart?.map((diet) => (
                   <div key={diet.id} className="rounded-lg overflow-hidden border bg-white shadow hover:shadow-lg transition-shadow duration-300">
                     <div className="bg-gradient-to-r from-primaryBg to-[#6b211d] p-4 text-white">
                       <div className="flex items-center justify-between">
                         <div>
-                          {/* <h2 className="text-xl font-semibold">
-                            {language === "bn" ? "প্ল্যান" : "Plan"} #{diet.id}
-                          </h2> */}
+                          {/* <div>
                           <p className="text-sm">
-                            {language === "bn" ? "তৈরি" : "Created"}: {formatDate(diet.created_at)}
+                            {language === "bn" ? "তৈরি" : "Created"} : {formatDate(diet.created_at)}
                           </p>
+                        </div> */}
+                          <span className="inline-flex items-center gap-1 bg-white/20 text-sm text-white px-2 py-1 rounded-md border border-white/30 mt-1">
+                            <Clock className="h-3 w-3" />
+                            {language === "bn" ? diet.calorybn : `${diet.caloryen}`} {language === "bn" ? "ক্যালোরি" : "cal"}
+                          </span>
                         </div>
-                        <span className="inline-flex items-center gap-1 bg-white/20 text-sm text-white px-2 py-1 rounded-md border border-white/30">
-                          <Clock className="h-3 w-3" />
-                          {language === "bn" ? diet.calorybn : `${diet.caloryen}`} {language === "bn" ? "ক্যালোরি" : "cal"}
-                        </span>
+
+                        <div className='flex gap-2'>
+                          <span className="inline-flex items-center gap-1 bg-white/20 text-sm text-white px-2 py-1 rounded-md border border-white/30 mt-1">
+                            <SquarePen className="h-5 w-5" onClick={() => handleShowingInfoEdit(diet)}/>
+                          </span>
+                          <span className="inline-flex items-center gap-1 bg-white/20 text-sm text-white px-2 py-1 rounded-md border border-white/30 mt-1">
+                            <Trash className="h-5 w-5" onClick={() => handleShowingInfoDelete(diet)} />
+                          </span>
+                        </div>
                       </div>
                     </div>
 
@@ -168,7 +181,6 @@ export default function DietChartList() {
                   </div>
                 ))}
               </div>
-
               {/* Footer */}
               <div className="text-center py-8">
                 <p className="text-sm text-gray-500">
@@ -178,6 +190,10 @@ export default function DietChartList() {
             </div>
           </div>
         </CardBody>
-      </Card></>
+      </Card>
+
+      <ModalDeleteChart showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} selectedDietData={selectedDietData}></ModalDeleteChart>
+      <ModalEditChart setShowModalEdit={setShowModalEdit} showModalEdit={showModalEdit} selectedDietData={selectedDietData}></ModalEditChart>
+    </>
   )
 }

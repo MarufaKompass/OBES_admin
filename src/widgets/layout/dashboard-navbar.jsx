@@ -6,21 +6,12 @@ import {
   IconButton,
   Breadcrumbs,
   Input,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
 } from "@material-tailwind/react";
 import {
   UserCircleIcon,
-  Cog6ToothIcon,
-  BellIcon,
-  ClockIcon,
-  CreditCardIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
-import { useMaterialTailwindController, setOpenConfigurator, setOpenSidenav } from "@/context";
+import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 import { useQuery } from "@tanstack/react-query";
 
 import { adminProfile } from "@/hooks/ReactQueryHooks";
@@ -43,13 +34,13 @@ export function DashboardNavbar() {
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}
       className={`rounded-xl transition-all ${fixedNavbar
-          ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
-          : "px-0 py-1"
+        ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
+        : "px-0 py-1"
         }`}
       fullWidth
       blurred={fixedNavbar}
     >
-      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
+      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center md:ml-6 ml-0">
         <div className="capitalize">
           <Breadcrumbs
             className={`bg-transparent p-0 transition-all ${fixedNavbar ? "mt-1" : ""
@@ -57,7 +48,7 @@ export function DashboardNavbar() {
           >
             <Link to={`/${layout}`}>
               <Typography
-                variant="small"
+                variant="medium"
                 color="blue-gray"
                 className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
               >
@@ -65,21 +56,21 @@ export function DashboardNavbar() {
               </Typography>
             </Link>
             <Typography
-              variant="small"
+              variant="medium"
               color="blue-gray"
               className="font-normal"
             >
               {page}
             </Typography>
           </Breadcrumbs>
-          <Typography variant="h6" color="blue-gray">
+          {/* <Typography variant="h6" color="blue-gray">
             {page}
-          </Typography>
+          </Typography> */}
         </div>
         <div className="flex items-center">
-          <div className="mr-auto md:mr-4 md:w-56">
+          {/* <div className="mr-auto md:mr-4 md:w-56">
             <Input label="Search" />
-          </div>
+          </div> */}
           <IconButton
             variant="text"
             color="blue-gray"
@@ -115,7 +106,7 @@ export function DashboardNavbar() {
                 </Link>
               )
           }
-          <Menu>
+          {/* <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">
                 <BellIcon className="h-5 w-5 text-blue-gray-500" />
@@ -192,14 +183,18 @@ export function DashboardNavbar() {
                 </div>
               </MenuItem>
             </MenuList>
-          </Menu>
+          </Menu> */}
+
+
+
+          {/* 
           <IconButton
             variant="text"
             color="blue-gray"
             onClick={() => setOpenConfigurator(dispatch, true)}
           >
             <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
     </Navbar>

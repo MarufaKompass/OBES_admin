@@ -134,7 +134,7 @@ export default function AddNewsLetter() {
                                                 required: "Image is required",
                                                 validate: {
                                                     isImage: (file) => {
-                                                        if (!file) return true; // Skip if no file (handled by required)
+                                                        if (!file) return true;
                                                         const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
                                                         return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
                                                     }
@@ -207,9 +207,9 @@ export default function AddNewsLetter() {
                                                         }}
                                                     />
                                                     {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                                                    {pdfName && (
+                                                    {/* {pdfName && (
                                                         <p className="mt-2 text-sm text-gray-700">Selected PDF: {pdfName}</p>
-                                                    )}
+                                                    )} */}
                                                 </>
                                             )}
                                         />
@@ -238,7 +238,7 @@ export default function AddNewsLetter() {
                             )}
                         </div>
 
-                        <div>
+                        <div className='hidden'>
                             <Typography variant="h6" className="mb-4">
                                 Today's Date
                             </Typography>

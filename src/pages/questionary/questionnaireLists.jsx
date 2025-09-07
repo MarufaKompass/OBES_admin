@@ -38,7 +38,7 @@ export default function QuestionnaireLists() {
   };
 
 
-  const { data:profile } = useQuery({
+  const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile
   });
@@ -53,15 +53,21 @@ export default function QuestionnaireLists() {
       <div className="p-6">
         <Card>
           <CardBody className="overflow-x-auto py-6">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">Questionnaires  Lists</h2>
-              <p className="text-[16px] text-gray-500 font-poppins">
-                Find answers to common questions about our products and services.
-              </p>
-            </div>
+            <div className='flex justify-between'>
+              <div className="">
+                <h2 className="text-3xl font-bold mb-1 text-gray-900 font-poppins">Questionnaires Lists</h2>
+                <p className="text-[16px] text-gray-500 font-poppins">
+                  Find answers to common questions about our products and services.
+                </p>
+              </div>
 
-            <div className="flex justify-end gap-4 ">
-              <div className="relative w-full md:w-1/3">
+
+              <div className="flex items-center gap-4 ">
+                <div >
+                  <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 py-2 rounded-md">
+                    + Add Button
+                  </button>
+                  {/* <div className="relative w-full w-100">
                 <div className="absolute top-2 left-2">
                   <Search />
                 </div>
@@ -70,9 +76,10 @@ export default function QuestionnaireLists() {
                   placeholder='search' />
 
               </div>
-              <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md">
-                + Add Button
-              </button>
+            */}
+                </div>
+
+              </div>
             </div>
 
             <div className="py-6">
@@ -100,9 +107,9 @@ export default function QuestionnaireLists() {
                 </tr>
               </thead>
               <tbody>
-                {questionView?.map((question) => (
+                {questionView?.map((question, index) => (
                   <tr key={question?.qid} className="even:bg-blue-gray-50/50">
-                    <td className="p-4 text-[16px] ">{question?.qid}</td>
+                    <td className="p-4 text-[16px] ">{index}</td>
                     <td className="p-4 ">
                       <Typography className="text-[16px] font-semibold"> {question?.qeng?.slice(0, 65)}...</Typography>
                       <Typography className="text-[15px] font-medium">{question?.qbang?.slice(0, 65)}...</Typography>

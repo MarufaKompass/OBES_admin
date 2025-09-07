@@ -104,6 +104,9 @@ export default function EducationForm() {
                         </div>
 
                         <div>
+                              <Typography variant="small" className="mb-2">
+                                Topic
+                            </Typography>
                             <Input label="Topic" type="text"  {...register("topic", { required: true })} />
                         </div>
                         {/* Image Upload */}

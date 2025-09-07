@@ -89,9 +89,17 @@ export const videoList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/youtubelinkview`);
   return response?.data?.data;
 }
+export const videoDoctorList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/youtubedoctorview`);
+  return response?.data?.data;
+}
 
 export const addVideo = async ({addVideoData,role}) => {
   const response = await axiosInstance.post(`/public/api/${role}/youtubelinkstore`, addVideoData);
+  return response;
+};
+export const addDoctorVideo = async ({addDoctorVideoData,role}) => {
+  const response = await axiosInstance.post(`/public/api/${role}/youtubedoctorstore`, addDoctorVideoData);
   return response;
 };
 
@@ -99,6 +107,21 @@ export const editVideo = async ({editVideoData,role,id}) => {
   const response = await axiosInstance.put(`/public/api/${role}/youtubelinkupdate/${id}`,editVideoData);
   return response;
 };
+export const editDoctorVideo = async ({editVideoDoctorData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/youtubedoctorupdate/${id}`,editVideoDoctorData);
+  return response;
+};
+
+export const deletedVideo = async ({role,id}) => { 
+  const response = await axiosInstance.delete(`/public/api/${role}/youtubelinkdelete/${id}`);
+  return response;
+};
+export const deletedDoctorVideo = async ({role,id}) => { 
+  const response = await axiosInstance.delete(`/public/api/${role}/youtubedoctordelete/${id}`);
+  return response;
+};
+
+// stepsList
 
 export const stepsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/my7stepview`);
@@ -140,6 +163,18 @@ export const addDietCharts = async ({addDietChartData,role}) => {
 };
 
 
+export const deleteDietChart = async ({role,id}) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/dietchart/${id}`);
+  return response;
+};
+
+export const editDietChart = async ({editDietData,role,id}) => {
+  const response = await axiosInstance.put(`/public/api/${role}/dietchartup/${id}`, editDietData);
+  return response;
+};
+
+
+
 //Expert
 
 export const expertsList = async (role) => {
@@ -154,13 +189,15 @@ export const addExpertsList = async ({addExpertsData,role}) => {
 };
 
 export const editExpert = async ({editExpertData,role,id}) => {
-  const response = await axiosInstance.put(`/public/api/${role}/expert/${id}`, editExpertData);
+  const response = await axiosInstance.put(`/public/api/${role}/expertup/${id}`, editExpertData);
   return response;
 };
 
 
+
+
 export const deleteExpert = async ({role,id}) => {
-  const response = await axiosInstance.delete(`/public/api/${role}/expert/${id}`);
+  const response = await axiosInstance.delete(`/public/api/${role}/expertdel/${id}`);
   return response;
 };
 
@@ -196,3 +233,5 @@ export const deleteEducation = async ({role,id}) => {
   const response = await axiosInstance.delete(`/public/api/${role}/obesedudelete/${id}`);
   return response;
 };
+
+

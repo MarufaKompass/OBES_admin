@@ -1,12 +1,12 @@
-import { adminProfile, videoList } from '@/hooks/ReactQueryHooks';
+import { adminProfile, videoDoctorList } from '@/hooks/ReactQueryHooks';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Pencil, Upload,Trash2 } from 'lucide-react';
-import ModalVideoEdit from './ModalVideoEdit';
-import ModalVideoDelete from './ModalVideoDelete';
+import ModalVideoDoctorDelete from './ModalVideoDoctorDelete';
+import ModalVideoDoctorEdit from './ModalVideoDoctorEdit';
 
-export default function VideoList() {
-  const [selectedVideo, setSelectedVideo] = useState(null);
+export default function ListsVideo() {
+ const [selectedVideo, setSelectedVideo] = useState(null);
   const [showModalEdit, setShowModalEdit] = useState(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
@@ -27,26 +27,25 @@ export default function VideoList() {
     queryFn: adminProfile,
   });
 
-  const { data: videoLists } = useQuery({
-    queryKey: ['videoLists', profile?.role],
-    queryFn: () => videoList(profile?.role),
+  const { data: videoDoctorLists } = useQuery({
+    queryKey: ['videoDoctorLists', profile?.role],
+    queryFn: () => videoDoctorList(profile?.role),
   });
-
   return (
     <>
       <div>
-        {videoLists?.length > 0 ? (
+        {videoDoctorLists?.length > 0 ? (
           <div className="rounded-xl border bg-white shadow-md">
             {/* Header */}
             <div className="px-6 py-4 border-b flex justify-between items-center">
               <h2 className="text-xl font-semibold text-gray-800">
-                Uploaded Videos ({videoLists?.length})
+                Uploaded Videos ({videoDoctorLists?.length})
               </h2>
             </div>
 
             {/* Videos Grid */}
             <div className="p-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {videoLists.map((video) => (
+              {videoDoctorLists?.map((video) => (
                 <div
                   key={video.id}
                   className="relative rounded-xl border bg-white shadow-sm hover:shadow-lg transition p-4 flex flex-col"
@@ -123,17 +122,17 @@ export default function VideoList() {
       </div>
 
       {/* Edit Modal */}
-      <ModalVideoEdit
+ <ModalVideoDoctorEdit
         selectedVideo={selectedVideo}
         showModalEdit={showModalEdit}
         setShowModalEdit={setShowModalEdit}
-      />
+      /> 
 
-      <ModalVideoDelete 
+        <ModalVideoDoctorDelete 
       showModalDelete={showModalDelete}
       setShowModalDelete={setShowModalDelete}
       selectedVideo={selectedVideo}
-      ></ModalVideoDelete>
+      ></ModalVideoDoctorDelete>
     </>
-  );
+  )
 }
