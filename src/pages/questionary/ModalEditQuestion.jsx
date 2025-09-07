@@ -2,10 +2,8 @@ import { toast } from 'react-toastify';
 import React, { useEffect, useState } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
+import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-
-import useNavigator from '@/components/navigator/useNavigate';
 import { adminProfile, CategoryView, editQuestion } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -26,9 +24,12 @@ const statusTypes = [
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
+    console.log("selectedQuestion", selectedQuestion)
     const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
     const [status, setStatus] = useState("");
+    const [quesEng, setQuesEng] = useState("");
+    const [quesBangla, setQuesBangla] = useState("");
     const [questionId, setQuestionId] = useState('');
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
 
@@ -41,6 +42,20 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
             setCatId(selectedQuestion?.catid);
             setStatus(selectedQuestion?.qstatus);
             setQuestionId(selectedQuestion?.qatype);
+            setQuesEng(selectedQuestion?.qeng);
+            setQuesBangla(selectedQuestion?.qbang);
+
+            // reset form values dynamically
+            reset({
+                catid: selectedQuestion?.catid || "",
+                qstatus: selectedQuestion?.qstatus || "",
+                qatype: selectedQuestion?.qatype || "",
+                qeng: selectedQuestion?.qeng || "",
+                qbang: selectedQuestion?.qbang || "",
+                qaoptioneng: selectedQuestion?.qaoptioneng || [""],
+                qaoptionbng: selectedQuestion?.qaoptionbng || [""],
+            });
+
             if (selectedQuestion?.qaoptioneng && selectedQuestion?.qaoptionbng) {
                 const engOptions = selectedQuestion?.qaoptioneng;
                 const bngOptions = selectedQuestion?.qaoptionbng;
@@ -55,8 +70,8 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                 setOptions([{ qaoptioneng: "", qaoptionbng: "" }]);
             }
         }
-
     }, [selectedQuestion]);
+
 
 
     const removeOption = (index) => {
@@ -75,6 +90,12 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const selectQuestionId = (e) => {
         setQuestionId(e.target.value)
     }
+    // const selectQuestionEng = (e) => {
+    //     setQuesEng(e.target.value)
+    // }
+    // const selectQuestionBangla = (e) => {
+    //     setQuesBangla(e.target.value)
+    // }
 
     const {
         register,
@@ -103,7 +124,8 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         try {
             const res = await mutateAsync({ editQuesData: data, role: profile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);
-            queryClient.invalidateQueries(['newsList']);
+            queryClient.invalidateQueries(['quesView']);
+            setShowModalEdit(false)
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
@@ -141,25 +163,25 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         </Typography>
                                         {
                                             catId && (
-                                         <select
-                                            label="Select Category"
-                                            {...register("catid", { required: true })}
-                                            value={catId}
-                                            onChange={categoryId}
-                                            className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                        >
-                                            <option value="">
-                                                -- Select Category --
-                                            </option>
-                                            {catView?.map((category) => (
-                                                <option key={category?.catid} value={category?.catid} >
-                                                    {category?.catname}
-                                                </option>
-                                            ))}
-                                        </select>
+                                                <select
+                                                    label="Select Category"
+                                                    {...register("catid", { required: true })}
+                                                    value={catId}
+                                                    onChange={categoryId}
+                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
+                                                >
+                                                    <option value="">
+                                                        -- Select Category --
+                                                    </option>
+                                                    {catView?.map((category) => (
+                                                        <option key={category?.catid} value={category?.catid} >
+                                                            {category?.catname}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             )
                                         }
-                                      
+
                                     </div>
 
 
@@ -167,14 +189,17 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             Question (English)
                                         </Typography>
-                                        <Input label="Question English" type="text" defaultValue={selectedQuestion?.qeng}   {...register("qeng", { required: true })} />
+                                        <Input label="Question English" type="text"  {...register("qeng", { required: true })} />
                                     </div>
+
                                     <div className="space-y-2">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
                                             প্রশ্ন (বাংলা)
                                         </Typography>
-                                        <Input label="প্রশ্ন বাংলা" type="text" defaultValue={selectedQuestion?.qbang}   {...register("qbang", { required: true })} />
+                                        <Input label="প্রশ্ন বাংলা" type="text"    {...register("qbang", { required: true })} />
                                     </div>
+
+
 
                                     <div className="space-y-2">
                                         <Typography variant="small" color="blue-gray" className="font-medium">
