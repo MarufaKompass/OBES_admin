@@ -14,7 +14,7 @@ import {
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 import { useQuery } from "@tanstack/react-query";
 
-import { adminProfile } from "@/hooks/ReactQueryHooks";
+import { adminProfile, dashboardList } from "@/hooks/ReactQueryHooks";
 import Profile from "./profile/Profile";
 
 
@@ -28,6 +28,7 @@ export function DashboardNavbar() {
     queryKey: ['profile'],
     queryFn: adminProfile
   });
+
 
 
   return (

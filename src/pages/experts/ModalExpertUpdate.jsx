@@ -13,7 +13,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, showModalExpert }) {
     const queryClient = useQueryClient();
     const [preview, setPreview] = useState(null);
-    const [selectedFile, setSelectedFile] = useState(null);
     const { handleNavigation } = useNavigator();
     const { register, handleSubmit, reset, control, formState: { errors } } = useForm()
 
@@ -23,10 +22,11 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
     });
 
 
- useEffect(() => {
+    useEffect(() => {
         if (showModalExpert && profile) {
             reset({
                 drname: showModalExpert?.drname || "",
+                drimg: "",
                 hospital: showModalExpert?.hospital || "",
                 designation: showModalExpert?.designation || "",
                 add_desig: showModalExpert?.add_desig || "",
@@ -34,62 +34,33 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                 email: showModalExpert?.email || "",
                 mobile: showModalExpert?.mobile || "",
                 status: showModalExpert?.status || "",
+
             });
-            // Reset file state
-            setSelectedFile(null);
-            setPreview(showModalExpert?.drimg || null);
+
         }
     }, [showModalExpert, profile, reset]);
 
+    const { mutateAsync } = useMutation({ mutationFn: editExpert });
 
-
-     const { mutateAsync } = useMutation({ mutationFn: editExpert });
-
-   const onSubmit = async (data) => {
-        console.log("Form data:", data);
-        console.log("Selected file:", selectedFile);
-        
+    const onSubmit = async (data) => {
+        console.log("data", data);
         try {
-            const formData = new FormData();
-            
-            // Add all form fields
-            Object.keys(data).forEach(key => {
-                if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-                    formData.append(key, data[key]);
-                }
-            });
-            
-            // Add file manually from state (not from form data)
-            if (selectedFile) {
-                console.log("Adding file to FormData:", selectedFile.name);
-                formData.append('drimg', selectedFile);
-            }
-
-            // Debug FormData
-            console.log("FormData entries:");
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}:`, value instanceof File ? `File(${value.name})` : value);
-            }
-
+            console.log("data_drimg", data.drimg)
             const res = await mutateAsync({
-                editExpertData: formData,
+                editExpertData: data,
                 role: profile?.role,
                 id: showModalExpert?.id
             });
-            
             toast.success(res.data.message);
             handleNavigation('/dashboard/experts/expertsList');
             queryClient.invalidateQueries(['experts']);
-            setShowModalEdit(false);
+            setShowModalEdit(false)
             reset();
-            setSelectedFile(null);
-            setPreview(null);
         } catch (err) {
-            console.error("Error:", err);
             toast.error(err?.response?.data?.message || 'update failed');
+            reset();
         }
     };
-
 
     return (
         <>
@@ -139,11 +110,6 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                                                         onChange={(e) => {
                                                             const file = e.target.files[0];
                                                             if (file) {
-                                                                 console.log("2. File details:", {
-            name: file.name,
-            size: file.size,
-            type: file.type
-        });
                                                                 onChange(file);
                                                                 setPreview(URL.createObjectURL(file));
                                                             } else {
@@ -157,18 +123,18 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
                                                 </>
                                             )}
                                         />
-                                             {preview && (
-                        <div className="mt-3">
-                            <Typography variant="small" color="blue-gray" className="font-medium mb-2">
-                                Image Preview:
-                            </Typography>
-                            <img 
-                                src={preview} 
-                                alt="Preview" 
-                                className="w-32 h-32 object-cover rounded-lg border"
-                            />
-                        </div>
-                    )}
+                                        {preview && (
+                                            <div className="mt-3">
+                                                <Typography variant="small" color="blue-gray" className="font-medium mb-2">
+                                                    Image Preview:
+                                                </Typography>
+                                                <img
+                                                    src={preview}
+                                                    alt="Preview"
+                                                    className="w-32 h-32 object-cover rounded-lg border"
+                                                />
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="space-y-2">

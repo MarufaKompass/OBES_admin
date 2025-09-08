@@ -1,5 +1,4 @@
  import { Routes, Route } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { IconButton } from "@material-tailwind/react";
 import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
@@ -7,10 +6,13 @@ import {Sidenav,DashboardNavbar,Configurator,Footer} from "@/widgets/layout";
 
 import routes from "@/routes";
 
+
 export function Dashboard() {
 
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
+
+ 
 
 
   return (

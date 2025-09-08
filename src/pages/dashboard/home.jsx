@@ -22,12 +22,27 @@ import { StatisticsChart } from "@/widgets/charts";
 import {
   statisticsCardsData,
   statisticsChartsData,
-  projectsTableData,
-  ordersOverviewData,
 } from "@/data";
-import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
+import {  ClockIcon } from "@heroicons/react/24/solid";
+import { adminProfile, dashboardList } from "@/hooks/ReactQueryHooks";
+import { useQuery } from "@tanstack/react-query";
 
 export function Home() {
+
+
+   const { data: profile } = useQuery({
+      queryKey: ['profile'],
+      queryFn: adminProfile
+    });
+    const { data: dashboard } = useQuery({
+      queryKey: ['dashboard'],
+      queryFn: () => dashboardList(profile?.role)
+  
+    });
+  
+    console.log("dashboard", dashboard);
+
+
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">

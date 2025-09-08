@@ -235,3 +235,10 @@ export const deleteEducation = async ({role,id}) => {
 };
 
 
+//dashboard
+
+
+export const dashboardList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/portaldashboard`);
+  return response?.data?.data;
+}
