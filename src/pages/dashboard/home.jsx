@@ -21,7 +21,7 @@ export function Home() {
   });
   // console.log("dashboard", dashboard)
   return (
-    <div className="mt-12">
+    <div className="mt-6">
       <StatisticsCard dashboard={dashboard}></StatisticsCard>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3 mt-6">
         <RegistrationCards dashboard={dashboard}></RegistrationCards>

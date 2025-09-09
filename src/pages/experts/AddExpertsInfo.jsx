@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card, CardHeader, CardBody, Typography, Input, Button, Select, Option } from "@material-tailwind/react";
-import { Upload, User, Building2, Mail, CheckCircle ,Loader2 } from "lucide-react"
+import { User, Building2, Mail, CheckCircle, Loader2 } from "lucide-react"
 import useNavigator from '@/components/navigator/useNavigate';
 import { addExpertsList, adminProfile, uploadImage } from '@/hooks/ReactQueryHooks';
 
@@ -36,22 +36,21 @@ export default function AddExpertsInfo() {
 
 
 
- const handleImageUpload = async (file) => {
+  const handleImageUpload = async (file) => {
     if (!file) return;
 
     setImageUploading(true);
-    
+
     try {
       const formData = new FormData();
       formData.append('uploadimg', file);
       formData.append('moduletitle', 'obesexpertimg'); // Add module name
-      
+
       // Call your uploadImage API
       const response = await uploadImage(formData);
-      
+
       if (response?.data?.data?.filename) {
-        const imageUrl = response?.data?.data?.filename ;
-        console.log(" imageUrl", imageUrl)
+        const imageUrl = response?.data?.data?.filename;
         setUploadedImageUrl(imageUrl);
         toast.success('Image uploaded successfully!');
         return imageUrl;
@@ -71,7 +70,6 @@ export default function AddExpertsInfo() {
   const { mutateAsync } = useMutation({ mutationFn: addExpertsList });
   const onSubmit = async (data) => {
 
-    console.log('data', data)
     const formData = new FormData();
     formData.append("drname", data.drname);
     formData.append("drimg", data.drimg);
@@ -132,87 +130,94 @@ export default function AddExpertsInfo() {
                 </div>
 
 
-    <div className="space-y-2 mt-3">
-                <Typography variant="small" color="blue-gray" className="font-medium pb-3">
-                  Expert Image*
-                </Typography>
-                
-                <Controller
-                  name=""
-                  control={control}
-                  rules={{
-                    required: "Image is required",
-                    validate: {
-                      isImage: (file) => {
-                        if (!file) return true;
-                        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                        return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
+                <div className="space-y-2 mt-3">
+                  <Typography variant="small" color="blue-gray" className="font-medium pb-3">
+                    Expert Image*
+                  </Typography>
+
+                  <Controller
+                    name=""
+                    control={control}
+                    rules={{
+                      required: "Image is required",
+                      validate: {
+                        isImage: (file) => {
+                          if (!file) return true;
+                          const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                          return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
+                        }
                       }
-                    }
-                  }}
-                  render={({ field: { onChange }, fieldState: { error } }) => (
-                    <>
-                      <div className="relative">
-                        <Input
-                          type="file"
-                          accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                          disabled={imageUploading}
-                          onChange={async (e) => {
-                            const file = e.target.files[0];
-                            if (file) {
-                              onChange(file);
-                              setPreview(URL.createObjectURL(file));
-                              
-                              // Auto-upload the image
-                              await handleImageUpload(file);
-                            } else {
-                              onChange(null);
-                              setPreview(null);
-                              setUploadedImageUrl('');
-                            }
-                          }}
-                          label="Choose File"
-                        />
-                        
-                        {/* Upload Status Indicator */}
+                    }}
+                    render={({ field: { onChange }, fieldState: { error } }) => (
+                      <>
+                        <div className="relative">
+                          <Input
+                            type="file"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                            disabled={imageUploading}
+                            onChange={async (e) => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                onChange(file);
+                                setPreview(URL.createObjectURL(file));
+
+                                // Auto-upload the image
+                                await handleImageUpload(file);
+                              } else {
+                                onChange(null);
+                                setPreview(null);
+                                setUploadedImageUrl('');
+                              }
+                            }}
+                            label="Choose File"
+                          />
+
+                          {/* Upload Status Indicator */}
+                          {imageUploading && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                              <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Upload Status Messages */}
                         {imageUploading && (
-                          <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                            <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
-                          </div>
+                          <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Uploading image...
+                          </p>
                         )}
+
+                        {uploadedImageUrl && !imageUploading && (
+                          <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
+                            <CheckCircle className="h-4 w-4" />
+                            Image uploaded successfully
+                          </p>
+                        )}
+
+                        {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+                      </>
+                    )}
+                  />
+
+
+                </div>
+                <div className='hidden'>
+                  {
+                    uploadedImageUrl && (
+                      <div>
+                        <Input
+                          {...register("drimg", { required: true })}
+                          type="text"
+                          value={uploadedImageUrl}
+
+                          rows={4}
+                        />
                       </div>
+                    )
+                  }
+                </div>
 
-                      {/* Upload Status Messages */}
-                      {imageUploading && (
-                        <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                          Uploading image...
-                        </p>
-                      )}
-                      
-                      {uploadedImageUrl && !imageUploading && (
-                        <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4" />
-                          Image uploaded successfully
-                        </p>
-                      )}
-
-                      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                    </>
-                  )}
-                />
-
-
-              </div>
-
-              <div>
-                     <Input 
-                  {...register("drimg", { required: true })}
-                  type="text"
-                  value={uploadedImageUrl}
-                  rows={4}
-                />
-              </div>
               </div>
 
               <div className='flex gap-3 border-b pb-4'>
