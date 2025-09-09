@@ -242,3 +242,12 @@ export const dashboardList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/portaldashboard`);
   return response?.data?.data;
 }
+
+
+
+// upload image
+
+export const uploadImage = async (uploadAllImages) => {
+  const response = await axiosInstance.post(`/public/api/imageupload`, uploadAllImages);
+  return response;
+};
