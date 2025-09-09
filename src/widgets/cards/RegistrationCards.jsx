@@ -29,8 +29,8 @@ export default function RegistrationCards({ dashboard }) {
       {
         label: "Total Users",
         data: values,
-        borderColor: "rgba(0, 200, 150, 1)",      // teal line
-        backgroundColor: "rgba(0, 200, 150, 0.4)", // filled area
+        borderColor: "rgba(0, 200, 150, 1)",  
+        backgroundColor: "rgba(0, 200, 150, 0.4)", 
         tension: 0.3,
         fill: true,
         pointBackgroundColor: "rgba(0, 150, 100, 1)",

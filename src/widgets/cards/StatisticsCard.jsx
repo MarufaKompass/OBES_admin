@@ -5,8 +5,8 @@ export default function StatisticsCard({dashboard}) {
 
   const cardData = [
     {
-      title: "Total Users",
-      value:dashboard?.total,
+      title: "Number of Users",
+      value:dashboard?.totalusers,
       subtitle: "Active users in system",
       change: "+30 monthly",
       icon: Users,
@@ -15,7 +15,7 @@ export default function StatisticsCard({dashboard}) {
       iconColor: "text-blue-100"
     },
    {
-      title: "Total Doctors",
+      title: "Number of Doctors",
       value: dashboard?.totaldoctors,
       subtitle: "Healthcare professionals",
       change: "Available now",
