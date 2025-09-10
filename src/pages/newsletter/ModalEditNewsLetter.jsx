@@ -1,12 +1,12 @@
 import { toast } from 'react-toastify';
 import React, { useEffect, useState } from "react";
-import { Pencil, X } from "lucide-react";
+import { Pencil, X, Loader2, CheckCircle } from "lucide-react";
 import { useForm, Controller } from "react-hook-form"
 import { CardBody, Typography, Button, Input, Select, Option, Textarea } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { adminProfile, CategoryView, editQuestion, updateNewsletter } from "@/hooks/ReactQueryHooks";
+import { adminProfile, CategoryView, editQuestion, updateNewsletter, uploadImage } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
@@ -19,17 +19,11 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
     const [status, setStatus] = useState('');
     const queryClient = useQueryClient();
 
-    useEffect(() => {
-        if (selectedNewsLetterId) {
-            setIssueNo(selectedNewsLetterId?.issuenumber);
-            setTitle(selectedNewsLetterId?.title);
-            setSummery(selectedNewsLetterId?.short_summary);
-            setStatus(selectedNewsLetterId?.setStatus);
+    const [imageUploading, setImageUploading] = useState(false);
+    const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
 
-        }
-
-    }, [selectedNewsLetterId]);
-
+    const [pdfUploading, setPdfUploading] = useState(false);
+    const [uploadedPdfUrl, setUploadedPdfUrl] = useState(null);
 
     const {
         register,
@@ -46,12 +40,104 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
         queryFn: adminProfile
     });
 
+    useEffect(() => {
+        if (uploadedImageUrl) {
+            setValue("coverimage", uploadedImageUrl);
+        }
+    }, [uploadedImageUrl, setValue]);
+
+    useEffect(() => {
+        if (uploadedPdfUrl) {
+            setValue("pdfdoc", uploadedPdfUrl);
+        }
+    }, [uploadedPdfUrl, setValue]);
+
+
+    useEffect(() => {
+        if (selectedNewsLetterId) {
+            setIssueNo(selectedNewsLetterId?.issuenumber);
+            setTitle(selectedNewsLetterId?.title);
+            setSummery(selectedNewsLetterId?.short_summary);
+            setStatus(selectedNewsLetterId?.setStatus);
+
+        }
+
+    }, [selectedNewsLetterId]);
+
+
+
+
+
+    const handleImageUpload = async (file) => {
+        if (!file) return;
+
+        setImageUploading(true);
+
+        try {
+            const formData = new FormData();
+            formData.append('uploadimg', file);
+            formData.append('moduletitle', 'newsletterimg');
+
+            // Call your uploadImage API
+            const response = await uploadImage(formData);
+
+            if (response?.data?.data?.filename) {
+                const imageUrl = response?.data?.data?.filename;
+                setUploadedImageUrl(imageUrl);
+                toast.success('Image uploaded successfully!');
+                return imageUrl;
+            } else {
+                // throw new Error('No image URL returned from server');
+            }
+        } catch (error) {
+            console.error('Image upload error:', error);
+            toast.error(error?.response?.data?.message || 'Image upload failed');
+            return null;
+        } finally {
+            setImageUploading(false);
+        }
+    };
+
+
+
+
+    const handlePdfUpload = async (file) => {
+        if (!file) return;
+
+        setPdfUploading(true);
+
+        try {
+            const formData = new FormData();
+            formData.append('uploadimg', file);
+            formData.append('moduletitle', 'newspdfdoc');
+
+            // Call your uploadImage API
+            const response = await uploadImage(formData);
+
+            if (response?.data?.data?.filename) {
+                const pdfUrl = response?.data?.data?.filename;
+                setUploadedPdfUrl(pdfUrl);
+                toast.success('Pdf uploaded successfully!');
+                return pdfUrl;
+            } else {
+                // throw new Error('No image URL returned from server');
+            }
+        } catch (error) {
+            console.error('Pdf upload error:', error);
+            toast.error(error?.response?.data?.message || 'Pdf upload failed');
+            return null;
+        } finally {
+            setPdfUploading(false);
+        }
+    };
+
+
 
 
     const { mutateAsync } = useMutation({ mutationFn: updateNewsletter });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
+
         try {
             const res = await mutateAsync({ updateNewsletterData: data, role: profile?.role, id: selectedNewsLetterId?.id });
             toast.success(res.data.message);
@@ -144,98 +230,186 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
 
                                     {/* Image Upload */}
                                     <div class="grid grid-cols-2 gap-4">
+
+
                                         <div>
-                                            <div>
-                                                <div>
-                                                    <Typography variant="small" className="mb-2">
-                                                        Upload Image
-                                                    </Typography>
-                                                    <Controller
-                                                        name="coverimage"
-                                                        control={control}
-                                                        defaultValue={null}
-                                                        // rules={{
-                                                        //     required: "Image is required",
-                                                        //     validate: {
-                                                        //         isImage: (file) => {
-                                                        //             if (!file) return true; 
-                                                        //             const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                                                        //             return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                                                        //         }
-                                                        //     }
-                                                        // }}
-                                                        render={({ field: { onChange }, fieldState: { error } }) => (
-                                                            <>
+                                            <div className="space-y-2 mt-3">
+                                                <Typography variant="small" color="blue-gray" className="font-medium pb-3">
+                                                    Upload Image*
+                                                </Typography>
+
+                                                <Controller
+                                                    name=""
+                                                    control={control}
+                                                    rules={{
+                                                        required: "Image is required",
+                                                        validate: {
+                                                            isImage: (file) => {
+                                                                if (!file) return true;
+                                                                const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                                                                return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
+                                                            }
+                                                        }
+                                                    }}
+                                                    render={({ field: { onChange }, fieldState: { error } }) => (
+                                                        <>
+                                                            <div className="relative">
                                                                 <Input
                                                                     type="file"
                                                                     accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                                                                    onChange={(e) => {
+                                                                    disabled={imageUploading}
+                                                                    onChange={async (e) => {
                                                                         const file = e.target.files[0];
                                                                         if (file) {
                                                                             onChange(file);
                                                                             setPreview(URL.createObjectURL(file));
+
+                                                                            // Auto-upload the image
+                                                                            await handleImageUpload(file);
                                                                         } else {
                                                                             onChange(null);
                                                                             setPreview(null);
+                                                                            setUploadedImageUrl('');
                                                                         }
                                                                     }}
                                                                     label="Choose File"
                                                                 />
-                                                                {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                                                            </>
-                                                        )}
-                                                    />
 
-                                                </div>
+                                                                {/* Upload Status Indicator */}
+                                                                {imageUploading && (
+                                                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                                                        <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+
+                                                            {imageUploading && (
+                                                                <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
+                                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                                    Uploading image...
+                                                                </p>
+                                                            )}
+
+                                                            {uploadedImageUrl && !imageUploading && (
+                                                                <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
+                                                                    <CheckCircle className="h-4 w-4" />
+                                                                    Image uploaded successfully
+                                                                </p>
+                                                            )}
+
+                                                            {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+                                                        </>
+                                                    )}
+                                                />
+                                            </div>
+
+
+                                            <div className='hidden'>
+                                                {uploadedImageUrl && (
+                                                    <div>
+                                                        <Input
+                                                            {...register("coverimage", { required: true })}
+                                                            type="text"
+                                                            readOnly
+                                                        />
+                                                    </div>
+                                                )}
+
                                             </div>
                                         </div>
 
+
+
+
                                         <div>
-                                            <div>
-                                                <div>
-                                                    <Typography variant="small" className="mb-2">
-                                                        Upload PDF
-                                                    </Typography>
-                                                    <Controller
-                                                        name="pdfdoc"
-                                                        control={control}
-                                                        defaultValue={null}
-                                                        // rules={{
-                                                        //     required: "PDF is required",
-                                                        //     validate: {
-                                                        //         isPDF: (file) => {
-                                                        //             if (!file) return true;
-                                                        //             return file.type === 'application/pdf' || "File must be a PDF";
-                                                        //         }
-                                                        //     }
-                                                        // }}
-                                                        render={({ field: { onChange }, fieldState: { error } }) => (
-                                                            <>
+                                            <div className="space-y-2 mt-3">
+                                                <Typography variant="small" color="blue-gray" className="font-medium pb-3">
+                                                    Upload Pdf*
+                                                </Typography>
+
+                                                <Controller
+                                                    name=""
+                                                    control={control}
+                                                    rules={{
+                                                        required: "Image is required",
+                                                        validate: {
+                                                            isImage: (file) => {
+                                                                if (!file) return true;
+                                                                const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                                                                return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
+                                                            }
+                                                        }
+                                                    }}
+                                                    render={({ field: { onChange }, fieldState: { error } }) => (
+                                                        <>
+                                                            <div className="relative">
                                                                 <Input
                                                                     type="file"
-                                                                    accept="application/pdf"
-                                                                    label="Upload PDF"
-                                                                    onChange={(e) => {
+                                                                    accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                                                                    disabled={imageUploading}
+                                                                    onChange={async (e) => {
                                                                         const file = e.target.files[0];
                                                                         if (file) {
                                                                             onChange(file);
-                                                                            setPdfName(file.name);
+                                                                            setPreview(URL.createObjectURL(file));
+
+                                                                            // Auto-upload the image
+                                                                            await handlePdfUpload(file);
                                                                         } else {
                                                                             onChange(null);
-                                                                            setPdfName(null);
+                                                                            setPreview(null);
+                                                                            setUploadedImageUrl('');
                                                                         }
                                                                     }}
+                                                                    label="Choose File"
                                                                 />
-                                                                {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                                                                {pdfName && (
-                                                                    <p className="mt-2 text-sm text-gray-700">Selected PDF: {pdfName}</p>
+
+                                                                {/* Upload Status Indicator */}
+                                                                {pdfUploading && (
+                                                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                                                        <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+                                                                    </div>
                                                                 )}
-                                                            </>
-                                                        )}
-                                                    />
-                                                </div>
+                                                            </div>
+
+
+                                                            {pdfUploading && (
+                                                                <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
+                                                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                                                    Uploading image...
+                                                                </p>
+                                                            )}
+
+                                                            {uploadedPdfUrl && !pdfUploading && (
+                                                                <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
+                                                                    <CheckCircle className="h-4 w-4" />
+                                                                    Image uploaded successfully
+                                                                </p>
+                                                            )}
+
+                                                            {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+                                                        </>
+                                                    )}
+                                                />
+                                            </div>
+
+
+                                            <div className='hidden'>
+                                                {uploadedPdfUrl && (
+                                                    <div>
+                                                        <Input
+                                                            {...register("pdfdoc", { required: true })}
+                                                            type="text"
+                                                            readOnly
+                                                        />
+                                                    </div>
+                                                )}
+
                                             </div>
                                         </div>
+
+
                                     </div>
 
 

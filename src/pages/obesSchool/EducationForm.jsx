@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useForm, Controller } from "react-hook-form";
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { addEducation, adminProfile } from '@/hooks/ReactQueryHooks';
+import { addEducation, adminProfile, uploadImage } from '@/hooks/ReactQueryHooks';
+import {  CheckCircle, Loader2 } from "lucide-react"
 import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea, Select, Option } from "@material-tailwind/react";
 export default function EducationForm() {
     const [preview, setPreview] = useState(null);
+     const [imageUploading, setImageUploading] = useState(false);
+    const [uploadedImageUrl, setUploadedImageUrl] = useState('');
     const navigate = useNavigate();
     const {
         register,
@@ -24,6 +27,40 @@ export default function EducationForm() {
         queryKey: ['profile'],
         queryFn: adminProfile
     });
+
+
+
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+
+    setImageUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('uploadimg', file);
+      formData.append('moduletitle', 'obeseduimg'); // Add module name
+
+      // Call your uploadImage API
+      const response = await uploadImage(formData);
+
+      if (response?.data?.data?.filename) {
+        const imageUrl = response?.data?.data?.filename;
+        setUploadedImageUrl(imageUrl);
+        toast.success('Image uploaded successfully!');
+        return imageUrl;
+      } else {
+        // throw new Error('No image URL returned from server');
+      }
+    } catch (error) {
+      console.error('Image upload error:', error);
+      toast.error(error?.response?.data?.message || 'Image upload failed');
+      return null;
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+
 
     const { mutateAsync } = useMutation({ mutationFn: addEducation });
 
@@ -54,7 +91,7 @@ export default function EducationForm() {
                         <TagIcon className="h-6 w-6 text-primaryBg" />
                     </div>
                     <Typography variant="h4" color="blue-gray">
-                        Add Education Form
+                        Education Form
                     </Typography>
                     <Typography color="gray" className="text-center font-normal text-sm">
                         Add Education asked title and image
@@ -110,57 +147,94 @@ export default function EducationForm() {
                             <Input label="Topic" type="text"  {...register("topic", { required: true })} />
                         </div>
                         {/* Image Upload */}
-                        <div className="">
-                            <div>
-                                <div>
-                                    <div>
-                                        <Typography variant="small" className="mb-2">
-                                            Upload Image
-                                        </Typography>
-                                        <Controller
-                                            name="mimage"
-                                            control={control}
-                                            defaultValue={null}
-                                            // rules={{
-                                            //     required: "Image is required",
-                                            //     validate: {
-                                            //         isImage: (file) => {
-                                            //             if (!file) return true; // Skip if no file (handled by required)
-                                            //             const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                                            //             return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                                            //         }
-                                            //     }
-                                            // }}
-                                            render={({ field: { onChange }, fieldState: { error } }) => (
-                                                <>
-                                                    <Input
-                                                        type="file"
-                                                        accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                                                        onChange={(e) => {
-                                                            const file = e.target.files[0];
-                                                            if (file) {
-                                                                onChange(file);
-                                                                setPreview(URL.createObjectURL(file));
-                                                            } else {
-                                                                onChange(null);
-                                                                setPreview(null);
-                                                            }
-                                                        }}
-                                                        label="Choose File"
-                                                    />
-                                                    {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                                                </>
-                                            )}
-                                        />
-                                        {/* {preview && (
-                                            <div className="mt-4">
-                                                <img src={preview} alt="Preview" className="h-40 object-cover rounded-md" />
-                                            </div>
-                                        )} */}
-                                    </div>
-                                </div>
+    
+                <div className="space-y-2 mt-3">
+                  <Typography variant="small" color="blue-gray" className="font-medium pb-3">
+                    Upload Image*
+                  </Typography>
+
+                  <Controller
+                    name=""
+                    control={control}
+                    rules={{
+                      required: "Image is required",
+                      validate: {
+                        isImage: (file) => {
+                          if (!file) return true;
+                          const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                          return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
+                        }
+                      }
+                    }}
+                    render={({ field: { onChange }, fieldState: { error } }) => (
+                      <>
+                        <div className="relative">
+                          <Input
+                            type="file"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
+                            disabled={imageUploading}
+                            onChange={async (e) => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                onChange(file);
+                                setPreview(URL.createObjectURL(file));
+
+                                // Auto-upload the image
+                                await handleImageUpload(file);
+                              } else {
+                                onChange(null);
+                                setPreview(null);
+                                setUploadedImageUrl('');
+                              }
+                            }}
+                            label="Choose File"
+                          />
+
+                          {/* Upload Status Indicator */}
+                          {imageUploading && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                              <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
                             </div>
+                          )}
                         </div>
+
+                        {/* Upload Status Messages */}
+                        {imageUploading && (
+                          <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Uploading image...
+                          </p>
+                        )}
+
+                        {uploadedImageUrl && !imageUploading && (
+                          <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
+                            <CheckCircle className="h-4 w-4" />
+                            Image uploaded successfully
+                          </p>
+                        )}
+
+                        {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+                      </>
+                    )}
+                  />
+
+
+                </div>
+                <div className='hidden'>
+                  {
+                    uploadedImageUrl && (
+                      <div>
+                        <Input
+                          {...register("mimage", { required: true })}
+                          type="text"
+                          value={uploadedImageUrl}
+
+                          rows={4}
+                        />
+                      </div>
+                    )
+                  }
+                </div>
                         <div>
                             <Typography variant="small" className="mb-1">
                                 Module Information

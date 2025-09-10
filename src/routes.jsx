@@ -305,6 +305,17 @@ export const routes = [
         name: "Obes School",
         path: "/school",
         children: [
+           {
+            icon: <ListTodo    {...icon} />,
+            name: "Education Form",
+            path: "eduForm",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <EducationForm /> </PrivateRoute>
+            </Suspense>
+          },
           {
             icon: <Map     {...icon} />,
             name: "Education Info List",
@@ -316,17 +327,7 @@ export const routes = [
               <PrivateRoute>  <ObesEducation /> </PrivateRoute>
             </Suspense>
           },
-          {
-            icon: <ListTodo    {...icon} />,
-            name: "Education Form",
-            path: "dietChartLists",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
-
-              <PrivateRoute>  <EducationForm /> </PrivateRoute>
-            </Suspense>
-          },
+         
         ],
       },
     ],
