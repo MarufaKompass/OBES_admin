@@ -47,7 +47,7 @@ export default function AddNewsLetter() {
 
     useEffect(() => {
         if (uploadedPdfUrl) {
-            setValue("pdfdoc", uploadedPdfUrl);
+            setValue("pdflink", uploadedPdfUrl);
         }
     }, [uploadedPdfUrl, setValue]);
 
@@ -126,7 +126,7 @@ export default function AddNewsLetter() {
         formData.append("status", data.status);
         formData.append("upby", data.upby);
         formData.append("coverimage", data?.coverimage);
-        formData.append("pdfdoc", data?.pdfdoc);
+        formData.append("pdflink", data?.pdflink);
         formData.append("published_date", data?.published_date);
 
 
@@ -371,7 +371,7 @@ export default function AddNewsLetter() {
                                     {uploadedPdfUrl && (
                                         <div>
                                             <Input
-                                                {...register("pdfdoc", { required: true })}
+                                                {...register("pdflink", { required: true })}
                                                 type="text"
                                                 readOnly
                                             />

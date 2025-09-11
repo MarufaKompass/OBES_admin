@@ -9,7 +9,7 @@ export default function ObesEducation() {
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-  const { data: eduList, isLoading } = useQuery({
+  const { data: eduList } = useQuery({
     queryKey: ['eduList', profile?.role],
     queryFn: () => educationList(profile?.role)
   });

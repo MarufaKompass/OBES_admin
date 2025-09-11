@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
-import { Search, Calendar, Eye, Pencil, ArrowDown,Trash } from 'lucide-react';
+import { Search, Calendar, Eye, Pencil, ArrowDown, Trash } from 'lucide-react';
 import { Card, CardBody, Button } from "@material-tailwind/react";
 import { adminProfile, newsletterList } from '@/hooks/ReactQueryHooks';
 import ModalEditNewsLetter from './ModalEditNewsLetter';
@@ -19,11 +19,11 @@ export default function NewsletterList() {
   const handleShowingInfoEdit = (newsletter) => {
     setSelectedNewsLetterId(newsletter);
 
-     setShowModalEdit(true)
+    setShowModalEdit(true)
   }
   const handleShowingInfoDelete = (newsletter) => {
     setSelectedNewsLetterId(newsletter);
-       setShowModalDelete(true)
+    setShowModalDelete(true)
   }
 
 
@@ -122,10 +122,10 @@ export default function NewsletterList() {
                       {/* Actions */}
                       <div className="col-span-1">
                         <div className="flex space-x-1">
-                          <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoEdit(newsletter)} >
+                          <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center" onClick={() => handleShowingInfoEdit(newsletter)} >
                             <Pencil className="w-4 h-4" />
                           </Button>
-                          <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoDelete(newsletter)}>
+                          <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center" onClick={() => handleShowingInfoDelete(newsletter)}>
                             <Trash className="w-4 h-4" />
                           </Button>
                           {/* <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoEdit(newsletter)}>
@@ -143,7 +143,6 @@ export default function NewsletterList() {
                 ))}
               </div>
             </div>
-
             {/* Summary Stats */}
             <div className="mt-6 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
               <div>Showing {newsList?.length} newsletters</div>
@@ -156,11 +155,9 @@ export default function NewsletterList() {
             </div>
           </div>
         </CardBody>
-        
       </Card>
-      
       <ModalEditNewsLetter showModalEdit={showModalEdit} setShowModalEdit={setShowModalEdit} selectedNewsLetterId={selectedNewsLetterId}></ModalEditNewsLetter>
       <ModalDeleteNewsletter showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} selectedNewsLetterId={selectedNewsLetterId}></ModalDeleteNewsletter>
-      </>
+    </>
   )
 }

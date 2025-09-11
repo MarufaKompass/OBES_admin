@@ -15,14 +15,20 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
   const [preview, setPreview] = useState(null);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-     
 
-  const { register, handleSubmit, reset, control, formState: { errors } } = useForm()
+
+  const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm()
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile
   });
+
+  useEffect(() => {
+    if (uploadedImageUrl) {
+      setValue("drimg", uploadedImageUrl);
+    }
+  }, [uploadedImageUrl, setValue]);
 
 
   const handleImageUpload = async (file) => {
@@ -200,21 +206,19 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
 
 
                   </div>
-                  <div className='hidden'>
-                    {
-                      uploadedImageUrl && (
-                        <div>
-                          <Input
-                            {...register("drimg", { required: true })}
-                            type="text"
-                            value={uploadedImageUrl}
-                            rows={4}
-                          />
-                        </div>
-                      )
-                    }
-                  </div>
 
+                  <div className='hidden'>
+                    {uploadedImageUrl && (
+                      <div>
+                        <Input
+                          {...register("drimg", { required: true })}
+                          type="text"
+                          readOnly
+                        />
+                      </div>
+                    )}
+
+                  </div>
 
                   <div className="space-y-2">
                     <Typography variant="small" color="blue-gray" className="font-medium">

@@ -6,22 +6,17 @@ import { CardBody, Typography, Button, Input, Select, Option, Textarea } from "@
 import Modal from '@/components/modal/Modal'
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { adminProfile, CategoryView, editQuestion, updateNewsletter, uploadImage } from "@/hooks/ReactQueryHooks";
+import { adminProfile, updateNewsletter, uploadImage } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, selectedNewsLetterId }) {
-    const [pdfName, setPdfName] = useState(null);
-    const [preview, setPreview] = useState(null);
-    const [issueNo, setIssueNo] = useState('');
-    const [title, setTitle] = useState('');
-    const [summery, setSummery] = useState('');
-    const [status, setStatus] = useState('');
+    console.log("selectedNewsLetterId", selectedNewsLetterId)
     const queryClient = useQueryClient();
-
+    const [pdfPreview, setPdfPreview] = useState(null);
+    const [preview, setPreview] = useState(null);
     const [imageUploading, setImageUploading] = useState(false);
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
-
     const [pdfUploading, setPdfUploading] = useState(false);
     const [uploadedPdfUrl, setUploadedPdfUrl] = useState(null);
 
@@ -48,24 +43,30 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
 
     useEffect(() => {
         if (uploadedPdfUrl) {
-            setValue("pdfdoc", uploadedPdfUrl);
+            setValue("pdflink", uploadedPdfUrl);
         }
     }, [uploadedPdfUrl, setValue]);
 
 
+
+
     useEffect(() => {
         if (selectedNewsLetterId) {
-            setIssueNo(selectedNewsLetterId?.issuenumber);
-            setTitle(selectedNewsLetterId?.title);
-            setSummery(selectedNewsLetterId?.short_summary);
-            setStatus(selectedNewsLetterId?.setStatus);
+            reset({
+                issuenumber: selectedNewsLetterId?.issuenumber
+                    ? String(selectedNewsLetterId.issuenumber)
+                    : "",
+                title: selectedNewsLetterId?.title || "",
+                short_summary: selectedNewsLetterId?.short_summary || "",
+                status: selectedNewsLetterId?.status || "",
+                coverimage: null,
+                pdflink: null,
+
+
+            });
 
         }
-
-    }, [selectedNewsLetterId]);
-
-
-
+    }, [selectedNewsLetterId, reset]);
 
 
     const handleImageUpload = async (file) => {
@@ -84,6 +85,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
             if (response?.data?.data?.filename) {
                 const imageUrl = response?.data?.data?.filename;
                 setUploadedImageUrl(imageUrl);
+                reset()
                 toast.success('Image uploaded successfully!');
                 return imageUrl;
             } else {
@@ -117,6 +119,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
             if (response?.data?.data?.filename) {
                 const pdfUrl = response?.data?.data?.filename;
                 setUploadedPdfUrl(pdfUrl);
+                reset()
                 toast.success('Pdf uploaded successfully!');
                 return pdfUrl;
             } else {
@@ -137,7 +140,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
     const { mutateAsync } = useMutation({ mutationFn: updateNewsletter });
 
     const onSubmit = async (data) => {
-
+        console.log("data", data)
         try {
             const res = await mutateAsync({ updateNewsletterData: data, role: profile?.role, id: selectedNewsLetterId?.id });
             toast.success(res.data.message);
@@ -189,49 +192,45 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                         }
                                     </div>
                                     {
-                                        issueNo && (
+                                        selectedNewsLetterId?.issuenumber && (
+
                                             <div>
                                                 <Typography variant="small" className="mb-1">
                                                     Issue Number
                                                 </Typography>
-                                                <Input label="" defaultValue={issueNo} type="number" {...register("issuenumber", { required: true })} />
-                                                {errors.faqen && <p className="text-red-500 text-sm">This field is required</p>}
+                                                <Input label="" type="number"  {...register("issuenumber", { required: true })} />
+                                                {/* {errors.faqen && <p className="text-red-500 text-sm">This field is required</p>} */}
                                             </div>
                                         )
                                     }
 
 
-                                    {/* Answer EN */}
-                                    {title && (
-                                        <div>
-                                            <Typography variant="small" className="mb-1">
-                                                Title
-                                            </Typography>
-                                            <Input label="" defaultValue={title} {...register("title", { required: true })} />
-                                            {errors.fansen && <p className="text-red-500 text-sm">This field is required</p>}
-                                        </div>
-                                    )
-                                    }
+
+                                    <div>
+                                        <Typography variant="small" className="mb-1">
+                                            Title
+                                        </Typography>
+                                        <Input label=""  {...register("title", { required: true })} />
+                                        {errors.fansen && <p className="text-red-500 text-sm">This field is required</p>}
+                                    </div>
 
 
-                                    {/* FAQ BN */}
 
-                                    {/* Answer BN */}
-                                    {summery && (
-                                        <div>
-                                            <Typography variant="small" className="mb-1">
-                                                Short Summary
-                                            </Typography>
-                                            <Textarea label="" rows={4} defaultValue={summery} {...register("short_summary", { required: true })} />
-                                            {errors.fansbn && <p className="text-red-500 text-sm">This field is required</p>}
-                                        </div>
-                                    )}
+
+
+
+                                    <div>
+                                        <Typography variant="small" className="mb-1">
+                                            Short Summary
+                                        </Typography>
+                                        <Textarea label="" rows={4} {...register("short_summary", { required: true })} />
+                                        {errors.fansbn && <p className="text-red-500 text-sm">This field is required</p>}
+                                    </div>
+
 
 
                                     {/* Image Upload */}
                                     <div class="grid grid-cols-2 gap-4">
-
-
                                         <div>
                                             <div className="space-y-2 mt-3">
                                                 <Typography variant="small" color="blue-gray" className="font-medium pb-3">
@@ -303,8 +302,6 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                                     )}
                                                 />
                                             </div>
-
-
                                             <div className='hidden'>
                                                 {uploadedImageUrl && (
                                                     <div>
@@ -318,10 +315,6 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
 
                                             </div>
                                         </div>
-
-
-
-
                                         <div>
                                             <div className="space-y-2 mt-3">
                                                 <Typography variant="small" color="blue-gray" className="font-medium pb-3">
@@ -332,7 +325,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                                     name=""
                                                     control={control}
                                                     rules={{
-                                                        required: "Image is required",
+                                                        required: "pdf is required",
                                                         validate: {
                                                             isImage: (file) => {
                                                                 if (!file) return true;
@@ -352,14 +345,14 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                                                         const file = e.target.files[0];
                                                                         if (file) {
                                                                             onChange(file);
-                                                                            setPreview(URL.createObjectURL(file));
+                                                                            setPdfPreview(URL.createObjectURL(file));
 
                                                                             // Auto-upload the image
                                                                             await handlePdfUpload(file);
                                                                         } else {
                                                                             onChange(null);
-                                                                            setPreview(null);
-                                                                            setUploadedImageUrl('');
+                                                                            setPdfPreview(null);
+                                                                            setUploadedPdfUrl('');
                                                                         }
                                                                     }}
                                                                     label="Choose File"
@@ -384,7 +377,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                                             {uploadedPdfUrl && !pdfUploading && (
                                                                 <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
                                                                     <CheckCircle className="h-4 w-4" />
-                                                                    Image uploaded successfully
+                                                                    pdf uploaded successfully
                                                                 </p>
                                                             )}
 
@@ -393,27 +386,19 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                                     )}
                                                 />
                                             </div>
-
-
                                             <div className='hidden'>
                                                 {uploadedPdfUrl && (
                                                     <div>
                                                         <Input
-                                                            {...register("pdfdoc", { required: true })}
+                                                            {...register("pdflink", { required: true })}
                                                             type="text"
                                                             readOnly
                                                         />
                                                     </div>
                                                 )}
-
                                             </div>
                                         </div>
-
-
                                     </div>
-
-
-
                                     <div className="">
                                         <Typography variant="small" className="mb-2">
                                             Select Status
@@ -426,12 +411,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
                                             <Option value="published">Published</Option>
                                             <Option value="draft">Draft</Option>
                                         </Select>
-                                        {/* 
-                            {errors.status && (
-                                <Typography variant="small" color="red" className="mt-1">
-                                    This field is required
-                                </Typography>
-                            )} */}
+
                                     </div>
 
                                     <div className='hidden'>

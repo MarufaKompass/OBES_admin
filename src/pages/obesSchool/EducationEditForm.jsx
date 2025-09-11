@@ -40,7 +40,7 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
     try {
       const formData = new FormData();
       formData.append('uploadimg', file);
-      formData.append('moduletitle', 'obeseduimg'); 
+      formData.append('moduletitle', 'obeseduimg');
 
       // Call your uploadImage API
       const response = await uploadImage(formData);
@@ -122,13 +122,32 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardBody className="space-y-4">
 
-                  <div >
-                    <Typography variant="small" className="mb-1">
-                      Category
-                    </Typography>
-                    <Input label="" type="text" {...register("category", { required: true })} />
 
+
+
+                  <div >
+                    <Typography variant="small" className="mb-2">
+                      Select Category
+                    </Typography>
+                    <Controller
+                      name="category"
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <div>
+                          <Select
+                            label="Select Category"
+                            value={field.value || ""}
+                            onChange={(val) => field.onChange(val)}>
+                            <Option value="Adult">Adult</Option>
+                            <Option value="Child">Child</Option>
+                            <Option value="Both">Both</Option>
+                          </Select>
+                        </div>
+                      )}
+                    />
                   </div>
+
 
                   <div >
                     <Typography variant="small" className="mb-1">

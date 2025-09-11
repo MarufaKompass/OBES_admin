@@ -48,7 +48,7 @@ export default function ExpertsList() {
       <Card className="mt-8 px-4">
         <CardBody className="overflow-x-auto p-0">
           <div className="w-full  mx-auto py-6">
-            <div className="text-center mb-8">
+            <div className=" mb-8 border-b pb-3">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Our Medical Experts</h1>
               <p className="text-gray-600">Meet our team of qualified healthcare professionals</p>
             </div>
