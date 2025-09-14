@@ -14,6 +14,8 @@ import DietChartList from './pages/dietCharts/DietChartList';
 import ExpertsList from './pages/experts/ExpertsList';
 import ObesEducation from './pages/obesSchool/ObesEducation';
 import EducationForm from './pages/obesSchool/EducationForm';
+import AddAdmin from './pages/admin/AddAdmin';
+import AdminList from './pages/admin/AdminList';
 const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddExpertsInfo = (lazy(() => import('./pages/experts/AddExpertsInfo')));
@@ -300,6 +302,7 @@ export const routes = [
           },
         ],
       },
+      
       {
         icon: <SquareLibrary   {...icon} />,
         name: "Obes School",
@@ -330,6 +333,40 @@ export const routes = [
          
         ],
       },
+
+      {
+        icon: <SquareLibrary   {...icon} />,
+        name: "Admin",
+        path: "/admin",
+        children: [
+           {
+            icon: <ListTodo    {...icon} />,
+            name: "Create Admin",
+            path: "addAdmin",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddAdmin /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <Map     {...icon} />,
+            name: "Admin List",
+            path: "adminList",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AdminList /> </PrivateRoute>
+            </Suspense>
+          },
+         
+        ],
+      },
+
+
+
     ],
   },
 

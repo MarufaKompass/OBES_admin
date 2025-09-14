@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //Login 
 export const loginUser = async (userData) => {
-  const response = await axios.post('https://api.obesitybes.com/public/api/login', userData);
+  const response = await axios.post('https://api.obesitybes.com/public/api/adlogin', userData);
   return response;
 };
 
@@ -12,9 +12,20 @@ export const adminProfile = async () => {
   return response.data?.data;
 };
 
+// https://api.obesitybes.com/public/api/admin/adsignup
+
+export const addAdmin = async ({ addAdminData, role }) => {
+  const response = await axiosInstance.post(`/public/api/${role}/adsignup`, addAdminData);
+  return response;
+};
+
+export const adminList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/adminacc`);
+  return response?.data?.data;
+};
+
 
 //category 
-
 
 export const CategoryView = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/qcatview`);
