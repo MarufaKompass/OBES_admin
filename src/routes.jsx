@@ -1,4 +1,4 @@
-import { ChartBarStacked, House, ShieldQuestion, Mails ,SquareChartGantt ,SquareLibrary ,TableOfContents, ShieldUser, LayoutPanelLeft, BetweenHorizontalEnd, AlignStartVertical, Twitch, ListTodo, Map, CalendarSync, Youtube, TramFront, ClipboardPlus, Users, UserPlus } from 'lucide-react';
+import { ChartBarStacked, House, ShieldQuestion, Mails ,SquareChartGantt,UserCog ,TableOfContents, ShieldUser, LayoutPanelLeft, BetweenHorizontalEnd, AlignStartVertical, Twitch, ListTodo, Map, CalendarSync, Youtube, TramFront, ClipboardPlus, Users, UserPlus } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { PuffLoader } from "react-spinners";
 import { Home } from "@/pages/dashboard";
@@ -304,7 +304,7 @@ export const routes = [
       },
       
       {
-        icon: <SquareLibrary   {...icon} />,
+        icon: <ShieldUser   {...icon} />,
         name: "Obes School",
         path: "/school",
         children: [
@@ -335,7 +335,7 @@ export const routes = [
       },
 
       {
-        icon: <SquareLibrary   {...icon} />,
+        icon: <UserCog    {...icon} />,
         name: "Admin",
         path: "/admin",
         children: [

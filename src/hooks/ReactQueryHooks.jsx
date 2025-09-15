@@ -24,6 +24,10 @@ export const adminList = async (role) => {
   return response?.data?.data;
 };
 
+export const statusUpdate = async ({ statusData, role, id }) => {
+  const response = await axiosInstance.put(`/public/api/${role}/statusup/${id}`, statusData);
+  return response;
+};
 
 //category 
 

@@ -3,13 +3,11 @@ import React, { useEffect } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
 import Modal from '@/components/modal/Modal'
-import useNavigator from '@/components/navigator/useNavigate';
 import { useMutation,useQueryClient , useQuery } from "@tanstack/react-query";
 import { adminProfile, editCategory } from "@/hooks/ReactQueryHooks";
 import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 
 export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, selectedCategory }) {
-    const { handleNavigation } = useNavigator();
      const queryClient = useQueryClient();
     const {
         register,
@@ -41,7 +39,6 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
          mutationFn: editCategory,
          onSuccess: (res) => {
             queryClient.invalidateQueries(["catView"]);
-
             toast.success(res.data.message);
             setShowModalEdit(false)
             reset();
