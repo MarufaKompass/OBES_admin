@@ -11,7 +11,6 @@ import DatePicker from '@/components/datepicker/Datepicker';
 export default function AddAdmin() {
   const [showPassword, setShowPassword] = useState(false);
   const [smsNumber, setSmsNumber] = useState(null);
-  const [selected, setSelected] = useState("admin");
   const [showCalendar, setShowCalendar] = useState(false);
     const {
       register,

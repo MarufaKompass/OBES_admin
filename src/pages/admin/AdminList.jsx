@@ -2,15 +2,24 @@ import React, { useState } from 'react'
 import { Typography, Card, CardBody, Spinner, Alert } from "@material-tailwind/react";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminList, adminProfile, statusUpdate } from '@/hooks/ReactQueryHooks';
-import { Pencil, Trash } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { Search } from 'lucide-react';
 import { useForm, Controller } from "react-hook-form";
+import UpdateAdmin from './UpdateAdmin';
 
 export default function AdminList() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { control, setValue } = useForm();
+  const [selectedAdmin, setSelectedAdmin] = useState(null)
+  const [showModalEdit, setShowModalEdit] = useState(null)
+
+  const handleShowingInfoEdit = (admin) => {
+    setSelectedAdmin(admin);
+    setShowModalEdit(true)
+  }
+
 
   const handleAddClick = () => {
     navigate("/dashboard/admin/addAdmin");
@@ -24,7 +33,7 @@ export default function AdminList() {
     queryKey: ['adminList', profile?.role],
     queryFn: () => adminList(profile?.role)
   });
-  console.log("adminView", adminView)
+
 
   const { mutateAsync, isLoading: isMutating } = useMutation({
     mutationFn: statusUpdate,
@@ -163,6 +172,10 @@ export default function AdminList() {
                             </div>
                           )}
                         />
+
+                        <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(admin)}>
+                          <Pencil size={22} />
+                        </div>
                       </td>
                     </tr>
                   );
@@ -172,6 +185,8 @@ export default function AdminList() {
           )}
         </CardBody>
       </Card>
+
+      <UpdateAdmin showModalEdit={showModalEdit} selectedAdmin={selectedAdmin} setShowModalEdit={setShowModalEdit}></UpdateAdmin>
     </div>
   )
 }

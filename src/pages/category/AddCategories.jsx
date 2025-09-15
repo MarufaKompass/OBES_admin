@@ -84,7 +84,7 @@ export default function AddCategories() {
                 </Button>
 
                 <Button fullWidth type="submit" className='bg-primaryBg'>
-                  Add Category
+                  Create Category
                 </Button>
               </div>
             </CardBody>

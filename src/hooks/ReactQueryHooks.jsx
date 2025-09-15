@@ -12,7 +12,6 @@ export const adminProfile = async () => {
   return response.data?.data;
 };
 
-// https://api.obesitybes.com/public/api/admin/adsignup
 
 export const addAdmin = async ({ addAdminData, role }) => {
   const response = await axiosInstance.post(`/public/api/${role}/adsignup`, addAdminData);
@@ -26,6 +25,11 @@ export const adminList = async (role) => {
 
 export const statusUpdate = async ({ statusData, role, id }) => {
   const response = await axiosInstance.put(`/public/api/${role}/statusup/${id}`, statusData);
+  return response;
+};
+
+export const editAdmin = async ({ editAdminData, role, id }) => {
+  const response = await axiosInstance.put(`/public/api/${role}/adminupdate/${id}`, editAdminData);
   return response;
 };
 

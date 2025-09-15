@@ -125,7 +125,7 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                         </Button>
 
                                         <Button fullWidth type="submit" className='bg-primaryBg'>
-                                            Add Category
+                                            Update Category
                                         </Button>
                                     </div>
                                 </CardBody>

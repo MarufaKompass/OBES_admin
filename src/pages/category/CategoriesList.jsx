@@ -115,10 +115,7 @@ export default function CategoriesList() {
                     <td className="p-4">{cat?.catbangla}</td>
                     <td className="p-4">{cat?.catby}</td>
 
-                    <td className="p-4 flex gap-2">
-                      {/* <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfo(cat)}>
-                        <View size={22} />
-                      </div> */}
+                    <td className="p-4 flex gap-2"> 
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(cat)}>
                         <Pencil size={22} />
                       </div>
