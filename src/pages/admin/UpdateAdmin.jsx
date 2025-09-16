@@ -210,7 +210,7 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                                         </Typography>
                                         <div className='mt-2'>
                                             <Select
-                                                label="Select gender"
+                                          
                                                 value={watch("ogender")}
                                                 onChange={(val) => {
                                                     setValue("ogender", val, { shouldValidate: true });
