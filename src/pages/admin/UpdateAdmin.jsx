@@ -11,7 +11,7 @@ import DatePicker from '@/components/datepicker/Datepicker';
 export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedAdmin }) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [smsNumber, setSmsNumber] = useState(null);
-    console.log("selectedAdmin", selectedAdmin?.role)
+    console.log("selectedAdmin", selectedAdmin)
     const queryClient = useQueryClient();
     const {
         register,
@@ -70,11 +70,12 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
 
     const onSubmit = async (data) => {
         console.log('data', data)
+
         await mutateAsync({
             editAdminData: data,
             role: profile?.role,
-
             id: selectedAdmin?.id,
+
             fulname: selectedAdmin.fulname,
             ccode: selectedAdmin.ccode,
             logmobile: selectedAdmin.logmobile,

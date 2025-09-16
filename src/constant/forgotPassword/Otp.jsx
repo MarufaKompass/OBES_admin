@@ -4,12 +4,12 @@ import { useForm } from 'react-hook-form';
 
 import { useMutation } from '@tanstack/react-query';
 import { otpMatch } from '@/hooks/ReactQueryHooks';
-import { Link, useLocation,useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 export default function Otp() {
     const location = useLocation();
     const email = location.state?.email || "";
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -92,12 +92,12 @@ export default function Otp() {
                             <div className="max-w-md mx-auto w-full">
                                 {/* Back button */}
                                 <Link to="/forgot-password">
-                                 <button className="flex items-center text-gray-600 hover:text-gray-900 mb-8 group transition-colors">
-                                    <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                                    Back
-                                </button>
+                                    <button className="flex items-center text-gray-600 hover:text-gray-900 mb-8 group transition-colors">
+                                        <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+                                        Back
+                                    </button>
                                 </Link>
-                               
+
 
                                 {/* Header */}
                                 <div className="text-center mb-8">
@@ -144,7 +144,6 @@ export default function Otp() {
                                         <button type="submit" className="w-full  text-white bg-primaryBg py-3 px-6 rounded-xl font-semibold hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 mb-6">
                                             <div className=" rounded-ful">Changed Password</div>
                                         </button>
-
                                     </div>
                                 </form>
                             </div>

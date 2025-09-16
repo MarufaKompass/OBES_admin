@@ -21,7 +21,7 @@ export default function ChangedPassword() {
     const { mutateAsync } = useMutation({ mutationFn: passwordChanged });
 
     const onSubmit = async (data) => {
-        console.log("data", data)
+
         try {
             const res = await mutateAsync(data);
             toast.success(res?.data?.message);
