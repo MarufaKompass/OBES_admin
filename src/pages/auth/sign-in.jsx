@@ -64,14 +64,14 @@ export function SignIn() {
               {...register("password", { required: true })}
             />
           </div>
-          <div className="flex items-center justify-between gap-2 mt-4">
-            <Typography variant="small" className="font-medium text-gray-900 flex ">
-              <a href="#">
+          <div className="flex justify-end  gap-2 mt-3">
+            <Typography variant="medium" className="font-medium text-gray-900 flex ">
+              <Link to="/forgot-password">
                 Forgot Password
-              </a>
+              </Link>
             </Typography>
           </div>
-          <Button className="mt-6 bg-primaryBg" fullWidth type="submit">
+          <Button className="mt-3 bg-primaryBg" fullWidth type="submit">
             Sign In
           </Button>
 

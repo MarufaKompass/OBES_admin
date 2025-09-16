@@ -270,3 +270,21 @@ export const uploadImage = async (uploadAllImages) => {
   const response = await axiosInstance.post(`/public/api/imageupload`, uploadAllImages);
   return response;
 };
+
+
+// forgot password
+
+export const forgotPasswords = async (forgotPass) => {
+  const response = await axiosInstance.post(`/public/api/forgot-password`, forgotPass);
+  return response;
+};
+
+export const otpMatch = async (otp) => {
+  const response = await axiosInstance.post(`/public/api/otpmatch-password`, otp);
+  return response;
+};
+
+export const passwordChanged = async (changedPass) => {
+  const response = await axiosInstance.post(`/public/api/update-forgotpassword`, changedPass);
+  return response;
+};

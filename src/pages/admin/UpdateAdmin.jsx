@@ -11,7 +11,7 @@ import DatePicker from '@/components/datepicker/Datepicker';
 export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedAdmin }) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [smsNumber, setSmsNumber] = useState(null);
- console.log("selectedAdmin", selectedAdmin)
+    console.log("selectedAdmin", selectedAdmin?.role)
     const queryClient = useQueryClient();
     const {
         register,
@@ -45,6 +45,7 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                 ogender: selectedAdmin.ogender || "",
                 logemail: selectedAdmin.logemail || "",
                 dob: selectedAdmin.dob || "",
+                role: selectedAdmin.role || "",
 
             });
         }
@@ -69,18 +70,20 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
 
     const onSubmit = async (data) => {
         console.log('data', data)
-         await mutateAsync({
-             editAdminData: data,
-             role: profile?.role,
-             id:selectedAdmin?.id,
-             fulname: selectedAdmin.fulname,
-             ccode: selectedAdmin.ccode,
-             logmobile: selectedAdmin.logmobile,
-             smsmobile: selectedAdmin.smsmobile,
-             ogender: selectedAdmin.ogender,
-             logemail: selectedAdmin.logemail,
-             dob: selectedAdmin.dob,
-         });
+        await mutateAsync({
+            editAdminData: data,
+            role: profile?.role,
+
+            id: selectedAdmin?.id,
+            fulname: selectedAdmin.fulname,
+            ccode: selectedAdmin.ccode,
+            logmobile: selectedAdmin.logmobile,
+            smsmobile: selectedAdmin.smsmobile,
+            ogender: selectedAdmin.ogender,
+            logemail: selectedAdmin.logemail,
+            dob: selectedAdmin.dob,
+            role: selectedAdmin.role,
+        });
 
     };
 
@@ -154,7 +157,6 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                                                     name="logmobile"
                                                     type="number"
                                                     autoComplete="logmobile"
-                                                    placeholder="Mobile Number"
                                                     {...register("logmobile", { required: true })}
                                                     onChange={handleSmsNumber}
                                                     className="input border-[#d8d8d8] focus:outline-none focus:ring-0 w-[100%] border py-2 pl-2 rounded-md mt-1"
@@ -162,6 +164,24 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <div className="hidden">
+                                        <div>
+                                            <Typography className="font-poppins  text-[14px] font-medium">
+                                                Role
+                                            </Typography>
+                                            <input
+                                                name="role"
+                                                type="text"
+                                                autoComplete="role"
+                                                {...register("role", { required: true })}
+                                                className="input border-[#d8d8d8] focus:outline-none focus:ring-0 w-[100%] border py-2 pl-2 rounded-md mt-1"
+                                            />
+                                        </div>
+                                    </div>
+
+
 
 
                                     {smsNumber && (

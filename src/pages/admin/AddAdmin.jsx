@@ -4,13 +4,14 @@ import { useForm,Controller } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { addAdmin, addCategory, adminProfile } from '@/hooks/ReactQueryHooks';
-import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
+import { addAdmin, adminProfile } from '@/hooks/ReactQueryHooks';
+import { Card, CardHeader, Typography} from "@material-tailwind/react";
 import DatePicker from '@/components/datepicker/Datepicker';
 
 export default function AddAdmin() {
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const [smsNumber, setSmsNumber] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
     const {
       register,
@@ -33,7 +34,6 @@ export default function AddAdmin() {
       queryFn: adminProfile
     });
   
-    const navigate = useNavigate();
     const { mutateAsync } = useMutation({ mutationFn: addAdmin });
     const onSubmit = async (data) => {
       console.log("data", data)
