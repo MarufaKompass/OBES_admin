@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { adminProfile, deleteQuestion } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import MainButton from '@/components/mainButton/MainButton';
 
 
 export default function ModalDeleteQuestion({ selectedQuestion, showModalDelete, setShowModalDelete }) {
@@ -41,17 +42,17 @@ export default function ModalDeleteQuestion({ selectedQuestion, showModalDelete,
 
                             <div>
                                 <div className='flex justify-center'>
-                                    <div className='w-[70px] h-[70px] rounded-full  border-2 border-[#7B1E19] flex justify-center items-center'>
+                                    <div className='w-[70px] h-[70px] rounded-full  border-4 border-[#7B1E19] flex justify-center items-center'>
                                         <X size={32} color='#7B1E19' />
                                     </div>
                                 </div>
                                 <div className='text-center'>
-                                    <h2 className='mt-4 text-[26px] text-[#333] font-[poppins] font-semibold'>Are You sure?</h2>
-                                    <p className='mt-4 text-[14px] text-[#595959] font-[poppins]'>Do you really want to delete these Question? This <br></br>process cannot be undone.</p>
+                                    <h2 className='mt-4 text-h3 text-mainHeading font-heading font-semibold'>Are You sure?</h2>
+                                    <p className='mt-4 text-paragraphFont text-paragraph font-heading'>Do you really want to delete these Question? This <br></br>process cannot be undone.</p>
                                 </div>
                                 <div className='flex gap-3 justify-center mt-5'>
-                                    <button className=' px-10 py-2 text-[#333] bg-[#f1f1f1]' onClick={() => setShowModalDelete(false)}>Cancel</button>
-                                    <button className=' px-10 py-2 bg-[#7B1E19] text-white' onClick={() => deleteQues({ role: profile?.role, qid: selectedQuestion?.qid })}>Delete</button>
+                                    <MainButton variant="outlined" onClick={() => setShowModalDelete(false)}>Cancel</MainButton>
+                                    <MainButton variant="primary" onClick={() => deleteQues({ role: profile?.role, qid: selectedQuestion?.qid })}>Delete</MainButton>
                                 </div>
                             </div>
                         </div>

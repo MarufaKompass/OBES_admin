@@ -1,6 +1,6 @@
 import Modal from '@/components/modal/Modal'
 import React, { useState } from 'react'
-import {  Heart, Info,X } from "lucide-react"
+import { Heart, Info, X } from "lucide-react"
 export default function ModalQuestionDetails({ showModal, setShowModal, selectedQuestion }) {
   const [language, setLanguage] = useState("en")
 
@@ -24,7 +24,7 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
                   <button
                     onClick={() => setLanguage("en")}
                     className={`px-3 py-1 rounded text-sm border ${language === "en"
-                      ? "bg-primaryBg text-white border-primaryBg"
+                      ? "bg-primary text-white border-primary"
                       : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >
@@ -33,18 +33,18 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
                   <button
                     onClick={() => setLanguage("bn")}
                     className={`px-3 py-1 rounded text-sm border ${language === "bn"
-                      ? "bg-primaryBg text-white border-primaryBg"
+                      ? "bg-primary text-white border-primary"
                       : "bg-white text-gray-700 border-gray-300"
                       }`}
                   >
                     বাং
                   </button>
                   <div
-              onClick={() => setShowModal(false)}
-              className=" text-[#000] ml-2 cursor-pointer"
-            >
-              <X size={32} />
-            </div>
+                    onClick={() => setShowModal(false)}
+                    className=" text-[#000] ml-2 cursor-pointer"
+                  >
+                    <X size={32} />
+                  </div>
                 </div>
               </div>
 
@@ -81,7 +81,7 @@ export default function ModalQuestionDetails({ showModal, setShowModal, selected
 
             {/* Footer */}
 
-            
+
           </div>
         </div>
       </Modal>

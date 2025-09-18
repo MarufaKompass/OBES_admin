@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TagIcon, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Card, CardHeader, CardBody, Typography, Button, Input } from "@material-tailwind/react";
@@ -7,6 +7,9 @@ import { Card, CardHeader, CardBody, Typography, Button, Input } from "@material
 import useNavigator from '@/components/navigator/useNavigate';
 import { addQuestion, adminProfile, CategoryView } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import CustomInput from '@/components/input/CustomInput';
+import DynamicSelect from '@/components/select/DynamicSelect';
+import MainButton from '@/components/mainButton/MainButton';
 
 const questionTypes = [
   { qId: '1', label: 'Input', value: 'input' },
@@ -25,7 +28,7 @@ export default function Questionnaire() {
   const [catId, setCatId] = useState('');
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
   const [questionId, setQuestionId] = useState('');
-
+  const [error, setError] = useState();
   const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
   };
@@ -47,6 +50,7 @@ export default function Questionnaire() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm()
   const { handleNavigation } = useNavigator();
@@ -61,6 +65,16 @@ export default function Questionnaire() {
     queryFn: () => CategoryView(profile?.role)
   });
 
+
+  const qtype = watch("qatype");
+
+  useEffect(() => {
+    selectQuestionId({ target: { value: qtype } });
+  }, [qtype]);
+
+
+
+
   const { mutateAsync } = useMutation({ mutationFn: addQuestion });
 
   const onSubmit = async (data) => {
@@ -71,7 +85,7 @@ export default function Questionnaire() {
       handleNavigation('/dashboard/questionary/questionnaireLists');
       reset();
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'Submission failed');
+      setError(err?.response?.data?.message);
       reset();
     }
   };
@@ -79,17 +93,23 @@ export default function Questionnaire() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
       <Card className="w-full max-w-3xl shadow-lg rounded-lg border border-gray-200 bg-white">
-        <CardHeader floated={false} shadow={false} className="flex flex-col items-center bg-transparent pt-10 pb-6">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100">
-            <TagIcon className="h-8 w-8 text-blue-600" />
+        <CardHeader
+          floated={false}
+          shadow={false}
+          className="flex flex-col items-center bg-[#7B1E19] pb-6 rounded-t-2xl"
+        >
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/30 mt-4">
+            <TagIcon className="h-6 w-6 text-white" />
           </div>
-          <Typography variant="h3" color="blue-gray" className="font-semibold">
-            Add New Questionnaire
+          <Typography variant="h4" className="font-semibold text-whiteHeading font-heading">
+            Create New Questionnaire
           </Typography>
-          <Typography color="gray" className="text-center font-normal text-md mt-1 max-w-md">
+          <Typography className="text-center font-normal text-sm text-whiteHeading font-heading opacity-80">
             Create a new question for your posts
           </Typography>
         </CardHeader>
+
+
         <form onSubmit={handleSubmit(onSubmit)} className="px-10 pb-10">
           <CardBody className="space-y-8">
             {/* Category Select */}
@@ -97,7 +117,7 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Category
               </Typography>
-              <select
+              {/* <select
                 value={catId}
                 onChange={categoryId}
                 className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
@@ -111,25 +131,63 @@ export default function Questionnaire() {
                   </option>
                 ))}
               </select>
-              {errors.catid && <p className="text-red-500 text-xs mt-1">Category is required</p>}
+              {errors.catid && <p className="text-red-500 text-xs mt-1">Category is required</p>} */}
+
+
+
+              <DynamicSelect
+                name="catid"
+                defaultValue={catId}
+                onChange={categoryId}
+                label="Select Category Type"
+                options={catView?.map(cat => ({ value: cat.catid, label: cat.catname })) || []}
+                register={register || ""}
+                rules={{ required: error }}
+                errors={errors}
+                placeholder="-- Select Category Type --"
+              />
+
+              {errors.cat && (
+                <Typography color="red" className="text-xs ">
+                  {errors.cat.message}
+                </Typography>
+              )}
+
+
             </div>
 
+
             {/* Hidden Category ID Input for form */}
-            {catId && (
+            {/* {catId && (
               <input type="hidden" value={catId} {...register("catid", { required: true })} />
             )}
+ */}
+
+
 
             {/* Question English */}
-            <div className="space-y-1">
-              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+            <div className="space-y-2">
+              <Typography variant="small" className="font-medium text-mainHeading font-heading">
                 Question (English)
               </Typography>
-              <Input
+              {/* <Input
                 label="Enter question in English"
                 {...register("qeng", { required: true })}
                 color={errors.qeng ? "red" : "blue"}
+              /> */}
+
+              <CustomInput
+                name="qeng"
+                label="Enter question in English"
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
               />
-              {errors.qeng && <p className="text-red-500 text-xs mt-1">English question is required</p>}
+
+
+              {errors.qeng && (
+                <Typography color="red" className="text-xs mt-1">{errors.qeng.message}</Typography>
+              )}
             </div>
 
             {/* Question Bangla */}
@@ -137,12 +195,32 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 প্রশ্ন (বাংলা)
               </Typography>
-              <Input
+              {/* <Input
                 label="বাংলায় প্রশ্ন লিখুন"
                 {...register("qbang", { required: true })}
                 color={errors.qbang ? "red" : "blue"}
               />
-              {errors.qbang && <p className="text-red-500 text-xs mt-1">Bangla question is required</p>}
+              {errors.qbang && <p className="text-red-500 text-xs mt-1">Bangla question is required</p>} */}
+
+
+
+              <CustomInput
+                name="qbang"
+                label="বাংলায় প্রশ্ন লিখুন"
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
+              />
+
+
+              {errors.qbang && (
+                <Typography color="red" className="text-xs mt-1">{errors.qbang.message}</Typography>
+              )}
+
+
+
+
+
             </div>
 
             {/* Question Type Select */}
@@ -150,7 +228,7 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Question Type
               </Typography>
-              <select
+              {/* <select
                 {...register("qatype", { required: true })}
                 value={questionId}
                 onChange={selectQuestionId}
@@ -164,7 +242,26 @@ export default function Questionnaire() {
                     {question?.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
+
+              <DynamicSelect
+                name="qatype"
+                label="Select Question Type"
+                onChange={selectQuestionId}
+                options={questionTypes}
+                register={register}
+                rules={{ required: error }}  // add message here
+                errors={errors}
+                placeholder="-- Select Question Type --"
+              />
+
+              {errors.qatype && (
+                <Typography color="red" className="text-xs ">
+                  {errors.qatype.message}
+                </Typography>
+              )}
+
+
             </div>
 
             {/* Options for question types needing options */}
@@ -172,11 +269,9 @@ export default function Questionnaire() {
               <div>
                 <div className="flex justify-end mb-4">
                   <Button
-                    variant="gradient"
-                    color="blue"
                     size="sm"
                     onClick={addOption}
-                    className="capitalize"
+                    className="capitalize bg-primary"
                   >
                     + Add Option
                   </Button>
@@ -192,9 +287,8 @@ export default function Questionnaire() {
                           type="text"
                           {...register(`qaoptioneng[${index}]`, { required: true })}
                           placeholder="Enter English option"
-                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${
-                            errors.qaoptioneng && errors.qaoptioneng[index] ? 'border-red-500' : 'border-gray-300'
-                          }`}
+                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${errors.qaoptioneng && errors.qaoptioneng[index] ? 'border-red-500' : 'border-gray-300'
+                            }`}
                         />
                       </div>
                       <div>
@@ -205,9 +299,8 @@ export default function Questionnaire() {
                           type="text"
                           {...register(`qaoptionbng[${index}]`, { required: true })}
                           placeholder="বাংলা অপশন লিখুন"
-                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${
-                            errors.qaoptionbng && errors.qaoptionbng[index] ? 'border-red-500' : 'border-gray-300'
-                          }`}
+                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${errors.qaoptionbng && errors.qaoptionbng[index] ? 'border-red-500' : 'border-gray-300'
+                            }`}
                         />
                       </div>
 
@@ -232,7 +325,7 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Status Type
               </Typography>
-              <select
+              {/* <select
                 {...register("qstatus", { required: true })}
                 className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               >
@@ -245,7 +338,28 @@ export default function Questionnaire() {
                   </option>
                 ))}
               </select>
-              {errors.qstatus && <p className="text-red-500 text-xs mt-1">Status type is required</p>}
+              {errors.qstatus && <p className="text-red-500 text-xs mt-1">Status type is required</p>} */}
+
+
+
+              <DynamicSelect
+                name="qstatus"
+                label="Select Question Type"
+                options={statusTypes}
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
+                placeholder="-- Select Status Type --"
+              />
+
+              {errors.qstatus && (
+                <Typography color="red" className="text-xs ">
+                  {errors.qstatus.message}
+                </Typography>
+              )}
+
+
+
             </div>
 
             {/* Hidden Question By input */}
@@ -256,20 +370,19 @@ export default function Questionnaire() {
 
           {/* Buttons */}
           <div className="flex gap-4 px-10 pb-10 pt-6 justify-end">
-            <Button
+            <MainButton
               variant="outlined"
-              color="gray"
               onClick={() => reset()}
-              className="w-32"
+
             >
               Cancel
-            </Button>
-            <Button
+            </MainButton>
+            <MainButton
               type="submit"
-              className="w-36 bg-blue-600 hover:bg-blue-700 transition"
+              variant="primary"
             >
               Add Questionnaire
-            </Button>
+            </MainButton>
           </div>
         </form>
       </Card>
