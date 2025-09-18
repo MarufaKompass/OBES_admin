@@ -64,8 +64,8 @@ export default function CategoriesList() {
             <hr />
           </div>
           {isUserLoading && (
-            <div className="flex justify-center items-center h-full">
-              <Spinner color="blue" />
+            <div className="flex justify-center items-center h-screen">
+              <Spinner color="#7B1E19" />
               <span className="ml-2">Loading user profile...</span>
             </div>
           )}
@@ -104,9 +104,9 @@ export default function CategoriesList() {
                 </tr>
               </thead>
               <tbody>
-                {catView?.map((cat) => (
-                  <tr key={cat?.catid} className="even:bg-blue-gray-50/50">
-                    <td className="p-4">{cat?.catid}</td>
+                {catView?.map((cat,index) => (
+                  <tr key={cat?.catid} className="even:bg-blue-gray-50/50 font-heading text-paragraphFont text-paragraph ">
+                    <td className="p-4">{index}</td>
                     <td className="p-4">{cat?.catname}</td>
                     <td className="p-4">{cat?.catbangla}</td>
                     <td className="p-4">{cat?.catby}</td>
