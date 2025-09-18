@@ -113,20 +113,13 @@ export default function AddCategories() {
               >
                 Cancel
               </MainButton>
-              {/* <Button
-                fullWidth
-                type="submit"
-                className="bg-white text-[#7B1E19] font-semibold hover:bg-gray-100 transition-all shadow-md"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Creating...' : 'Create Category'}
-              </Button> */}
-<div className="w-full">
-<MainButton variant="primary" fullWidth type="submit">
-  {isSubmitting ? 'Creating...' : 'Create Category'}
-</MainButton>
-</div>
- 
+
+              <div className="w-full">
+                <MainButton variant="primary" fullWidth type="submit">
+                  {isSubmitting ? 'Creating...' : 'Create Category'}
+                </MainButton>
+              </div>
+
             </div>
           </CardBody>
         </form>

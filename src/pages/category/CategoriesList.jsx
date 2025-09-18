@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Typography, Card, CardBody, Button, Spinner, Alert } from "@material-tailwind/react";
 import { useQuery } from '@tanstack/react-query';
 import { adminProfile, CategoryView } from '@/hooks/ReactQueryHooks';
-import { Pencil, Trash } from 'lucide-react';
+import { SquarePen , Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
 import ModalCategoryEdit from './ModalCategoryEdit';
 import { useNavigate } from "react-router-dom";
@@ -113,7 +113,7 @@ export default function CategoriesList() {
 
                     <td className="p-4 flex gap-2">
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(cat)}>
-                        <Pencil size={22} />
+                        <SquarePen  size={22} />
                       </div>
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoDelete(cat)}>
                         <Trash size={22} />

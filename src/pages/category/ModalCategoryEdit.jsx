@@ -1,14 +1,15 @@
 import { toast } from 'react-toastify';
 import React, { useEffect } from "react";
-import { Pencil, X } from "lucide-react";
+import { SquarePen, X } from "lucide-react";
 import { useForm } from "react-hook-form"
 import Modal from '@/components/modal/Modal'
-import { useMutation,useQueryClient , useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { adminProfile, editCategory } from "@/hooks/ReactQueryHooks";
 import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
+import MainButton from '@/components/MainButton';
 
 export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, selectedCategory }) {
-     const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
@@ -22,39 +23,39 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
     });
 
 
- useEffect(() => {
-  if (selectedCategory && profile) {
-    reset({
-      catname: selectedCategory.catname || "",
-      catbangla: selectedCategory.catbangla || "",
-      catby: profile?.logmobile || "",
-    });
-  }
-}, [selectedCategory, profile, reset]);
+    useEffect(() => {
+        if (selectedCategory && profile) {
+            reset({
+                catname: selectedCategory.catname || "",
+                catbangla: selectedCategory.catbangla || "",
+                catby: profile?.logmobile || "",
+            });
+        }
+    }, [selectedCategory, profile, reset]);
 
 
 
 
     const { mutateAsync } = useMutation({
-         mutationFn: editCategory,
-         onSuccess: (res) => {
+        mutationFn: editCategory,
+        onSuccess: (res) => {
             queryClient.invalidateQueries(["catView"]);
             toast.success(res.data.message);
             setShowModalEdit(false)
             reset();
 
-         },
+        },
         onError: (err) => {
             toast.error(err?.response?.data?.message || "Update failed")
-}
-         });
+        }
+    });
 
     const onSubmit = async (data) => {
         console.log('data', data)
-            await mutateAsync({ 
+        await mutateAsync({
             editCategoryData: data,
             role: profile?.role,
-            catid: selectedCategory?.catid 
+            catid: selectedCategory?.catid
         });
 
     };
@@ -68,8 +69,10 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
 
                             <div className="flex gap-3 justify-between ml-6 border-b pb-4">
                                 <div className="flex gap-3 ">
-                                    <Pencil size={24} color="#7B1E19" />
-                                    <Typography color="#333" className=" text-xl font-bold">
+                                    <div className="flex items-center">
+                                        <SquarePen size={24} color="#7B1E19" />
+                                    </div>
+                                    <Typography color="#333" className="text-h5 font-bold font-heading">
                                         Update Category
                                     </Typography>
                                 </div>
@@ -85,7 +88,7 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
 
 
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             Category Name (English)
                                         </Typography>
                                         <Input
@@ -96,7 +99,7 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             ক্যাটাগরি নাম (বাংলা)
                                         </Typography>
                                         <Input
@@ -108,9 +111,6 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                     </div>
 
                                     <div className="space-y-2 hidden">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
-                                            Category By
-                                        </Typography>
                                         {
                                             profile?.logmobile && (
                                                 <Input label="category by" type="number"  {...register("catby", { required: true })}
@@ -120,13 +120,13 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
 
                                     </div>
                                     <div className="flex gap-3 pt-4">
-                                        <Button variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
+                                        <MainButton variant="outlined" fullWidth >
                                             Cancel
-                                        </Button>
+                                        </MainButton>
 
-                                        <Button fullWidth type="submit"  className="bg-white text-[#7B1E19] font-semibold hover:bg-gray-100 transition-all shadow-md">
+                                        <MainButton fullWidth type="submit" >
                                             Update Category
-                                        </Button>
+                                        </MainButton>
                                     </div>
                                 </CardBody>
                             </form>
