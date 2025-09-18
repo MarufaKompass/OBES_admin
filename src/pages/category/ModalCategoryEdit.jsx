@@ -66,7 +66,7 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
 
-                            <div className="flex gap-3 justify-between ml-6">
+                            <div className="flex gap-3 justify-between ml-6 border-b pb-4">
                                 <div className="flex gap-3 ">
                                     <Pencil size={24} color="#7B1E19" />
                                     <Typography color="#333" className=" text-xl font-bold">
@@ -124,7 +124,7 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                             Cancel
                                         </Button>
 
-                                        <Button fullWidth type="submit" className='bg-primaryBg'>
+                                        <Button fullWidth type="submit"  className="bg-white text-[#7B1E19] font-semibold hover:bg-gray-100 transition-all shadow-md">
                                             Update Category
                                         </Button>
                                     </div>

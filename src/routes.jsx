@@ -54,7 +54,7 @@ export const routes = [
         children: [
           {
             icon: <ChartBarStacked  {...icon} />,
-            name: "Add Category",
+            name: "Create Category",
             path: "addCategory",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
@@ -177,7 +177,7 @@ export const routes = [
         children: [
           {
             icon: <Youtube     {...icon} />,
-            name: "Add Videos",
+            name: "Create Videos",
             path: "video",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
