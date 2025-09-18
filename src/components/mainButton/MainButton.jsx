@@ -21,7 +21,7 @@ export default function MainButton({
     secondary:
       "bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500",
     outlined:
-      "border border-accent text-accent hover:bg-primary/10 focus:ring-primary",
+      "border border-accent text-paragraph hover:bg-primary/10 focus:ring-primary",
   };
 
   // Sizes

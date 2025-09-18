@@ -6,7 +6,8 @@ import Modal from '@/components/modal/Modal'
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { adminProfile, editCategory } from "@/hooks/ReactQueryHooks";
 import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
-import MainButton from '@/components/MainButton';
+import MainButton from '@/components/mainButton/MainButton';
+import CustomInput from '@/components/input/CustomInput';
 
 export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, selectedCategory }) {
     const queryClient = useQueryClient();
@@ -91,10 +92,12 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                         <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             Category Name (English)
                                         </Typography>
-                                        <Input
-                                            type="text"
-                                            defaultValue={selectedCategory?.catname}
-                                            {...register("catname", { required: true })} />
+
+                                        <CustomInput
+                                            name="catname"
+                                            register={register}
+                                            rules={{ required: true }}
+                                        />
 
                                     </div>
 
@@ -102,12 +105,16 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                         <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             ক্যাটাগরি নাম (বাংলা)
                                         </Typography>
-                                        <Input
-                                            type="text"
-                                            defaultValue={selectedCategory?.catbangla}
-                                            {...register("catbangla", { required: true })}
 
+
+                                        <CustomInput
+                                            name="catbangla"
+                                            register={register}
+                                            rules={{ required: true }}
                                         />
+
+
+
                                     </div>
 
                                     <div className="space-y-2 hidden">

@@ -12,7 +12,8 @@ module.exports = withMT({
         subHeading:"#2563EB",
         paragraph:"#475569",
         background:"#f7f4f4",
-        Accent:"#7B1E19"
+        accent:"#f1f1f1",
+        place:"#e8e8e8"
 
       },
       fontFamily: {

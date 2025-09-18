@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import React, { useState } from "react";
 import { TagIcon, X } from "lucide-react";
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { Card, CardHeader, CardBody, Typography, Button, Input } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
@@ -19,12 +19,12 @@ const statusTypes = [
   { qId: '1', label: 'Draft', value: 'draft' },
   { qId: '2', label: 'Published', value: 'published' },
   { qId: '3', label: 'Archived', value: 'archived' },
-
 ];
 
 export default function Questionnaire() {
   const [catId, setCatId] = useState('');
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
+  const [questionId, setQuestionId] = useState('');
 
   const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
@@ -39,7 +39,6 @@ export default function Questionnaire() {
   const categoryId = (e) => {
     setCatId(e.target.value)
   }
-  const [questionId, setQuestionId] = useState('');
   const selectQuestionId = (e) => {
     setQuestionId(e.target.value)
   }
@@ -57,7 +56,6 @@ export default function Questionnaire() {
     queryFn: adminProfile
   });
 
-
   const { data: catView } = useQuery({
     queryKey: ['catView', profile?.role],
     queryFn: () => CategoryView(profile?.role)
@@ -73,233 +71,208 @@ export default function Questionnaire() {
       handleNavigation('/dashboard/questionary/questionnaireLists');
       reset();
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'Login failed');
+      toast.error(err?.response?.data?.message || 'Submission failed');
       reset();
     }
   };
 
-
   return (
-    <>
-      <div className="h-full  flex items-center justify-center px-4 py-16 mt-4">
-        <Card className="w-full mx-auto md:px-24 px-2 ">
-          <CardHeader
-            floated={false}
-            shadow={false}
-            className="flex flex-col items-center bg-transparent"
-          >
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
-              <TagIcon className="h-6 w-6 text-primaryBg" />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <Card className="w-full max-w-3xl shadow-lg rounded-lg border border-gray-200 bg-white">
+        <CardHeader floated={false} shadow={false} className="flex flex-col items-center bg-transparent pt-10 pb-6">
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100">
+            <TagIcon className="h-8 w-8 text-blue-600" />
+          </div>
+          <Typography variant="h3" color="blue-gray" className="font-semibold">
+            Add New Questionnaire
+          </Typography>
+          <Typography color="gray" className="text-center font-normal text-md mt-1 max-w-md">
+            Create a new question for your posts
+          </Typography>
+        </CardHeader>
+        <form onSubmit={handleSubmit(onSubmit)} className="px-10 pb-10">
+          <CardBody className="space-y-8">
+            {/* Category Select */}
+            <div className="space-y-1">
+              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                Select Category
+              </Typography>
+              <select
+                value={catId}
+                onChange={categoryId}
+                className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              >
+                <option value="" disabled>
+                  -- Select Category --
+                </option>
+                {catView?.map((category) => (
+                  <option key={category?.catid} value={category?.catid}>
+                    {category?.catname}
+                  </option>
+                ))}
+              </select>
+              {errors.catid && <p className="text-red-500 text-xs mt-1">Category is required</p>}
             </div>
-            <Typography variant="h4" color="blue-gray">
-              Add New Questionnaires
-            </Typography>
-            <Typography color="gray" className="text-center font-normal text-sm">
-              Create a new Question for your posts
-            </Typography>
-          </CardHeader>
-          <form onSubmit={handleSubmit(onSubmit)}  >
-            <CardBody className="space-y-6">
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Select Category
-                </Typography>
-                <select
-                  label="Select Category"
-                  value={catId}
-                  onChange={categoryId}
-                  className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                >
-                  <option value="" disabled>
-                    -- Select Category --
+
+            {/* Hidden Category ID Input for form */}
+            {catId && (
+              <input type="hidden" value={catId} {...register("catid", { required: true })} />
+            )}
+
+            {/* Question English */}
+            <div className="space-y-1">
+              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                Question (English)
+              </Typography>
+              <Input
+                label="Enter question in English"
+                {...register("qeng", { required: true })}
+                color={errors.qeng ? "red" : "blue"}
+              />
+              {errors.qeng && <p className="text-red-500 text-xs mt-1">English question is required</p>}
+            </div>
+
+            {/* Question Bangla */}
+            <div className="space-y-1">
+              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                প্রশ্ন (বাংলা)
+              </Typography>
+              <Input
+                label="বাংলায় প্রশ্ন লিখুন"
+                {...register("qbang", { required: true })}
+                color={errors.qbang ? "red" : "blue"}
+              />
+              {errors.qbang && <p className="text-red-500 text-xs mt-1">Bangla question is required</p>}
+            </div>
+
+            {/* Question Type Select */}
+            <div className="space-y-1">
+              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                Select Question Type
+              </Typography>
+              <select
+                {...register("qatype", { required: true })}
+                value={questionId}
+                onChange={selectQuestionId}
+                className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              >
+                <option value="" disabled>
+                  -- Select Question Type --
+                </option>
+                {questionTypes?.map((question) => (
+                  <option key={question?.qId} value={question?.value} >
+                    {question?.label}
                   </option>
-                  {catView?.map((category) => (
-                    <option key={category?.catid} value={category?.catid} >
-                      {category?.catname}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {
-                catId && (
-                  <div className="space-y-2 hidden">
-                    <Input label="Question name" value={catId}   {...register("catid", { required: true })} />
-                  </div>
-                )
-              }
+                ))}
+              </select>
+            </div>
 
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Question (English)
-                </Typography>
-                <Input label="Question English" type="text"   {...register("qeng", { required: true })} />
-              </div>
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  প্রশ্ন (বাংলা)
-                </Typography>
-                <Input label="প্রশ্ন বাংলা" type="text"   {...register("qbang", { required: true })} />
-              </div>
-
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Select Question Type
-                </Typography>
-                <select
-                  {...register("qatype", { required: true })}
-                  label="Select Category"
-                  value={questionId}
-                  onChange={selectQuestionId}
-                  className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                >
-                  <option value="" disabled>
-                    -- Select Question Type --
-                  </option>
-                  {questionTypes?.map((question) => (
-                    <option key={question?.qId} value={question?.value} >
-                      {question?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="space-y-2">
-                {
-                  (questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') ?
-                    (
-                      <>
-                        <div className='flex justify-end'>
-
-                          <button
-                            type="button"
-                            onClick={addOption}
-                            className="text-white bg-primaryBg hover:bg-primaryBg px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
-                          >
-                            + Add Option
-                          </button>
-                        </div>
-                        {options.map((_, index) => (
-                          <div key={index} className="grid grid-cols-2 gap-4 relative">
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Option (English)
-                              </label>
-                              <input
-                                type="text"
-                                {...register(`qaoptioneng[${index}]`, { required: true })}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                                placeholder="Enter English option"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                অপশন (বাংলা)
-                              </label>
-                              <input
-                                type="text"
-                                {...register(`qaoptionbng[${index}]`, { required: true })}
-                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                                placeholder="বাংলা অপশন লিখুন"
-                              />
-                            </div>
-
-                            <div>
-                              {options.length > 1 && (
-                                <button
-                                  type="button"
-                                  onClick={() => removeOption(index)}
-                                  className="absolute top-0 right-2 text-red-600 hover:text-red-800 text-[12px]"
-                                  title="Delete option"
-                                >
-                                  <X size={16} />
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-
-                        ))}
-
-                      </>
-                    ) : questionId === 'input' || questionId === 'clock' ? (
-                      <>
-                        <div className=" grid-cols-2 gap-4 relative hidden">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Option (English)
-                            </label>
-                            <input
-                              type="text"
-                              {...register('qaoptioneng')}
-                              className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                              placeholder="Enter English option"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              অপশন (বাংলা)
-                            </label>
-                            <input
-                              type="text"
-                              {...register('qaoptionbng')}
-                              className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
-                              placeholder="বাংলা অপশন লিখুন"
-                            />
-                          </div>
-                        </div>
-                      </>
-                    ) : questionId === 'clock' ?(
-                      <></>
-                    ): (
-                      <></>
-                    )
-                }
-
-              </div>
-              <div className="space-y-2 ">
-                <Typography variant="small" color="blue-gray" className="font-medium">
-                  Select Status Type
-                </Typography>
-                <select
-                  {...register("qstatus", { required: true })}
-                  label="Select Category"
-                  className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                >
-                  <option >
-                    -- Select Question Type --
-                  </option>
-                  {statusTypes?.map((status) => (
-                    <option key={status?.qId} value={status?.value} >
-                      {status?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {profile?.role && (
-                <div className="space-y-2 hidden">
-                  <Typography variant="small" color="blue-gray" className="font-medium" >
-                    Question By
-                  </Typography>
-                  <Input label="category by" type="text" marginTop='10px' value={profile?.role}  {...register("qby", { required: true })} />
+            {/* Options for question types needing options */}
+            {(questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') && (
+              <div>
+                <div className="flex justify-end mb-4">
+                  <Button
+                    variant="gradient"
+                    color="blue"
+                    size="sm"
+                    onClick={addOption}
+                    className="capitalize"
+                  >
+                    + Add Option
+                  </Button>
                 </div>
-              )}
+                <div className="space-y-4">
+                  {options.map((_, index) => (
+                    <div key={index} className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end relative">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Option (English)
+                        </label>
+                        <input
+                          type="text"
+                          {...register(`qaoptioneng[${index}]`, { required: true })}
+                          placeholder="Enter English option"
+                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${
+                            errors.qaoptioneng && errors.qaoptioneng[index] ? 'border-red-500' : 'border-gray-300'
+                          }`}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          অপশন (বাংলা)
+                        </label>
+                        <input
+                          type="text"
+                          {...register(`qaoptionbng[${index}]`, { required: true })}
+                          placeholder="বাংলা অপশন লিখুন"
+                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${
+                            errors.qaoptionbng && errors.qaoptionbng[index] ? 'border-red-500' : 'border-gray-300'
+                          }`}
+                        />
+                      </div>
 
-
-              <div className="flex gap-3 pt-4 pb-6">
-                <Button variant="outlined" fullWidth>
-                  Cancel
-                </Button>
-
-                <Button fullWidth type="submit" className='bg-primaryBg'>
-                  Add Questionnaires
-                </Button>
+                      {options.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeOption(index)}
+                          className="absolute top-0 right-0 mt-1 mr-1 text-red-600 hover:text-red-800 p-1 rounded-full transition"
+                          title="Delete option"
+                        >
+                          <X size={18} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </CardBody>
-          </form>
-        </Card>
-      </div>
-    </>
+            )}
 
-  )
+            {/* Status Type Select */}
+            <div className="space-y-1">
+              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                Select Status Type
+              </Typography>
+              <select
+                {...register("qstatus", { required: true })}
+                className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              >
+                <option value="" className="font-medium text-mainHeading font-heading">
+                  -- Select Status Type --
+                </option>
+                {statusTypes?.map((status) => (
+                  <option key={status?.qId} value={status?.value} >
+                    {status?.label}
+                  </option>
+                ))}
+              </select>
+              {errors.qstatus && <p className="text-red-500 text-xs mt-1">Status type is required</p>}
+            </div>
+
+            {/* Hidden Question By input */}
+            {profile?.role && (
+              <input type="hidden" value={profile?.role} {...register("qby", { required: true })} />
+            )}
+          </CardBody>
+
+          {/* Buttons */}
+          <div className="flex gap-4 px-10 pb-10 pt-6 justify-end">
+            <Button
+              variant="outlined"
+              color="gray"
+              onClick={() => reset()}
+              className="w-32"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="w-36 bg-blue-600 hover:bg-blue-700 transition"
+            >
+              Add Questionnaire
+            </Button>
+          </div>
+        </form>
+      </Card>
+    </div>
+  );
 }

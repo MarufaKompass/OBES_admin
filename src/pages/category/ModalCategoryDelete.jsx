@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { adminProfile, deleteCategory } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import MainButton from '@/components/MainButton';
+import MainButton from '@/components/mainButton/MainButton';
 
 
 export default function ModalCategoryDelete({ selectedCategory, showModalDelete, setShowModalDelete }) {

@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Typography, Card, CardBody, Button, Spinner, Alert } from "@material-tailwind/react";
 import { useQuery } from '@tanstack/react-query';
 import { adminProfile, CategoryView } from '@/hooks/ReactQueryHooks';
-import { SquarePen , Trash } from 'lucide-react';
+import { SquarePen, Trash } from 'lucide-react';
 import ModalCategoryDelete from './ModalCategoryDelete';
 import ModalCategoryEdit from './ModalCategoryEdit';
 import { useNavigate } from "react-router-dom";
 
-import MainButton from '@/components/MainButton';
+import MainButton from '@/components/mainButton/MainButton';
 export default function CategoriesList() {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -75,21 +75,17 @@ export default function CategoriesList() {
             </Alert>
           )}
 
-
           {!isUserLoading && isCatLoading && (
             <div className="flex justify-center items-center">
               <Spinner color="blue" />
               <span className="ml-2">Loading categories...</span>
             </div>
           )}
-
           {!isUserLoading && isCatError && (
             <Alert color="red">
               Failed to load categories: {catError?.message || "Unknown error"}
             </Alert>
           )}
-
-
           {!isUserLoading && !isUserError && !isCatLoading && !isCatError && (
             <table className="w-full min-w-max table-auto text-left">
               <thead>
@@ -104,22 +100,20 @@ export default function CategoriesList() {
                 </tr>
               </thead>
               <tbody>
-                {catView?.map((cat,index) => (
+                {catView?.map((cat, index) => (
                   <tr key={cat?.catid} className="even:bg-blue-gray-50/50 font-heading text-paragraphFont text-paragraph ">
                     <td className="p-4">{index}</td>
                     <td className="p-4">{cat?.catname}</td>
                     <td className="p-4">{cat?.catbangla}</td>
                     <td className="p-4">{cat?.catby}</td>
-
                     <td className="p-4 flex gap-2">
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoEdit(cat)}>
-                        <SquarePen  size={22} />
+                        <SquarePen size={22} />
                       </div>
                       <div className="mr-2 cursor-pointer" onClick={() => handleShowingInfoDelete(cat)}>
                         <Trash size={22} />
                       </div>
                     </td>
-
                   </tr>
                 ))}
               </tbody>
@@ -127,7 +121,6 @@ export default function CategoriesList() {
           )}
         </CardBody>
       </Card>
-
       <ModalCategoryDelete selectedCategory={selectedCategory} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete}></ModalCategoryDelete>
       <ModalCategoryEdit setShowModalEdit={setShowModalEdit} showModalEdit={showModalEdit} selectedCategory={selectedCategory}></ModalCategoryEdit>
 

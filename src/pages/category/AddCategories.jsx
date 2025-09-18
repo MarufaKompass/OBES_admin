@@ -6,7 +6,8 @@ import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { addCategory, adminProfile } from '@/hooks/ReactQueryHooks';
 import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
-import MainButton from '@/components/MainButton';
+import MainButton from '@/components/mainButton/MainButton';
+import CustomInput from '@/components/input/CustomInput';
 
 export default function AddCategories() {
   const [error, setError] = useState();
@@ -65,15 +66,14 @@ export default function AddCategories() {
               <Typography variant="small" className="font-medium text-mainHeading font-heading">
                 Category Name (English)
               </Typography>
-              <Input
-
-                label="category name (English)"
-                type="text"
-                {...register("catname", { required: error })}
-                className="focus:ring focus:ring-white/60"
-                success={!!errors.catname}
-                error={!!errors.catname}
+              <CustomInput
+                name="catname"
+                label="Category name (English)"
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
               />
+
               {errors.catname && (
                 <Typography color="red" className="text-xs mt-1">{errors.catname.message}</Typography>
               )}
@@ -82,26 +82,30 @@ export default function AddCategories() {
               <Typography variant="small" className="font-medium text-mainHeading font-heading">
                 ক্যাটাগরি নাম (বাংলা)
               </Typography>
-              <Input
-                variant="medium"
+              <CustomInput
+                name="catbangla"
                 label="ক্যাটাগরি নাম (বাংলা)"
-                type="text"
-                {...register("catbangla", { required: error })}
-                className="focus:ring focus:ring-white/60"
-                success={!!errors.catbangla}
-                error={!!errors.catbangla}
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
               />
               {errors.catbangla && (
                 <Typography color="red" className="text-xs mt-1">{errors.catbangla.message}</Typography>
               )}
             </div>
-            {profile?.logmobile && (
-              <input
-                type="hidden"
-                value={profile.logmobile}
-                {...register("catby", { required: true })}
-              />
+          <div>
+              {profile?.logmobile && (
+               <CustomInput
+               type='number'
+                name="catby"
+                label="ক্যাটাগরি নাম (বাংলা)"
+                defaultValue={profile?.logmobile}
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
+              />            
             )}
+          </div>
             <div className="flex gap-3 pt-6">
               <MainButton
                 variant="outlined"
