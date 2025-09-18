@@ -91,7 +91,7 @@ export default function Questionnaire() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="h-screen flex items-center justify-center px-4 mt-4 bg-background shadow-xl rounded-2xl">
       <Card className="w-full max-w-3xl shadow-lg rounded-lg border border-gray-200 bg-white">
         <CardHeader
           floated={false}
