@@ -20,8 +20,6 @@ export default function VideoList() {
     setShowModalDelete(true);
   };
 
-
-
   const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile,
@@ -39,7 +37,7 @@ export default function VideoList() {
           <div className="rounded-xl border bg-white shadow-md">
             {/* Header */}
             <div className="px-6 py-4 border-b flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-mainHeading font-heading">
                 Uploaded Videos ({videoLists?.length})
               </h2>
             </div>
@@ -64,29 +62,21 @@ export default function VideoList() {
 
                   {/* Info */}
                   <div className="mt-4 flex-1">
-                    <h3 className="text-lg font-medium text-gray-800 line-clamp-1">
+                    <h3 className="text-lg font-semibold text-mainHeading font-heading  line-clamp-1">
                       {video?.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                    <p className="text-sm text-paragraph font-heading mt-1 line-clamp-2">
                       {video?.description}
                     </p>
                   </div>
 
                   {/* Actions */}
                   <div className="absolute top-4 right-4">
-                    {/* <button
-                      onClick={() => handleShowingInfoEdit(video)}
-                      className="p-2 rounded-full bg-primaryBg text-white shadow hover:scale-105 transition"
-                    >
-                      <Pencil size={16} />
-                    
-                    </button> */}
-
                         <div className="absolute top-4 right-4 flex gap-2">
                     {/* Edit Button */}
                     <button
                       onClick={() => handleShowingInfoEdit(video)}
-                      className="p-2 rounded-full bg-primaryBg text-white shadow hover:scale-105 transition"
+                      className="p-2 rounded-full bg-primary text-white shadow hover:scale-105 transition"
                     >
                       <Pencil size={16} />
                     </button>

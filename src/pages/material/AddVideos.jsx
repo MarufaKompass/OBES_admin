@@ -1,36 +1,57 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Upload, Link as LinkIcon } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addDoctorVideo, adminProfile } from "@/hooks/ReactQueryHooks";
 import { Typography, Input, Select, Option } from "@material-tailwind/react";
 import ListsVideo from "./ListsVideo";
+import CustomInput from "@/components/input/CustomInput";
+import DynamicSelect from "@/components/select/DynamicSelect";
+import MainButton from "@/components/mainButton/MainButton";
+
+
+const statusTypes = [
+  { qId: '1', label: 'Active', value: 'active' },
+  { qId: '2', label: 'Deactive', value: 'deactive' },
+];
+
+
 export default function AddVideos() {
+  const [error, setError] = useState();
   const queryClient = useQueryClient();
+  const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm()
+
+
   const { mutateAsync } = useMutation({
     mutationFn: addDoctorVideo,
     onSuccess: () => {
       queryClient.invalidateQueries(['videoDoctorLists']);
     }
   });
-  const { register, handleSubmit, reset, control, formState: { errors } } = useForm()
-
-
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile
   });
 
+
+  useEffect(() => {
+    if (profile?.id) {
+      setValue("upby", String(profile.id), { shouldValidate: true });
+    }
+  }, [profile, setValue]);
+
+
   const onSubmit = async (data) => {
     console.log('data', data)
     try {
       const res = await mutateAsync({ addDoctorVideoData: data, role: profile?.role });
       toast.success(res.data.message);
-       queryClient.invalidateQueries(['videoDoctorLists']);  
+      queryClient.invalidateQueries(['videoDoctorLists']);
       reset();
     } catch (err) {
+      setError(err?.res?.data?.message)
+      console.log(err?.res?.data?.message)
       reset();
     }
   };
@@ -41,8 +62,8 @@ export default function AddVideos() {
     <div className="mx-auto p-6 mt-6 space-y-6 bg-white rounded-lg">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold">YouTube Link Upload</h1>
-        <p className="text-gray-500">Upload YouTube videos by pasting their links below</p>
+        <h1 className="text-h3 font-bold mb-1 text-mainHeading font-heading">YouTube Link Upload</h1>
+        <p className="text-paragraph text-paragraphFont font-heading">Upload YouTube videos by pasting their links below</p>
       </div>
 
       {/* Upload Form */}
@@ -59,68 +80,101 @@ export default function AddVideos() {
                 <div className="hidden">
                   {profile?.id && (
                     <Input
+                      name="upby"
                       {...register("upby", { required: true })}
-                      value={profile?.id} />
+                      value={profile?.id}
+                    />
                   )}
 
                 </div>
                 <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium">
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Video Title
                   </Typography>
-                  <Input label=" Video Title" type="text"     {...register("title", { required: true })} />
+                  <CustomInput
+                    name="title"
+                    label=" Video Title"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+
+                  {errors.title && (
+                    <Typography color="red" className="text-xs mt-1">{errors.title.message}</Typography>
+                  )}
+
                 </div>
                 <div className="space-y-2 mt-4">
-                  <Typography variant="small" color="blue-gray" className="font-medium ">
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Video Description
                   </Typography>
-                  <Input label="Video Description" type="text"     {...register("description", { required: true })} />
+                  <CustomInput
+                    name="description"
+                    label="Video Description"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+
+                  {errors.description && (
+                    <Typography color="red" className="text-xs mt-1">{errors.description.message}</Typography>
+                  )}
                 </div>
                 <div className="space-y-2 mt-4">
-                  <Typography variant="small" color="blue-gray" className="font-medium">
+
+
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Video Embed Link
                   </Typography>
-                  <Input
-                    {...register("link", { required: true })}
-                    type="url"
-                    label="https://www.youtube.com/embed/..."
-                    className="flex-1 px-3 py-2 border rounded-md "
-
+                  <CustomInput
+                    name="link"
+                    label="Embedded youtube link"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
                   />
+
+                  {errors.link && (
+                    <Typography color="red" className="text-xs mt-1">{errors.link.message}</Typography>
+                  )}
+
+
+
+
                 </div>
-                <div className="space-y-2 ">
-                  <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+                <div className="space-y-2 mt-3 ">
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Status
                   </Typography>
-                  <Controller
-                    name="status"
-                    control={control}
 
-                    render={({ field }) => (
-                      <Select
-                        label="Select Status"
-                        value={field.value}
-                        onChange={(value) => field.onChange(value)}
-                      >
-                        <Option value="active">Active</Option>
-                        <Option value="inactive">Inactive</Option>
-                      </Select>
-                    )}
-                  /> </div>
+                  <DynamicSelect
+                    name="status"
+                    label="Select Question Type"
+                    options={statusTypes}
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                    placeholder="-- Select Status Type --"
+                  />
+
+                  {errors.status && (
+                    <Typography color="red" className="text-xs ">
+                      {errors.status.message}
+                    </Typography>
+                  )}
+
+                </div>
               </div>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="bg-primaryBg text-white px-10 py-2 rounded-md flex items-center gap-2 disabled:opacity-60 mt-4">
-                  <>
-                    <Upload className="h-4 w-4" />
-                    Submit
-                  </>
-                </button>
+              <div className=" my-4">
+
+                <MainButton type="submit" variant="primary" fullWidth className="">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Submit
+                </MainButton>
               </div>
             </div>
           </form>
-        <ListsVideo></ListsVideo>
+          <ListsVideo></ListsVideo>
         </div>
       </div>
     </div>

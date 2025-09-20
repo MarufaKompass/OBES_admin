@@ -38,14 +38,14 @@ const onSubmit = async (data) => {
   return (
     <div className="mx-auto p-6 space-y-6 bg-white mt-12 rounded-lg">
       {/* Header */}
-      <div className="text-center space-y-2 py-6">
-        <h1 className="text-3xl font-bold">YouTube Link Upload</h1>
-        <p className="text-gray-500">Upload YouTube videos by pasting their links below</p>
+      <div className="space-y-2 py-6">
+      <h1 className="text-h3 font-bold mb-1 text-mainHeading font-heading">YouTube Link Upload</h1>
+              <p className="text-paragraph text-paragraphFont font-heading">Upload YouTube videos by pasting their links below</p>
       </div>
 
       {/* Upload Form */}
       <div className="border rounded-lg shadow-sm">
-        <div className="px-6 py-4 border-b flex items-center gap-2 font-semibold text-lg">
+        <div className="px-6 py-4 border-b flex items-center gap-2 font-semibold text-lg text-mainHeading font-heading">
           <LinkIcon className="h-5 w-5" />
           Add YouTube Video
         </div>
@@ -63,19 +63,19 @@ const onSubmit = async (data) => {
 
                 </div>
                 <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium">
+                  <Typography variant="small"  className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Title
                   </Typography>
                   <Input label=" Video Title" type="text"     {...register("title", { required: true })} />
                 </div>
                 <div className="space-y-2 mt-4">
-                  <Typography variant="small" color="blue-gray" className="font-medium ">
+                  <Typography variant="small" className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Description
                   </Typography>
                   <Input label="Video Description" type="text"     {...register("description", { required: true })} />
                 </div>
                 <div className="space-y-2 mt-4">
-                  <Typography variant="small" color="blue-gray" className="font-medium">
+                  <Typography variant="small"className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Embed Link
                   </Typography>
                   <Input
@@ -90,7 +90,7 @@ const onSubmit = async (data) => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="bg-primaryBg text-white px-10 py-2 rounded-md flex items-center gap-2 disabled:opacity-60 mt-4">
+                  className="bg-primaryBg text-white px-10 py-2 rounded-md flex items-center gap-2 disabled:opacity-60 mt-4  font-heading">
                   <>
                     <Upload className="h-4 w-4" />
                     Submit
@@ -110,12 +110,12 @@ const onSubmit = async (data) => {
           { step: 3, title: "Manage Videos", desc: "View and organize your uploaded videos" },
         ].map(({ step, title, desc }) => (
           <div key={step} className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-semibold">
+            <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
               {step}
             </div>
             <div>
-              <h3 className="font-medium">{title}</h3>
-              <p className="text-gray-500">{desc}</p>
+              <h3 className=" text-mainHeading font-heading text-paragraphFont font-bold">{title}</h3>
+              <p className=" text-paragraph font-heading text-paragraphFont ">{desc}</p>
             </div>
           </div>
         ))}

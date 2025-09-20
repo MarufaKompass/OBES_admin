@@ -8,7 +8,7 @@ export default function CustomInput({
     errors,
     placeholder = "",
     className = "",
-    defaultValue = ""
+    defaultValue = "",
 }) {
     return (
         <input
