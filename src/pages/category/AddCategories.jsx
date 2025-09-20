@@ -93,7 +93,7 @@ export default function AddCategories() {
                 <Typography color="red" className="text-xs mt-1">{errors.catbangla.message}</Typography>
               )}
             </div>
-          <div>
+          <div className='hidden'>
               {profile?.logmobile && (
                <CustomInput
                type='number'
