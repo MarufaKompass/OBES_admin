@@ -47,7 +47,7 @@ export default function CategoriesList() {
         <CardBody className="overflow-x-auto p-4">
           <div className="flex justify-between mt-6">
             <div className=" mb-2">
-              <h2 className="text-h3 font-bold mb-1 text-gray-900 font-heading">Category Lists</h2>
+              <h2 className="text-h3 font-bold mb-1 text-mainHeading font-heading">Category Lists</h2>
               <p className="text-paragraph text-paragraphFont font-heading">
                 Find answers to common questions about our products and services.
               </p>

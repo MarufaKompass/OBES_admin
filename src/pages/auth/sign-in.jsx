@@ -7,6 +7,7 @@ import { Input, Button, Typography, } from "@material-tailwind/react";
 import { loginUser } from "@/hooks/ReactQueryHooks";
 import useNavigator from "../../components/navigator/useNavigate";
 import { useAdminObeContext } from "@/components/contextProvider/AdminContextProvider";
+import MainButton from '@/components/mainButton/MainButton';
 
 export function SignIn() {
   const { setUser } = useAdminObeContext();
@@ -64,16 +65,16 @@ export function SignIn() {
               {...register("password", { required: true })}
             />
           </div>
-          <div className="flex justify-end  gap-2 mt-3">
+          <div className="flex justify-end  gap-2 my-3 ">
             <Typography variant="medium" className="font-medium text-gray-900 flex ">
               <Link to="/forgot-password">
                 Forgot Password
               </Link>
             </Typography>
           </div>
-          <Button className="mt-3 bg-primaryBg" fullWidth type="submit">
+          <MainButton variant="primary" fullWidth type="submit">
             Sign In
-          </Button>
+          </MainButton>
 
         </form>
 

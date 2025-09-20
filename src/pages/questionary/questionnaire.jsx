@@ -109,7 +109,6 @@ export default function Questionnaire() {
           </Typography>
         </CardHeader>
 
-
         <form onSubmit={handleSubmit(onSubmit)} className="px-10 pb-10">
           <CardBody className="space-y-8">
             {/* Category Select */}
@@ -117,24 +116,6 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Category
               </Typography>
-              {/* <select
-                value={catId}
-                onChange={categoryId}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              >
-                <option value="" disabled>
-                  -- Select Category --
-                </option>
-                {catView?.map((category) => (
-                  <option key={category?.catid} value={category?.catid}>
-                    {category?.catname}
-                  </option>
-                ))}
-              </select>
-              {errors.catid && <p className="text-red-500 text-xs mt-1">Category is required</p>} */}
-
-
-
               <DynamicSelect
                 name="catid"
                 defaultValue={catId}
@@ -146,36 +127,17 @@ export default function Questionnaire() {
                 errors={errors}
                 placeholder="-- Select Category Type --"
               />
-
-              {errors.cat && (
+              {errors.catid && (
                 <Typography color="red" className="text-xs ">
-                  {errors.cat.message}
+                  {errors.catid.message}
                 </Typography>
               )}
-
-
             </div>
-
-
-            {/* Hidden Category ID Input for form */}
-            {/* {catId && (
-              <input type="hidden" value={catId} {...register("catid", { required: true })} />
-            )}
- */}
-
-
-
             {/* Question English */}
             <div className="space-y-2">
               <Typography variant="small" className="font-medium text-mainHeading font-heading">
                 Question (English)
               </Typography>
-              {/* <Input
-                label="Enter question in English"
-                {...register("qeng", { required: true })}
-                color={errors.qeng ? "red" : "blue"}
-              /> */}
-
               <CustomInput
                 name="qeng"
                 label="Enter question in English"
@@ -183,8 +145,6 @@ export default function Questionnaire() {
                 rules={{ required: error }}
                 errors={errors}
               />
-
-
               {errors.qeng && (
                 <Typography color="red" className="text-xs mt-1">{errors.qeng.message}</Typography>
               )}
@@ -195,15 +155,6 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 প্রশ্ন (বাংলা)
               </Typography>
-              {/* <Input
-                label="বাংলায় প্রশ্ন লিখুন"
-                {...register("qbang", { required: true })}
-                color={errors.qbang ? "red" : "blue"}
-              />
-              {errors.qbang && <p className="text-red-500 text-xs mt-1">Bangla question is required</p>} */}
-
-
-
               <CustomInput
                 name="qbang"
                 label="বাংলায় প্রশ্ন লিখুন"
@@ -211,16 +162,9 @@ export default function Questionnaire() {
                 rules={{ required: error }}
                 errors={errors}
               />
-
-
               {errors.qbang && (
                 <Typography color="red" className="text-xs mt-1">{errors.qbang.message}</Typography>
               )}
-
-
-
-
-
             </div>
 
             {/* Question Type Select */}
@@ -228,21 +172,6 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Question Type
               </Typography>
-              {/* <select
-                {...register("qatype", { required: true })}
-                value={questionId}
-                onChange={selectQuestionId}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              >
-                <option value="" disabled>
-                  -- Select Question Type --
-                </option>
-                {questionTypes?.map((question) => (
-                  <option key={question?.qId} value={question?.value} >
-                    {question?.label}
-                  </option>
-                ))}
-              </select> */}
 
               <DynamicSelect
                 name="qatype"
@@ -250,7 +179,7 @@ export default function Questionnaire() {
                 onChange={selectQuestionId}
                 options={questionTypes}
                 register={register}
-                rules={{ required: error }}  // add message here
+                rules={{ required: error }}
                 errors={errors}
                 placeholder="-- Select Question Type --"
               />
@@ -265,58 +194,100 @@ export default function Questionnaire() {
             </div>
 
             {/* Options for question types needing options */}
-            {(questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') && (
-              <div>
-                <div className="flex justify-end mb-4">
-                  <Button
-                    size="sm"
-                    onClick={addOption}
-                    className="capitalize bg-primary"
-                  >
-                    + Add Option
-                  </Button>
-                </div>
-                <div className="space-y-4">
-                  {options.map((_, index) => (
-                    <div key={index} className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end relative">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Option (English)
-                        </label>
-                        <input
-                          type="text"
-                          {...register(`qaoptioneng[${index}]`, { required: true })}
-                          placeholder="Enter English option"
-                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${errors.qaoptioneng && errors.qaoptioneng[index] ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          অপশন (বাংলা)
-                        </label>
-                        <input
-                          type="text"
-                          {...register(`qaoptionbng[${index}]`, { required: true })}
-                          placeholder="বাংলা অপশন লিখুন"
-                          className={`w-full rounded-md border px-3 py-2 text-gray-700 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ${errors.qaoptionbng && errors.qaoptionbng[index] ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                        />
-                      </div>
+            {questionId && (
+              <div className="space-y-2">
+                {
+                  (questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') ?
+                    (
+                      <>
+                        <div className='flex justify-end'>
 
-                      {options.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeOption(index)}
-                          className="absolute top-0 right-0 mt-1 mr-1 text-red-600 hover:text-red-800 p-1 rounded-full transition"
-                          title="Delete option"
-                        >
-                          <X size={18} />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                          <button
+                            type="button"
+                            onClick={addOption}
+                            className="text-white bg-primaryBg hover:bg-primaryBg px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
+                          >
+                            + Add Option
+                          </button>
+                        </div>
+                        {options.map((_, index) => (
+                          <div key={index} className="grid grid-cols-2 gap-4 relative">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Option (English)
+                              </label>
+                              <input
+
+                                type="text"
+                                {...register(`qaoptioneng[${index}]`, { required: true })}
+                                defaultValue={options[index]?.qaoptioneng}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm text-[#414141]"
+                                placeholder="Enter English option"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                অপশন (বাংলা)
+                              </label>
+                              <input
+                                type="text"
+                                {...register(`qaoptionbng[${index}]`, { required: true })}
+                                defaultValue={options[index]?.qaoptionbng}
+                                className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm  text-[#414141]"
+                                placeholder="বাংলা অপশন লিখুন"
+                              />
+                            </div>
+
+                            <div>
+                              {options.length > 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => removeOption(index)}
+                                  className="absolute top-0 right-2 text-red-600 hover:text-red-800 text-[12px]"
+                                  title="Delete option"
+                                >
+                                  <X size={16} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+
+                        ))}
+
+                      </>
+                    ) : questionId === 'input' || questionId === 'clock' ? (
+                      <>
+                        <div className=" grid-cols-2 gap-4 relative hidden">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Option (English)
+                            </label>
+                            <input
+                              type="text"
+                              {...register('qaoptioneng')}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
+                              placeholder="Enter English option"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              অপশন (বাংলা)
+                            </label>
+                            <input
+                              type="text"
+                              {...register('qaoptionbng')}
+                              className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
+                              placeholder="বাংলা অপশন লিখুন"
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )
+                }
+
               </div>
             )}
 
@@ -325,22 +296,6 @@ export default function Questionnaire() {
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Status Type
               </Typography>
-              {/* <select
-                {...register("qstatus", { required: true })}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-gray-700 text-base placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              >
-                <option value="" className="font-medium text-mainHeading font-heading">
-                  -- Select Status Type --
-                </option>
-                {statusTypes?.map((status) => (
-                  <option key={status?.qId} value={status?.value} >
-                    {status?.label}
-                  </option>
-                ))}
-              </select>
-              {errors.qstatus && <p className="text-red-500 text-xs mt-1">Status type is required</p>} */}
-
-
 
               <DynamicSelect
                 name="qstatus"

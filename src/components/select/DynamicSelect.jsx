@@ -14,15 +14,12 @@ onChange: externalOnChange,
 
   // const registerProps = register && name ? register(name, rules) : {};
    const combinedOnChange = (e) => {
-    registerProps.onChange && registerProps.onChange(e);  // call react-hook-form
-    externalOnChange && externalOnChange(e);              // call external callback
+    registerProps.onChange && registerProps.onChange(e);  
+    externalOnChange && externalOnChange(e);          
   };
-
-
 
   return (
     <div className="w-full">
-  
       <select
         id={name}
         onChange={combinedOnChange}
@@ -37,12 +34,11 @@ onChange: externalOnChange,
           {placeholder}
         </option>
         {options.map(({ value, label }, index) => (
-          <option key={index} value={value} >
+          <option key={index} value={value}  className="bg-place text-mainHeading font-semibold font-roboto ">
             {label}
           </option>
         ))}
       </select>
-
     </div>
   );
 }

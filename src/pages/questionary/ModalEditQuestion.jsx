@@ -1,78 +1,68 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
-import Modal from '@/components/modal/Modal'
-import { adminProfile, CategoryView, editQuestion } from "@/hooks/ReactQueryHooks";
+import React, { useEffect, useState } from "react";
+import Modal from '@/components/modal/Modal';
+import CustomInput from '@/components/input/CustomInput';
+import { CardBody, Typography } from "@material-tailwind/react";
+import DynamicSelect from '@/components/select/DynamicSelect';
+import MainButton from '@/components/mainButton/MainButton';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-
+import { adminProfile, CategoryView, editQuestion } from "@/hooks/ReactQueryHooks";
 
 const questionTypes = [
-    { qId: '1', qatype: 'Input', value: 'input' },
-    { qId: '2', qatype: 'Checkbox', value: 'checkbox' },
-    { qId: '3', qatype: 'Radio', value: 'radio' },
-    { qId: '4', qatype: 'Dropdown', value: 'dropdown' },
-    { qId: '5', qatype: 'Clock', value: 'clock' },
+    { qId: '1', label: 'Input', value: 'input' },
+    { qId: '2', label: 'Checkbox', value: 'checkbox' },
+    { qId: '3', label: 'Radio', value: 'radio' },
+    { qId: '4', label: 'Dropdown', value: 'dropdown' },
+    { qId: '5', label: 'Clock', value: 'clock' },
 ];
 const statusTypes = [
-    { qId: '1', qstatus: 'Draft', value: 'draft' },
-    { qId: '2', qstatus: 'Published', value: 'published' },
-    { qId: '3', qstatus: 'Archived', value: 'archived' },
-
+    { qId: '1', label: 'Draft', value: 'draft' },
+    { qId: '2', label: 'Published', value: 'published' },
+    { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
     // console.log("selectedQuestion", selectedQuestion)
     const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
-    const [status, setStatus] = useState("");
-    const [quesEng, setQuesEng] = useState("");
-    const [quesBangla, setQuesBangla] = useState("");
     const [questionId, setQuestionId] = useState('');
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
+    const { data: profile } = useQuery({
+        queryKey: ['profile'],
+        queryFn: adminProfile
+    });
 
+    const { data: catView } = useQuery({
+        queryKey: ['catView', profile?.role],
+        queryFn: () => CategoryView(profile?.role)
+    });
     const addOption = () => {
         setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
     };
 
-    useEffect(() => {
-        if (selectedQuestion) {
-            setCatId(selectedQuestion?.catid);
-            setStatus(selectedQuestion?.qstatus);
-            setQuestionId(selectedQuestion?.qatype);
-            setQuesEng(selectedQuestion?.qeng);
-            setQuesBangla(selectedQuestion?.qbang);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm()
 
-            // reset form values dynamically
+    useEffect(() => {
+        if (selectedQuestion && profile) {
             reset({
                 catid: selectedQuestion?.catid || "",
                 qstatus: selectedQuestion?.qstatus || "",
                 qatype: selectedQuestion?.qatype || "",
                 qeng: selectedQuestion?.qeng || "",
                 qbang: selectedQuestion?.qbang || "",
+                qby: selectedQuestion?.qby || "",
                 qaoptioneng: selectedQuestion?.qaoptioneng || [""],
                 qaoptionbng: selectedQuestion?.qaoptionbng || [""],
             });
-
-            if (selectedQuestion?.qaoptioneng && selectedQuestion?.qaoptionbng) {
-                const engOptions = selectedQuestion?.qaoptioneng;
-                const bngOptions = selectedQuestion?.qaoptionbng;
-
-                const combinedOptions = engOptions.map((eng, index) => ({
-                    qaoptioneng: eng,
-                    qaoptionbng: bngOptions[index] || "",
-                }));
-
-                setOptions(combinedOptions);
-            } else {
-                setOptions([{ qaoptioneng: "", qaoptionbng: "" }]);
-            }
         }
-    }, [selectedQuestion]);
-
-
+    }, [selectedQuestion, profile, reset]);
 
     const removeOption = (index) => {
         const updatedOptions = [...options];
@@ -83,44 +73,15 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const categoryId = (e) => {
         setCatId(e.target.value)
     }
-    const statusLevel = (e) => {
-        setStatus(e.target.value)
-    }
 
     const selectQuestionId = (e) => {
         setQuestionId(e.target.value)
     }
-    // const selectQuestionEng = (e) => {
-    //     setQuesEng(e.target.value)
-    // }
-    // const selectQuestionBangla = (e) => {
-    //     setQuesBangla(e.target.value)
-    // }
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm()
-
-    const { data: profile } = useQuery({
-        queryKey: ['profile'],
-        queryFn: adminProfile
-    });
-
-
-    const { data: catView } = useQuery({
-        queryKey: ['catView', profile?.role],
-        queryFn: () => CategoryView(profile?.role)
-    });
-
-
 
     const { mutateAsync } = useMutation({ mutationFn: editQuestion });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
+        // console.log('data', data)
         try {
             const res = await mutateAsync({ editQuesData: data, role: profile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);
@@ -128,12 +89,10 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
             setShowModalEdit(false)
             reset();
         } catch (err) {
-            toast.error(err?.response?.data?.message || 'update failed');
+            toast.error(err?.response?.data?.message || "Update failed")
             reset();
         }
     };
-
-
     return (
         <>
             <div className=" flex items-center justify-center bg-gray-100">
@@ -158,76 +117,61 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                             <form onSubmit={handleSubmit(onSubmit)}  >
                                 <CardBody className="space-y-6">
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+
+                                        <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             Select Category
                                         </Typography>
-                                        {
-                                            catId && (
-                                                <select
-                                                    label="Select Category"
-                                                    {...register("catid", { required: true })}
-                                                    value={catId}
-                                                    onChange={categoryId}
-                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                                >
-                                                    <option value="">
-                                                        -- Select Category --
-                                                    </option>
-                                                    {catView?.map((category) => (
-                                                        <option key={category?.catid} value={category?.catid} >
-                                                            {category?.catname}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            )
-                                        }
+                                        <DynamicSelect
+                                            name="catid"
+                                            defaultValue={catId}
+                                            onChange={categoryId}
+                                            label="Select Category Type"
+                                            options={catView?.map(cat => ({ value: cat.catid, label: cat.catname })) || []}
+                                            register={register || ""}
+                                            rules={{ required: true }}
+                                            placeholder="-- Select Category Type --"
+                                        />
 
                                     </div>
-
-
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                             Question (English)
                                         </Typography>
-                                        <Input label="Question English" type="text"  {...register("qeng", { required: true })} />
+                                        <CustomInput
+                                            name="qeng"
+                                            label="Enter question in English"
+                                            register={register}
+                                            rules={{ required: true }}
+                                        />
+
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             প্রশ্ন (বাংলা)
                                         </Typography>
-                                        <Input label="প্রশ্ন বাংলা" type="text"    {...register("qbang", { required: true })} />
+                                        <CustomInput
+                                            name="qbang"
+                                            label="বাংলায় প্রশ্ন লিখুন"
+                                            register={register}
+                                            rules={{ required: true }}
+                                        />
+
                                     </div>
-
-
-
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             Select Question Type
                                         </Typography>
-                                        {
-                                            questionId && (
-                                                <select
-                                                    {...register("qatype", { required: true })}
-                                                    label="Select Category"
-                                                    value={questionId}
-                                                    onChange={selectQuestionId}
-                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                                >
-                                                    <option value="" disabled>
-                                                        -- Select Question Type --
-                                                    </option>
-                                                    {questionTypes?.map((question) => (
-                                                        <option key={question?.qId} value={question?.value} >
-                                                            {question?.qatype}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            )
-                                        }
 
+                                        <DynamicSelect
+                                            name="qatype"
+                                            label="Select Question Type"
+                                            onChange={selectQuestionId}
+                                            options={questionTypes}
+                                            register={register}
+                                            placeholder="-- Select Question Type --"
+                                        />
                                     </div>
-
 
                                     {questionId && (
                                         <div className="space-y-2">
@@ -286,10 +230,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                                         )}
                                                                     </div>
                                                                 </div>
-
-
                                                             ))}
-
                                                         </>
                                                     ) : questionId === 'input' || questionId === 'clock' ? (
                                                         <>
@@ -322,59 +263,42 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                         <></>
                                                     )
                                             }
-
                                         </div>
                                     )}
                                     <div className="space-y-2 ">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                                             Select Status Type
                                         </Typography>
-
-                                        {
-                                            status && (
-                                                <select
-                                                    {...register("qstatus", { required: true })}
-                                                    label="Select Status"
-                                                    value={status}
-                                                    onChange={statusLevel}
-                                                    className="border py-[10px] px-2 border-[#B0BEC5] rounded-[6px] w-full text-[14px] text-[#688794]"
-                                                >
-                                                    <option value="">
-                                                        -- Select Status Type --
-                                                    </option>
-                                                    {statusTypes?.map((status) => (
-                                                        <option key={status?.qId} value={status?.value} >
-                                                            {status?.qstatus}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            )
-                                        }
-
+                                        <DynamicSelect
+                                            name="qstatus"
+                                            label="Select Question Type"
+                                            options={statusTypes}
+                                            register={register}
+                                            // rules={{ required: true }}
+                                            placeholder="-- Select Status Type --"
+                                        />
                                     </div>
-
-                                    {profile?.role && (
-                                        <div className="space-y-2 hidden">
-                                            <Typography variant="small" color="blue-gray" className="font-medium" >
-                                                Question By
-                                            </Typography>
-                                            <Input label="category by" type="text" marginTop='10px' value={profile?.role}  {...register("qby", { required: true })} />
-                                        </div>
-                                    )}
-
-
+                                    <div className=''>
+                                        {profile?.role && (
+                                            <div className="space-y-2 ">
+                                                <CustomInput
+                                                    name="qby"
+                                                    register={register}
+                                                    rules={{ required: true }}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
                                     <div className="flex gap-3 pt-4">
-                                        <Button variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
+                                        <MainButton variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
                                             Cancel
-                                        </Button>
-
-                                        <Button fullWidth type="submit" className='bg-primaryBg'>
+                                        </MainButton>
+                                        <MainButton fullWidth type="submit" >
                                             Update Questionnaires
-                                        </Button>
+                                        </MainButton>
                                     </div>
                                 </CardBody>
                             </form>
-
                         </div>
                     </div>
                 </Modal>

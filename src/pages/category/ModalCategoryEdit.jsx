@@ -112,9 +112,6 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
                                             register={register}
                                             rules={{ required: true }}
                                         />
-
-
-
                                     </div>
 
                                     <div className="space-y-2 hidden">
