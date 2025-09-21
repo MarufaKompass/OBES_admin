@@ -17,7 +17,7 @@ const statusTypes = [
 ];
 
 export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, selectedVideo }) {
-    console.log("selectedVideo",selectedVideo?.status)
+
     const queryClient = useQueryClient();
     const {
         register,
