@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { adminProfile, allUserView, stepsList } from '@/hooks/ReactQueryHooks';
+import { adminProfile, allUserView } from '@/hooks/ReactQueryHooks';
 import { Users, UserCheck, Stethoscope } from "lucide-react"
 
 
@@ -9,27 +9,27 @@ function getRoleBadge(role) {
   switch (role) {
     case "doctor":
       return (
-        <span className={`${baseClasses} bg-green-100 text-green-800`}>
+        <span className={`${baseClasses} bg-green-100 text-green-800 font-heading`}>
           <Stethoscope className="w-3 h-3 mr-1" />
           Doctor
         </span>
       );
     case "admin":
       return (
-        <span className={`${baseClasses} bg-blue-100 text-blue-800`}>
+        <span className={`${baseClasses} bg-blue-100 text-blue-800 font-heading`}>
           <UserCheck className="w-3 h-3 mr-1" />
           Admin
         </span>
       );
     case "user":
       return (
-        <span className={`${baseClasses} bg-gray-100 text-gray-800`}>
+        <span className={`${baseClasses} bg-gray-100 text-gray-800 font-heading`}>
           <Users className="w-3 h-3 mr-1" />
           User
         </span>
       );
     default:
-      return <span className="border px-2 py-0.5 rounded">{role}</span>;
+      return <span className="border px-2 py-0.5 rounded font-heading">{role}</span>;
   }
 }
 
@@ -76,7 +76,7 @@ function getInitials(name) {
             <div className="flex items-center space-x-2">
               <Users className="h-4 w-4 text-gray-500" />
               <div>
-                <p className="text-sm text-gray-500 font-poppins">Total Users</p>
+                <p className="text-sm text-paragraph font-heading">Total Users</p>
                 <p className="text-2xl font-bold font-poppins">{usersView?.length}</p>
               </div>
             </div>
@@ -87,7 +87,7 @@ function getInitials(name) {
             <div className="flex items-center space-x-2">
               <Stethoscope className="h-4 w-4 text-green-600" />
               <div>
-                <p className="text-sm text-gray-500 font-poppins">Doctors</p>
+                <p className="text-sm text-paragraph font-heading">Doctors</p>
                 <p className="text-2xl font-bold text-green-600 font-poppins">{roleStats?.doctor || 0}</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ function getInitials(name) {
             <div className="flex items-center space-x-2">
               <UserCheck className="h-4 w-4 text-blue-600" />
               <div>
-                <p className="text-sm text-gray-500 font-poppins">Admins</p>
+                <p className="text-sm text-paragraph font-heading">Admins</p>
                 <p className="text-2xl font-bold text-blue-600 font-poppins">{roleStats?.admin || 0}</p>
               </div>
             </div>
@@ -109,7 +109,7 @@ function getInitials(name) {
             <div className="flex items-center space-x-2">
               <Users className="h-4 w-4 text-gray-600" />
               <div>
-                <p className="text-sm text-gray-500">Regular Users</p>
+                <p className="text-sm text-paragraph font-heading">Regular Users</p>
                 <p className="text-2xl font-bold text-gray-600">{roleStats?.user || 0}</p>
               </div>
             </div>
@@ -119,22 +119,22 @@ function getInitials(name) {
         {/* User Table */}
         <div className="bg-white shadow rounded">
           <div className="border-b p-4">
-            <h2 className="flex items-center gap-2 text-lg font-semibold font-poppins">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-mainHeading font-heading">
               <Users className="h-5 w-5" />
               User Management
             </h2>
-            <p className="text-sm text-gray-500 font-poppins">Manage and view all users in your system</p>
+            <p className="text-sm text-paragraph font-heading">Manage and view all users in your system</p>
           </div>
 
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-gray-100 text-gray-700 uppercase">
+              <thead className="bg-gray-100 text-paragraph uppercase">
                 <tr>
-                  <th className="p-3 font-poppins ">ID</th>
-                  <th className="p-3 font-poppins ">User</th>
-                  <th className="p-3 font-poppins ">phone</th>
-                  <th className="p-3 font-poppins ">Role</th>
-                  <th className="p-3 font-poppins ">Gender</th>
+                  <th className="p-3 font-heading font-semibold text-mainHeading">ID</th>
+                  <th className="p-3 font-heading font-semibold text-mainHeading">User</th>
+                  <th className="p-3 font-heading font-semibold text-mainHeading">phone</th>
+                  <th className="p-3 font-heading font-semibold text-mainHeading">Role</th>
+                  <th className="p-3 font-heading font-semibold text-mainHeading">Gender</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
@@ -142,16 +142,16 @@ function getInitials(name) {
                   <tr key={user.id} className="hover:bg-gray-50">
                     <td className="p-3 font-medium">{user.id}</td>
                     <td className="p-3 flex items-center space-x-3">
-                      <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold font-poppins">
+                      <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold font-heading text-paragraph">
                         {getInitials(user.fulname)}
                       </div>
                       <div>
-                        <p className="font-normal font-poppins">{user.fulname}</p>
+                        <p className="font-normal font-heading text-paragraph">{user.fulname}</p>
                       </div>
                     </td>
-                    <td className="p-3 capitalize text-gray-600 font-poppins">{user.logmobile}</td>
+                    <td className="p-3 capitalize font-heading text-paragraph">{user.logmobile}</td>
                     <td className="p-3">{getRoleBadge(user.role)}</td>
-                    <td className="p-3 capitalize text-gray-600 font-poppins">{user.ogender}</td>
+                    <td className="p-3 capitalize  font-heading text-paragraph">{user.ogender}</td>
 
                   </tr>
                 ))}
