@@ -46,6 +46,39 @@ export const routes = [
             <PrivateRoute> <Home /> </PrivateRoute></Suspense>
         )
       },
+
+            {
+        icon: <UserCog    {...icon} />,
+        name: "Admin",
+        path: "/admin",
+        children: [
+           {
+            icon: <ListTodo    {...icon} />,
+            name: "Create Admin",
+            path: "addAdmin",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddAdmin /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <Map     {...icon} />,
+            name: "Admin List",
+            path: "adminList",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AdminList /> </PrivateRoute>
+            </Suspense>
+          },
+         
+        ],
+      },
+
+      
       {
         icon: <LayoutPanelLeft   {...icon} />,
         name: "Category",
@@ -334,36 +367,7 @@ export const routes = [
         ],
       },
 
-      {
-        icon: <UserCog    {...icon} />,
-        name: "Admin",
-        path: "/admin",
-        children: [
-           {
-            icon: <ListTodo    {...icon} />,
-            name: "Create Admin",
-            path: "addAdmin",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
 
-              <PrivateRoute>  <AddAdmin /> </PrivateRoute>
-            </Suspense>
-          },
-          {
-            icon: <Map     {...icon} />,
-            name: "Admin List",
-            path: "adminList",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
-
-              <PrivateRoute>  <AdminList /> </PrivateRoute>
-            </Suspense>
-          },
-         
-        ],
-      },
 
 
 

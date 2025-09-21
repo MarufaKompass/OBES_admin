@@ -43,26 +43,26 @@ export default function UserLists() {
   });
 
 
-const { data: usersView, isLoading } = useQuery({
-  queryKey: ['userView', profile?.role],
-  queryFn: () => allUserView(profile?.role)
-});
-console.log("usersView", usersView);
+  const { data: usersView, isLoading } = useQuery({
+    queryKey: ['userView', profile?.role],
+    queryFn: () => allUserView(profile?.role)
+  });
+  console.log("usersView", usersView);
 
   const roleStats = usersView?.reduce((acc, user) => {
     acc[user.role] = (acc[user.role] || 0) + 1;
     return acc;
   }, {});
 
-function getInitials(name) {
-  if (!name || typeof name !== "string") return ""; 
-  return name
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
+  function getInitials(name) {
+    if (!name || typeof name !== "string") return "";
+    return name
+      .split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  }
 
 
 
