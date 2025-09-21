@@ -130,7 +130,7 @@ export const routes = [
         children: [
           {
             icon: <Youtube      {...icon} />,
-            name: "Add Video",
+            name: "Create Video",
             path: "video",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />

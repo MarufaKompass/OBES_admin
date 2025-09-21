@@ -38,7 +38,7 @@ export default function ListsVideo() {
           <div className="rounded-xl border bg-white shadow-md">
             {/* Header */}
             <div className="px-6 py-4 border-b flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-mainHeading font-heading">
                 Uploaded Videos ({videoDoctorLists?.length})
               </h2>
             </div>
@@ -51,7 +51,8 @@ export default function ListsVideo() {
                   className="relative rounded-xl border bg-white shadow-sm hover:shadow-lg transition p-4 flex flex-col"
                 >
                   {/* Video */}
-                  <div className="rounded-lg overflow-hidden">
+              <div className=''>
+                    <div className="rounded-lg overflow-hidden">
                     <iframe
                       className="w-full h-44 rounded-lg"
                       src={video?.link}
@@ -62,30 +63,23 @@ export default function ListsVideo() {
                   </div>
 
                   {/* Info */}
-                  <div className="mt-4 flex-1">
-                    <h3 className="text-lg font-medium text-gray-800 line-clamp-1">
+                  <div className="mt-4 flex-1 border-t-2 py-2">
+                    <h3 className="text-lg font-semibold text-mainHeading font-heading line-clamp-1">
                       {video?.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                    <p className="text-sm  text-paragraph font-heading mt-1 line-clamp-2">
                       {video?.description}
                     </p>
                   </div>
+                </div>
 
                   {/* Actions */}
                   <div className="absolute top-4 right-4">
-                    {/* <button
-                      onClick={() => handleShowingInfoEdit(video)}
-                      className="p-2 rounded-full bg-primaryBg text-white shadow hover:scale-105 transition"
-                    >
-                      <Pencil size={16} />
-                    
-                    </button> */}
-
-                        <div className="absolute top-4 right-4 flex gap-2">
+                    <div className="absolute top-4 right-4 flex gap-2">
                     {/* Edit Button */}
                     <button
                       onClick={() => handleShowingInfoEdit(video)}
-                      className="p-2 rounded-full bg-primaryBg text-white shadow hover:scale-105 transition"
+                      className="p-2 rounded-full bg-primary text-white shadow hover:scale-105 transition"
                     >
                       <Pencil size={16} />
                     </button>
@@ -99,6 +93,8 @@ export default function ListsVideo() {
                     </button>
                   </div>
                   </div>
+
+
                 </div>
               ))}
             </div>
