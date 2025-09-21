@@ -11,8 +11,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 const statusTypes = [
-  { qId: '1', label: 'Active', value: 'active' },
-  { qId: '2', label: 'Deactive', value: 'deactive' },
+    { qId: '1', label: 'Draft', value: 'draft' },
+    { qId: '2', label: 'Published', value: 'published' },
+    { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
 

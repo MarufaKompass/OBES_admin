@@ -4,14 +4,21 @@ import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-
-import useNavigator from '@/components/navigator/useNavigate';
 import { adminProfile, editVideo } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import MainButton from '@/components/mainButton/MainButton';
+import CustomInput from '@/components/input/CustomInput';
+import DynamicSelect from '@/components/select/DynamicSelect';
 
+const statusTypes = [
+    { qId: '1', label: 'Draft', value: 'draft' },
+    { qId: '2', label: 'Published', value: 'published' },
+    { qId: '3', label: 'Archived', value: 'archived' },
+];
 
 export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, selectedVideo }) {
-   const queryClient = useQueryClient();
+    console.log("selectedVideo",selectedVideo?.status)
+    const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
@@ -27,10 +34,11 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
     useEffect(() => {
         if (selectedVideo && profile) {
             reset({
-                title: selectedVideo.title || "",
-                description: selectedVideo.description || "",
-                link: selectedVideo.link || "",
-                
+                title: selectedVideo?.title || "",
+                description: selectedVideo?.description || "",
+                link: selectedVideo?.link || "",
+                status: selectedVideo?.status || "",
+
             });
         }
     }, [selectedVideo, profile, reset]);
@@ -43,7 +51,7 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
             const res = await mutateAsync({ editVideoData: data, role: profile?.role, id: selectedVideo?.id });
             toast.success(res.data.message);
             setShowModalEdit(false);
-             queryClient.invalidateQueries(['videoLists']);  
+            queryClient.invalidateQueries(['videoLists']);
             reset();
         } catch (err) {
             toast.error(err?.response?.data?.message || 'update failed');
@@ -77,38 +85,64 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
 
 
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="text-mainHeading font-heading text-paragraphFont font-medium">
                                             video Title
                                         </Typography>
-                                        <Input
-                                            type="text"
-                                            defaultValue={selectedVideo?.title}
-                                            {...register("title", { required: true })} />
+                                        <CustomInput
+                                            name="title"
+                                            label=" Video Title"
+                                            register={register}
+                                            rules={{ required: true }}
+
+                                        />
 
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="text-mainHeading font-heading text-paragraphFont font-medium">
                                             Video Description
                                         </Typography>
-                                        <Input
-                                            type="text"
-                                            defaultValue={selectedVideo?.description}
-                                            {...register("description", { required: true })}
+                                
+                                        <CustomInput
+                                            name="description"
+                                            label="Video Description"
+                                            register={register}
+                                            rules={{ required: true }}
 
                                         />
+
+
                                     </div>
                                     <div className="space-y-2">
-                                        <Typography variant="small" color="blue-gray" className="font-medium">
+                                        <Typography variant="small" color="blue-gray" className="text-mainHeading font-heading text-paragraphFont font-medium">
                                             Video Embed Link
                                         </Typography>
-                                        <Input
-                                            type="url"
-                                            defaultValue={selectedVideo?.link}
-                                            {...register("link", { required: true })}
-
-                                        />
+                                    
+                                        
+                                                          <CustomInput
+                                                            name="link"
+                                                            label="Embedded youtube link"
+                                                            register={register}
+                                                            rules={{ required: true }}
+                                                          />
+                                        
                                     </div>
+
+                                    <div className="space-y-2 mt-3 ">
+                                                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                        Status
+                                                      </Typography>
+                                                      <DynamicSelect
+                                                        name="status"
+                                                        label="Select Question Type"
+                                                        options={statusTypes}
+                                                        register={register}
+                                                        rules={{ required: true }}
+                                                        placeholder="-- Select Status Type --"
+                                                      />
+                                    
+                                                   
+                                                    </div>
 
                                     <div className="space-y-2 hidden">
 
@@ -121,13 +155,13 @@ export default function ModalVideoEdit({ setShowModalEdit, showModalEdit, select
 
                                     </div>
                                     <div className="flex gap-3 pt-4">
-                                        <Button variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
+                                        <MainButton variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
                                             Cancel
-                                        </Button>
+                                        </MainButton>
 
-                                        <Button fullWidth type="submit" className='bg-primaryBg'>
+                                        <MainButton fullWidth type="submit" variant='primary'>
                                             Update Video
-                                        </Button>
+                                        </MainButton>
                                     </div>
                                 </CardBody>
                             </form>

@@ -12,8 +12,9 @@ import { addVideo, adminProfile } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery ,useQueryClient } from "@tanstack/react-query";
 
 const statusTypes = [
-  { qId: '1', label: 'Active', value: 'active' },
-  { qId: '2', label: 'Deactive', value: 'deactive' },
+    { qId: '1', label: 'Draft', value: 'draft' },
+    { qId: '2', label: 'Published', value: 'published' },
+    { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
 export default function Videos() {
@@ -79,7 +80,6 @@ const queryClient = useQueryClient();
                   <Typography variant="small" className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Title
                   </Typography>
-                  {/* <Input label=" Video Title" type="text"     {...register("title", { required: true })} /> */}
 
                   <CustomInput
                     name="title"
@@ -100,7 +100,7 @@ const queryClient = useQueryClient();
                   <Typography variant="small" className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Description
                   </Typography>
-                  {/* <Input label="Video Description" type="text"     {...register("description", { required: true })} /> */}
+          
 
                   <CustomInput
                     name="description"
@@ -118,13 +118,7 @@ const queryClient = useQueryClient();
                   <Typography variant="small" className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Embed Link
                   </Typography>
-                  {/* <Input
-                    {...register("link", { required: true })}
-                    type="url"
-                    label="https://www.youtube.com/embed/..."
-                    className="flex-1 px-3 py-2 border rounded-md "
-
-                  /> */}
+              
 
                   <CustomInput
                     name="link"
