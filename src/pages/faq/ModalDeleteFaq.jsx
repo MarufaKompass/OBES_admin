@@ -1,24 +1,25 @@
 import React from 'react'
 import { X } from "lucide-react";
 import { toast } from 'react-toastify';
-import Modal from '@/components/modal/Modal';
 import ConfirmModal from '@/components/modal/ConfirmModal';
-import { adminProfile, deleteDietChart } from '@/hooks/ReactQueryHooks';
+import { adminProfile, deleteFaq } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export default function ModalDeleteChart({ selectedDietData, showModalDelete, setShowModalDelete }) {
-    // console.log("selectedDietData", selectedDietData)
-    const queryClient = useQueryClient();
+
+export default function ModalDeleteFaq({ selectedFaq, showModalDelete, setShowModalDelete }) {
+    // console.log("selectedFaq", selectedFaq)
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile
     });
 
-    const { mutate: dietDelete } = useMutation({
-        mutationFn: ({ role, id }) => deleteDietChart({ role, id }),
+    const queryClient = useQueryClient();
+
+    const { mutate: faqDelete } = useMutation({
+        mutationFn: ({ role, faqid }) => deleteFaq({ role, faqid }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            queryClient.invalidateQueries(['dietChart']);
+            queryClient.invalidateQueries(['category']);
             setShowModalDelete(false);
         },
         onError: () => {
@@ -32,13 +33,13 @@ export default function ModalDeleteChart({ selectedDietData, showModalDelete, se
                 isOpen={showModalDelete}
                 onClose={() => setShowModalDelete(false)}
                 title="Are You sure?"
-                message="Do you really want to delete these Diet Chart? This process cannot be undone."
+                message="Do you really want to delete these FAQ? This process cannot be undone."
                 confirmText="Delete"
                 cancelText="Cancel"
                 confirmVariant="outlined"
                 icon={<X size={32} color="#7B1E19" />}
                 iconColor="#7B1E19"
-                onConfirm={() => dietDelete({ role: profile?.role, id: selectedDietData?.id })}
+                onConfirm={() => faqDelete({ role: profile?.role, faqid: selectedFaq?.faqid })}
             />
 
         </div>

@@ -1,33 +1,29 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { CardBody, Typography, Input } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-import { adminProfile, updateNewsletter, uploadImage } from "@/hooks/ReactQueryHooks";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import PdfUploadField from '@/components/upload/PdfUploadField';
-import DynamicSelect from '@/components/select/DynamicSelect';
 import CustomInput from '@/components/input/CustomInput';
-import ImageUploadField from '@/components/upload/ImageUploadField';
 import MainButton from '@/components/mainButton/MainButton';
+import DynamicSelect from '@/components/select/DynamicSelect';
+import PdfUploadField from '@/components/upload/PdfUploadField';
+import ImageUploadField from '@/components/upload/ImageUploadField';
+import { CardBody, Typography, Input } from "@material-tailwind/react";
+import { adminProfile, updateNewsletter } from "@/hooks/ReactQueryHooks";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 const statusTypes = [
     { qId: '1', label: 'Draft', value: 'draft' },
     { qId: '2', label: 'Published', value: 'published' },
     { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
-
 export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, selectedNewsLetterId }) {
-
     const queryClient = useQueryClient();
     const {
         register,
         handleSubmit,
         reset,
         control,
-        watch,
-        setValue,
         formState: { errors },
     } = useForm()
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography, Card, CardBody, Button, Spinner, Alert } from "@material-tailwind/react";
+import { Typography, Card, CardBody, Spinner, Alert } from "@material-tailwind/react";
 import { useQuery } from '@tanstack/react-query';
 import { adminProfile, CategoryView } from '@/hooks/ReactQueryHooks';
 import { SquarePen, Trash } from 'lucide-react';
@@ -13,6 +13,7 @@ export default function CategoriesList() {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [showModalEdit, setShowModalEdit] = useState(null)
   const navigate = useNavigate();
+
   const handleShowingInfoDelete = (category) => {
     setSelectedCategory(category);
     setShowModalDelete(true)

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { addCategory, adminProfile } from '@/hooks/ReactQueryHooks';
-import { Card, CardHeader, CardBody, Typography, Input, Button } from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, Typography } from "@material-tailwind/react";
 import MainButton from '@/components/mainButton/MainButton';
 import CustomInput from '@/components/input/CustomInput';
 
@@ -93,19 +93,19 @@ export default function AddCategories() {
                 <Typography color="red" className="text-xs mt-1">{errors.catbangla.message}</Typography>
               )}
             </div>
-          <div className='hidden'>
+            <div className='hidden'>
               {profile?.logmobile && (
-               <CustomInput
-               type='number'
-                name="catby"
-                label="ক্যাটাগরি নাম (বাংলা)"
-                defaultValue={profile?.logmobile}
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-              />            
-            )}
-          </div>
+                <CustomInput
+                  type='number'
+                  name="catby"
+                  label="ক্যাটাগরি নাম (বাংলা)"
+                  defaultValue={profile?.logmobile}
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                />
+              )}
+            </div>
             <div className="flex gap-3 pt-6">
               <MainButton
                 variant="outlined"
