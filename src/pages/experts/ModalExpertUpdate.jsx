@@ -6,7 +6,7 @@ import { Pencil, X, Loader2, CheckCircle } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminProfile, editExpert, uploadImage } from "@/hooks/ReactQueryHooks";
 import { CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
-import ImageUploadField from '@/components/UploadImage/ImageUploadField';
+import ImageUploadField from '@/components/upload/ImageUploadField';
 import CustomInput from '@/components/input/CustomInput';
 import DynamicSelect from '@/components/select/DynamicSelect';
 import MainButton from '@/components/mainButton/MainButton';

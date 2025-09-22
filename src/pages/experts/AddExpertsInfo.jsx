@@ -1,17 +1,17 @@
 
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Card, CardHeader, CardBody, Typography, Input, Button, Select, Option } from "@material-tailwind/react";
-import { User, Building2, Mail, CheckCircle, Loader2 } from "lucide-react"
+import { Card, CardHeader, CardBody, Typography} from "@material-tailwind/react";
+import { User, Building2, Mail, CheckCircle } from "lucide-react"
 import useNavigator from '@/components/navigator/useNavigate';
-import { addExpertsList, adminProfile, uploadImage } from '@/hooks/ReactQueryHooks';
+import { addExpertsList, adminProfile } from '@/hooks/ReactQueryHooks';
 import CustomInput from '@/components/input/CustomInput';
 import DynamicSelect from '@/components/select/DynamicSelect';
 import MainButton from '@/components/mainButton/MainButton';
-import ImageUploadField from '@/components/UploadImage/ImageUploadField';
+import ImageUploadField from '@/components/upload/ImageUploadField';
 
 
 const statusTypes = [
