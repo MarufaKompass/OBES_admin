@@ -205,7 +205,7 @@ export default function Questionnaire() {
                           <button
                             type="button"
                             onClick={addOption}
-                            className="text-white bg-primaryBg hover:bg-primaryBg px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
+                            className="text-white bg-primary hover:bg-primary px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
                           >
                             + Add Option
                           </button>

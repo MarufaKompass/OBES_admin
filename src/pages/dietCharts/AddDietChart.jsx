@@ -8,12 +8,7 @@ import {
     CardHeader,
     CardBody,
     Typography,
-    Input,
-    Button,
-    Textarea
 } from "@material-tailwind/react";
-import { Utensils } from 'lucide-react';
-
 import useNavigator from '@/components/navigator/useNavigate';
 import { addDietCharts, adminProfile } from '@/hooks/ReactQueryHooks';
 import CustomInput from '@/components/input/CustomInput';

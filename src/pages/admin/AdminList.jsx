@@ -1,12 +1,12 @@
+import { Pencil } from 'lucide-react';
 import React, { useState } from 'react'
-import { Typography, Card, CardBody, Spinner, Alert } from "@material-tailwind/react";
+import UpdateAdmin from './UpdateAdmin';
+import { useNavigate } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import MainButton from '@/components/mainButton/MainButton';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { adminList, adminProfile, statusUpdate } from '@/hooks/ReactQueryHooks';
-import { Pencil } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
-import { Search } from 'lucide-react';
-import { useForm, Controller } from "react-hook-form";
-import UpdateAdmin from './UpdateAdmin';
+import { Typography, Card, CardBody, Spinner, Alert } from "@material-tailwind/react";
 
 export default function AdminList() {
   const navigate = useNavigate();
@@ -49,32 +49,25 @@ export default function AdminList() {
       <Card>
         <CardBody className="overflow-x-auto p-4">
           {/* Title */}
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">
-              Admin List
-            </h2>
-            <p className="text-[16px] text-gray-500 font-poppins">
-              Manage admin accounts and their status.
-            </p>
-          </div>
-
-          {/* Search + Create */}
-          <div className="flex justify-end gap-4 ">
-            <div className="relative w-full md:w-1/3">
-              <div className="absolute top-2 left-2">
-                <Search />
-              </div>
-              <input
-                className="border border-[#a5a5a5] w-full py-2 rounded-lg pl-10 outline-primaryBg"
-                placeholder="search"
-              />
+          <div className='flex justify-between mt-4'>
+            <div className="">
+              <h2 className="text-h3 font-bold mb-1 text-mainHeading font-heading">
+                Admin List
+              </h2>
+              <p className="text-paragraph text-paragraphFont font-heading">
+                Manage admin accounts and their status.
+              </p>
             </div>
-            <button
-              onClick={handleAddClick}
-              className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md"
-            >
-              + Create Admin
-            </button>
+
+            {/* Search + Create */}
+            <div className="">
+              <MainButton
+                onClick={handleAddClick}
+                variant='primary'
+              >
+                + Create Admin
+              </MainButton>
+            </div>
           </div>
 
           <div className="py-6">
@@ -118,7 +111,7 @@ export default function AdminList() {
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal leading-none opacity-70"
+                        className="font-normal text-paragraph text-paragraphFont font-heading leading-none opacity-70"
                       >
                         {head}
                       </Typography>
@@ -140,12 +133,12 @@ export default function AdminList() {
                           className="w-10 h-8"
                           alt="admin"
                         />
-                        <span>{admin?.fulname}</span>
+                        <span className=' text-paragraph text-paragraphFont font-heading'>{admin?.fulname}</span>
                       </td>
-                      <td className="p-4">{admin?.logmobile}</td>
-                      <td className="p-4">{admin?.role}</td>
-                      <td className="p-4">{admin?.status}</td>
-                      <td className="p-4 flex gap-4 items-center">
+                      <td className="p-4  text-paragraph text-paragraphFont font-heading">{admin?.logmobile}</td>
+                      <td className="p-4  text-paragraph text-paragraphFont font-heading">{admin?.role}</td>
+                      <td className="p-4  text-paragraph text-paragraphFont font-heading">{admin?.status}</td>
+                      <td className="p-4 flex gap-4 items-center  text-paragraph text-paragraphFont font-heading">
                         <Controller
                           control={control}
                           name={`status_${adminId}`}

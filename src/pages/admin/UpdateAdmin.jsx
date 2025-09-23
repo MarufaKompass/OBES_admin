@@ -7,6 +7,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { adminProfile, editAdmin, editCategory } from "@/hooks/ReactQueryHooks";
 import { CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
 import DatePicker from '@/components/datepicker/Datepicker';
+import CustomInput from '@/components/input/CustomInput';
 
 export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedAdmin }) {
     const [showCalendar, setShowCalendar] = useState(false);
@@ -113,16 +114,16 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                                 <CardBody className="space-y-6">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Typography variant="small" color="blue-gray" className="font-medium">
-                                                full Name
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Full Name
                                             </Typography>
-                                            <Input
-                                                type="text"
-
-                                                {...register("fulname", { required: true })} />
-
+                                            <CustomInput
+                                                name="fulname"
+                                                label="Full Name"
+                                                register={register}
+                                                rules={{ required: true }}
+                                            />
                                         </div>
-
                                         <div className="space-y-2">
                                             <Typography variant="small" color="blue-gray" className="font-medium">
                                                 Email
@@ -210,7 +211,7 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                                         </Typography>
                                         <div className='mt-2'>
                                             <Select
-                                          
+
                                                 value={watch("ogender")}
                                                 onChange={(val) => {
                                                     setValue("ogender", val, { shouldValidate: true });

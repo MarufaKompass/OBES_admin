@@ -1,24 +1,26 @@
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from '@tanstack/react-query';
-import { Input, Button, Typography, } from "@material-tailwind/react";
+import { Typography, } from "@material-tailwind/react";
 
 import { loginUser } from "@/hooks/ReactQueryHooks";
+import CustomInput from '@/components/input/CustomInput';
+import MainButton from '@/components/mainButton/MainButton';
 import useNavigator from "../../components/navigator/useNavigate";
 import { useAdminObeContext } from "@/components/contextProvider/AdminContextProvider";
-import MainButton from '@/components/mainButton/MainButton';
 
 export function SignIn() {
+  const [error, setError] = useState();
   const { setUser } = useAdminObeContext();
-
   const { handleNavigation } = useNavigator();
 
   const {
     register,
     handleSubmit,
-    // formState: { errors },
     reset,
+    formState: { errors },
   } = useForm();
 
   const { mutateAsync } = useMutation({ mutationFn: loginUser });
@@ -31,7 +33,7 @@ export function SignIn() {
       handleNavigation('/');
       reset();
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'Login failed');
+      setError(err?.response?.data?.message);
       reset();
     }
   };
@@ -44,26 +46,41 @@ export function SignIn() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
-          <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+          <div className="mb-1 flex flex-col gap-3">
+            <Typography variant="small" className="font-medium text-mainHeading font-heading">
               Your email
             </Typography>
-            <Input
-              size="lg"
-              placeholder="name@mail.com"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              {...register("login", { required: true })}
+            <CustomInput
+              name="login"
+              placeholder="017******/name@mail.com"
+              register={register}
+              rules={{ required: error }}
+              errors={errors}
             />
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+
+            {errors.login && (
+              <Typography color="red" className="text-xs mt-1">{errors.login.message}</Typography>
+            )}
+
+
+            <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
               Password
             </Typography>
-            <Input
+            <CustomInput
+              name="password"
               type="password"
-              size="lg"
-              placeholder="********"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              {...register("password", { required: true })}
+              placeholder="*********"
+              register={register}
+              rules={{ required: error }}
+              errors={errors}
             />
+
+            {errors.password && (
+              <Typography color="red" className="text-xs mt-1">{errors?.password?.message}</Typography>
+            )}
+
+
+
           </div>
           <div className="flex justify-end  gap-2 my-3 ">
             <Typography variant="medium" className="font-medium text-gray-900 flex ">
