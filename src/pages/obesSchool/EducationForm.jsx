@@ -1,16 +1,15 @@
 import { toast } from 'react-toastify';
 import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { TagIcon } from "@heroicons/react/24/solid";
-import { useForm, Controller } from "react-hook-form";
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { addEducation, adminProfile, uploadImage } from '@/hooks/ReactQueryHooks';
-import { CheckCircle, Loader2 } from "lucide-react"
-import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea, Select, Option } from "@material-tailwind/react";
-import DynamicSelect from '@/components/select/DynamicSelect';
 import CustomInput from '@/components/input/CustomInput';
-import ImageUploadField from '@/components/upload/ImageUploadField';
 import MainButton from '@/components/mainButton/MainButton';
+import DynamicSelect from '@/components/select/DynamicSelect';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import ImageUploadField from '@/components/upload/ImageUploadField';
+import { addEducation, adminProfile } from '@/hooks/ReactQueryHooks';
+import { Card, CardHeader, CardBody, Typography } from "@material-tailwind/react";
 
 
 const categoryTypes = [
@@ -34,20 +33,13 @@ const modType = [
 
 ];
 
-
-
 export default function EducationForm() {
   const [error, setError] = useState();
-  const [preview, setPreview] = useState(null);
-  const [imageUploading, setImageUploading] = useState(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     control,
-    setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm();
@@ -58,42 +50,7 @@ export default function EducationForm() {
     queryFn: adminProfile
   });
 
-
-
-  const handleImageUpload = async (file) => {
-    if (!file) return;
-
-    setImageUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append('uploadimg', file);
-      formData.append('moduletitle', 'obeseduimg'); // Add module name
-
-      // Call your uploadImage API
-      const response = await uploadImage(formData);
-
-      if (response?.data?.data?.filename) {
-        const imageUrl = response?.data?.data?.filename;
-        setUploadedImageUrl(imageUrl);
-        toast.success('Image uploaded successfully!');
-        return imageUrl;
-      } else {
-        // throw new Error('No image URL returned from server');
-      }
-    } catch (error) {
-      console.error('Image upload error:', error);
-      toast.error(error?.response?.data?.message || 'Image upload failed');
-      return null;
-    } finally {
-      setImageUploading(false);
-    }
-  };
-
-
-
   const { mutateAsync } = useMutation({ mutationFn: addEducation });
-
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("category", data.category);
@@ -211,19 +168,16 @@ export default function EducationForm() {
                 rules={{ required: error }}
                 errors={errors}
               />
-
               {errors.topic && (
                 <Typography color="red" className="text-xs mt-1">{errors.topic.message}</Typography>
               )}
 
             </div>
-            {/* Image Upload */}
 
             <div className="space-y-2 mt-3">
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading pb-1">
                 Upload Image*
               </Typography>
-
 
               <ImageUploadField
                 name="mimage"
@@ -247,7 +201,6 @@ export default function EducationForm() {
                 Module Information*
               </Typography>
 
-
               <CustomInput
                 name="modinfo"
                 label="mod info"
@@ -263,8 +216,6 @@ export default function EducationForm() {
               )}
             </div>
 
-
-            {/* Submit */}
             <MainButton fullWidth type="submit" variant="primary" >
               + Create Education
             </MainButton>
