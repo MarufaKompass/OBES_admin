@@ -1,16 +1,42 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from "react";
-import { Pencil, X, Loader2, CheckCircle } from "lucide-react";
-import { useForm, Controller } from "react-hook-form"
-import { CardBody, Typography, Button, Input, Select, Option, Textarea } from "@material-tailwind/react";
+import React, { useEffect } from "react";
+import { Pencil, X } from "lucide-react";
+import { useForm } from "react-hook-form"
 import Modal from '@/components/modal/Modal'
-import { adminProfile, editEducation, uploadImage } from '@/hooks/ReactQueryHooks';
+import CustomInput from '@/components/input/CustomInput';
+import MainButton from '@/components/mainButton/MainButton';
+import DynamicSelect from '@/components/select/DynamicSelect';
+import { CardBody, Typography } from "@material-tailwind/react";
+import ImageUploadField from '@/components/upload/ImageUploadField';
+import { adminProfile, editEducation } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+
+const categoryTypes = [
+  { id: '1', label: 'Adult', value: 'adult' },
+  { id: '2', label: 'Child', value: 'child' },
+
+];
+
+const modNo = [
+  { id: '1', label: 'M1', value: 'M1' },
+  { id: '2', label: 'M2', value: 'M2' },
+  { id: '2', label: 'M3', value: 'M3' },
+  { id: '2', label: 'M4', value: 'M4' },
+
+];
+const modType = [
+  { id: '1', label: 'Assessment', value: 'Assessment' },
+  { id: '2', label: 'Education', value: 'Education' },
+  { id: '2', label: 'Motivation', value: 'Motivation' },
+  { id: '2', label: 'Life Style Modification', value: 'Life Style Modification' },
+
+];
+
+
+
 export default function EducationEditForm({ showModalEdit, setShowModalEdit, selectedEdu }) {
-  const [preview, setPreview] = useState(null);
-  const [imageUploading, setImageUploading] = useState(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+
   const queryClient = useQueryClient();
   const {
     register,
@@ -26,41 +52,6 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
     queryFn: adminProfile
   });
 
-  useEffect(() => {
-    if (uploadedImageUrl) {
-      setValue("mimage", uploadedImageUrl);
-    }
-  }, [uploadedImageUrl, setValue]);
-
-  const handleImageUpload = async (file) => {
-    if (!file) return;
-
-    setImageUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append('uploadimg', file);
-      formData.append('moduletitle', 'obeseduimg');
-
-      // Call your uploadImage API
-      const response = await uploadImage(formData);
-
-      if (response?.data?.data?.filename) {
-        const imageUrl = response?.data?.data?.filename;
-        setUploadedImageUrl(imageUrl);
-        toast.success('Image uploaded successfully!');
-        return imageUrl;
-      } else {
-        // throw new Error('No image URL returned from server');
-      }
-    } catch (error) {
-      console.error('Image upload error:', error);
-      toast.error(error?.response?.data?.message || 'Image upload failed');
-      return null;
-    } finally {
-      setImageUploading(false);
-    }
-  };
 
 
   useEffect(() => {
@@ -85,7 +76,6 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
   const onSubmit = async (data) => {
     console.log('data', data);
 
-
     try {
       const res = await mutateAsync({ editEducationData: data, role: profile?.role, id: selectedEdu?.id });
       toast.success(res?.data?.message);
@@ -106,7 +96,7 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto shadow-xl p-6">
 
-              <div className="flex gap-3 justify-between ml-6">
+              <div className="flex gap-3 justify-between ml-6 border-b pb-4">
                 <div className="flex gap-3 ">
                   <Pencil size={24} color="#7B1E19" />
                   <Typography color="#333" className=" text-xl font-bold">
@@ -121,167 +111,97 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
               </div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardBody className="space-y-4">
+                  <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
 
-
-
-
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Select Category*
+                      </Typography>
+                      <DynamicSelect
+                        name="category"
+                        label="Select Category Type"
+                        options={categoryTypes}
+                        register={register}
+                        rules={{ required: true }}
+                        placeholder="-- Select Category Type --"
+                      />
+                    </div>
+                    <div >
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-2">
+                        Select Module Number*
+                      </Typography>
+                      <DynamicSelect
+                        name="modnum"
+                        label="Select Module Number"
+                        options={modNo}
+                        register={register}
+                        rules={{ required: true }}
+                        placeholder="-- Select Module Number --"
+                      />
+                    </div>
+                  </div>
                   <div >
-                    <Typography variant="small" className="mb-2">
-                      Select Category
+                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                      Select Module Type*
                     </Typography>
-                    <Controller
-                      name="category"
-                      control={control}
+                    <DynamicSelect
+                      name="modtype"
+                      label="Select Module Type"
+                      options={modType}
+                      register={register}
                       rules={{ required: true }}
-                      render={({ field }) => (
-                        <div>
-                          <Select
-                            label="Select Category"
-                            value={field.value || ""}
-                            onChange={(val) => field.onChange(val)}>
-                            <Option value="Adult">Adult</Option>
-                            <Option value="Child">Child</Option>
-                            <Option value="Both">Both</Option>
-                          </Select>
-                        </div>
-                      )}
+                      placeholder="-- Select Module Type --"
                     />
                   </div>
-
-
-                  <div >
-                    <Typography variant="small" className="mb-1">
-                      Module Type
+                  <div>
+                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                      Topic*
                     </Typography>
-                    <Input label="" type='text' {...register("modtype", { required: true })} />
+                    <CustomInput
+                      name="topic"
+                      label="Topic"
+                      register={register}
+                      rules={{ required: true }}
+                    />
                   </div>
-                  <div >
-                    <Typography variant="small" className="mb-1">
-                      Module Topic
-                    </Typography>
-                    <Input label="" type='text' {...register("topic", { required: true })} />
-                  </div>
-
-
-
                   <div className="space-y-2 mt-3">
-                    <Typography variant="small" color="blue-gray" className="font-medium pb-3">
+                    <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading pb-1">
                       Upload Image*
                     </Typography>
 
-                    <Controller
-                      name=""
+                    <ImageUploadField
+                      name="mimage"
                       control={control}
-                      rules={{
-                        required: "Image is required",
-                        validate: {
-                          isImage: (file) => {
-                            if (!file) return true;
-                            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                            return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                          }
-                        }
-                      }}
-                      render={({ field: { onChange }, fieldState: { error } }) => (
-                        <>
-                          <div className="relative">
-                            <Input
-                              type="file"
-                              accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                              disabled={imageUploading}
-                              onChange={async (e) => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                  onChange(file);
-                                  setPreview(URL.createObjectURL(file));
+                      register={register}
+                      label="Expert Image*"
+                      moduleTitle="obeseduimg"
 
-                                  // Auto-upload the image
-                                  await handleImageUpload(file);
-                                } else {
-                                  onChange(null);
-                                  setPreview(null);
-                                  setUploadedImageUrl('');
-                                }
-                              }}
-                              label="Choose File"
-                            />
-
-                            {/* Upload Status Indicator */}
-                            {imageUploading && (
-                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
-                              </div>
-                            )}
-                          </div>
-
-
-                          {imageUploading && (
-                            <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                              Uploading image...
-                            </p>
-                          )}
-
-                          {uploadedImageUrl && !imageUploading && (
-                            <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
-                              <CheckCircle className="h-4 w-4" />
-                              Image uploaded successfully
-                            </p>
-                          )}
-
-                          {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                        </>
-                      )}
                     />
-                  </div>
-
-
-                  <div className='hidden'>
-                    {uploadedImageUrl && (
-                      <div>
-                        <Input
-                          {...register("mimage", { required: true })}
-                          type="text"
-                          readOnly
-                        />
-                      </div>
-                    )}
-
                   </div>
 
                   <div>
-                    <Typography variant="small" className="mb-1">
-                      Short Summary
+                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                      Module Information*
                     </Typography>
-                    <Textarea label="" rows={4}  {...register("modinfo", { required: true })} />
-                  </div>
-                  <div >
-                    <Typography variant="small" className="mb-2">
-                      Select Status
-                    </Typography>
-                    <Controller
-                      name="modnum"
-                      control={control}
+
+                    <CustomInput
+                      name="modinfo"
+                      label="mod info"
+                      register={register}
                       rules={{ required: true }}
-                      render={({ field }) => (
-                        <div>
-                          <Select
-                            label="Select Status"
-                            value={field.value || ""}
-                            onChange={(val) => field.onChange(val)}>
-                            <Option value="M1">M1</Option>
-                            <Option value="M2">M2</Option>
-                            <Option value="M3">M3</Option>
-                            <Option value="M4">M4</Option>
-                          </Select>
-                        </div>
-                      )}
+                      errors={errors}
+                      rows
+                      type='textarea'
                     />
+
+                    {errors.modinfo && (
+                      <Typography color="red" className="text-xs mt-1">{errors?.modinfo?.message}</Typography>
+                    )}
                   </div>
                   {/* Submit */}
-                  <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
+                  <MainButton fullWidth type="submit" variant="primary" >
                     + Update Education
-                  </Button>
+                  </MainButton>
                 </CardBody>
               </form>
 
