@@ -101,7 +101,6 @@ export default function AddDietChart() {
 
                                 </div>
                             </div>
-
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
 
                                 <div className="space-y-2">
@@ -140,9 +139,7 @@ export default function AddDietChart() {
                                 </div>
 
                             </div>
-
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
-
                                 <div className="space-y-2">
                                     <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                         Morning Snacks (বাংলা)
@@ -180,7 +177,6 @@ export default function AddDietChart() {
 
                             </div>
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
-
                                 <div className="space-y-2">
                                     <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                         Lunch (বাংলা)
@@ -217,7 +213,6 @@ export default function AddDietChart() {
                                 </div>
 
                             </div>
-
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
 
                                 <div className="space-y-2">
@@ -256,9 +251,7 @@ export default function AddDietChart() {
                                 </div>
 
                             </div>
-
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
-
                                 <div className="space-y-2">
                                     <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                         Dinner (বাংলা)
@@ -293,10 +286,8 @@ export default function AddDietChart() {
                                         <Typography color="red" className="text-xs mt-1">{errors.dinneren.message}</Typography>
                                     )}
                                 </div>
-
                             </div>
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
-
                                 <div className="space-y-2">
                                     <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                         Before Sleep (বাংলা)

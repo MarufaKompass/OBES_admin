@@ -61,12 +61,12 @@ export const addFaq = async ({ addFaqData, role }) => {
 };
 
 export const deleteFaq = async ({ role, faqid }) => {
-  const response = await axiosInstance.delete(`/public/api/${role}/faq/${faqid}`);
+  const response = await axiosInstance.delete(`/public/api/${role}/faqdel/${faqid}`);
   return response;
 };
 
 export const editFaq = async ({ editFaqData, role, id }) => {
-  const response = await axiosInstance.put(`/public/api/${role}/faqup/${id}`, editFaqData);
+  const response = await axiosInstance.put(`/public/api/${role}/faq/${id}`, editFaqData);
   return response;
 };
 
