@@ -13,8 +13,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 
 const categoryTypes = [
-  { id: '1', label: 'Adult', value: 'adult' },
-  { id: '2', label: 'Child', value: 'child' },
+  { id: '1', label: 'Adult', value: 'Adult' },
+  { id: '2', label: 'Child', value: 'Child' },
 
 ];
 
@@ -37,13 +37,13 @@ const modType = [
 
 export default function EducationEditForm({ showModalEdit, setShowModalEdit, selectedEdu }) {
 
+  console.log("selectedEdu", selectedEdu)
   const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
     reset,
     control,
-    setValue,
     formState: { errors },
   } = useForm();
 
