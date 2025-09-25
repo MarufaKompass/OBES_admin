@@ -223,8 +223,8 @@ export const deleteExpert = async ({ role, id }) => {
 //csv
 
 
-export const csvExport = async (role) => {
-  const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/csv`);
+export const xlsExport = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/xls`);
   return response;
 };
 
