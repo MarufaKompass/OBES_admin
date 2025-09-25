@@ -1,66 +1,31 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from "react";
-import { Pencil, X, Loader2, CheckCircle } from "lucide-react";
-import { useForm, Controller } from "react-hook-form"
-import { CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
 import Modal from '@/components/modal/Modal'
-
-import useNavigator from '@/components/navigator/useNavigate';
-import { adminProfile, editExpert, uploadImage } from "@/hooks/ReactQueryHooks";
+import React, { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form"
+import { Pencil, X, Loader2, CheckCircle } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { adminProfile, editExpert, uploadImage } from "@/hooks/ReactQueryHooks";
+import { CardBody, Typography, Button, Input, Select, Option } from "@material-tailwind/react";
+import ImageUploadField from '@/components/upload/ImageUploadField';
+import CustomInput from '@/components/input/CustomInput';
+import DynamicSelect from '@/components/select/DynamicSelect';
+import MainButton from '@/components/mainButton/MainButton';
+
+const statusTypes = [
+  { id: '1', label: 'Active', value: 'active' },
+  { id: '2', label: 'inactive', value: 'inactive' },
+
+];
 
 
 export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, showModalExpert }) {
   const queryClient = useQueryClient();
-  const [preview, setPreview] = useState(null);
-  const [imageUploading, setImageUploading] = useState(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-
-
-  const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm()
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm()
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-
-  useEffect(() => {
-    if (uploadedImageUrl) {
-      setValue("drimg", uploadedImageUrl);
-    }
-  }, [uploadedImageUrl, setValue]);
-
-
-  const handleImageUpload = async (file) => {
-    if (!file) return;
-
-    setImageUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append('uploadimg', file);
-      formData.append('moduletitle', 'obesexpertimg'); // Add module name
-
-      // Call your uploadImage API
-      const response = await uploadImage(formData);
-
-      if (response?.data?.data?.filename) {
-        const imageUrl = response?.data?.data?.filename;
-        console.log(" imageUrl", imageUrl)
-        setUploadedImageUrl(imageUrl);
-        toast.success('Image uploaded successfully!');
-        return imageUrl;
-      } else {
-        // throw new Error('No image URL returned from server');
-      }
-    } catch (error) {
-      console.error('Image upload error:', error);
-      toast.error(error?.response?.data?.message || 'Image upload failed');
-      return null;
-    } finally {
-      setImageUploading(false);
-    }
-  };
 
 
 
@@ -125,194 +90,135 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
               </div>
               <form onSubmit={handleSubmit(onSubmit)}  >
                 <CardBody className="space-y-4">
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Doctor Name
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.drname}
-                      {...register("drname", { required: true })} />
+
+                  <div className="space-y-2 grid md:grid-cols-2 grid-cols-1 gap-3">
+
+                    <div className="space-y-2" >
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Doctor Name
+                      </Typography>
+                      <CustomInput
+                        name="drname"
+                        label="Doctor Name"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Expert Image
+                      </Typography>
+
+                      <ImageUploadField
+                        name="drimg"
+                        control={control}
+                        register={register}
+                        label="Expert Image*"
+                        moduleTitle="obesexpertimg"
+
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2 mt-3">
-                    <Typography variant="small" color="blue-gray" className="font-medium pb-3">
-                      Expert Image*
-                    </Typography>
+                  <div className='grid md:grid-cols-2 grid-cols-1 gap-3'>
+                    <div className="space-y-2">
 
-                    <Controller
-                      name=""
-                      control={control}
-                      rules={{
-                        required: "Image is required",
-                        validate: {
-                          isImage: (file) => {
-                            if (!file) return true;
-                            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                            return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                          }
-                        }
-                      }}
-                      render={({ field: { onChange }, fieldState: { error } }) => (
-                        <>
-                          <div className="relative">
-                            <Input
-                              type="file"
-                              accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                              disabled={imageUploading}
-                              onChange={async (e) => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                  onChange(file);
-                                  setPreview(URL.createObjectURL(file));
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Hospital/Clinic
+                      </Typography>
+                      <CustomInput
+                        name="hospital"
+                        label="Doctor Name"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Organization
+                      </Typography>
+                      <CustomInput
+                        name="add_org"
+                        label="Organization Name"
+                        register={register}
+                        rules={{ required: true }}
+                      />
 
-                                  // Auto-upload the image
-                                  await handleImageUpload(file);
-                                } else {
-                                  onChange(null);
-                                  setPreview(null);
-                                  setUploadedImageUrl('');
-                                }
-                              }}
-                              label="Choose File"
-                            />
-
-                            {/* Upload Status Indicator */}
-                            {imageUploading && (
-                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Upload Status Messages */}
-                          {imageUploading && (
-                            <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                              Uploading image...
-                            </p>
-                          )}
-
-                          {uploadedImageUrl && !imageUploading && (
-                            <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
-                              <CheckCircle className="h-4 w-4" />
-                              Image uploaded successfully
-                            </p>
-                          )}
-
-                          {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                        </>
-                      )}
-                    />
-
-
+                    </div>
                   </div>
 
-                  <div className='hidden'>
-                    {uploadedImageUrl && (
-                      <div>
-                        <Input
-                          {...register("drimg", { required: true })}
-                          type="text"
-                          readOnly
-                        />
-                      </div>
-                    )}
-
+                  <div className='grid md:grid-cols-2 grid-cols-1 gap-3'>
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Primary Designation
+                      </Typography>
+                      <CustomInput
+                        name="designation"
+                        label="Designation Name"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Secondary Designation
+                      </Typography>
+                      <CustomInput
+                        name="add_desig"
+                        label="Designation Name"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Hospital/Clinic
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.hospital}
-                      {...register("hospital", { required: true })}
-
-                    />
+                  <div className='grid md:grid-cols-2 grid-cols-1 gap-3'>
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Email
+                      </Typography>
+                      <CustomInput
+                        name="email"
+                        label="Email"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                        Phone Number
+                      </Typography>
+                      <CustomInput
+                        name="mobile"
+                        label="Designation Name"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Primary Designation
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.designation}
-                      {...register("designation", { required: true })}
 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Secondary Designation
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.add_desig}
-                      {...register("add_desig", { required: true })}
 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Organization
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.add_org}
-                      {...register("add_org", { required: true })}
-
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Email Address
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.email}
-                      {...register("email", { required: true })}
-
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Typography variant="small" color="blue-gray" className="font-medium">
-                      Phone Number
-                    </Typography>
-                    <Input
-                      type="text"
-                      defaultValue={showModalExpert?.mobile}
-                      {...register("mobile", { required: true })}
-
-                    />
-                  </div>
                   <div className="space-y-2 ">
-                    <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+                    <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                       Status
                     </Typography>
-                    <Controller
-                      name="status"
-                      control={control}
-                      defaultValue={showModalExpert?.status}
-                      render={({ field }) => (
-                        <Select
-                          label="Select Status"
-                          value={field.value}
-                          onChange={(value) => field.onChange(value)}
-                        >
-                          <Option value="active">Active</Option>
-                          <Option value="inactive">Inactive</Option>
-                        </Select>
-                      )}
-                    /> </div>
-                  <div className="flex gap-3 pt-4">
-                    <Button variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
-                      Cancel
-                    </Button>
 
-                    <Button fullWidth type="submit" className='bg-primaryBg'>
+                    <DynamicSelect
+                      name="status"
+                      label="Select Status Type"
+                      options={statusTypes}
+                      register={register}
+                      rules={{ required: true }}
+                      placeholder="-- Select Status Type --"
+                    />
+                  </div>
+                  <div className="flex gap-3 pt-4">
+                    <MainButton variant="outlined" fullWidth onClick={() => setShowModalEdit(false)}>
+                      Cancel
+                    </MainButton>
+
+                    <MainButton fullWidth type="submit" variant="primary">
                       Edit Expert
-                    </Button>
+                    </MainButton>
                   </div>
                 </CardBody>
               </form>

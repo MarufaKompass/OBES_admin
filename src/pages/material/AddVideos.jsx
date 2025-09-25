@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Upload, Link as LinkIcon } from "lucide-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addDoctorVideo, adminProfile } from "@/hooks/ReactQueryHooks";
-import { Typography, Input, Select, Option } from "@material-tailwind/react";
 import ListsVideo from "./ListsVideo";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Upload, Link as LinkIcon } from "lucide-react";
 import CustomInput from "@/components/input/CustomInput";
-import DynamicSelect from "@/components/select/DynamicSelect";
 import MainButton from "@/components/mainButton/MainButton";
+import { Typography, Input } from "@material-tailwind/react";
+import DynamicSelect from "@/components/select/DynamicSelect";
+import { addDoctorVideo, adminProfile } from "@/hooks/ReactQueryHooks";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 const statusTypes = [
-  { qId: '1', label: 'Active', value: 'active' },
-  { qId: '2', label: 'Deactive', value: 'deactive' },
+    { qId: '1', label: 'Draft', value: 'draft' },
+    { qId: '2', label: 'Published', value: 'published' },
+    { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
 
@@ -35,23 +36,22 @@ export default function AddVideos() {
   });
 
 
-  useEffect(() => {
-    if (profile?.id) {
-      setValue("upby", String(profile.id), { shouldValidate: true });
-    }
-  }, [profile, setValue]);
+  // useEffect(() => {
+  //   if (profile?.id) {
+  //     setValue("upby", String(profile.id), { shouldValidate: true });
+  //   }
+  // }, [profile, setValue]);
 
 
   const onSubmit = async (data) => {
-    console.log('data', data)
+    // console.log('data', data)
     try {
       const res = await mutateAsync({ addDoctorVideoData: data, role: profile?.role });
       toast.success(res.data.message);
       queryClient.invalidateQueries(['videoDoctorLists']);
       reset();
     } catch (err) {
-      setError(err?.res?.data?.message)
-      console.log(err?.res?.data?.message)
+      setError(err?.response?.data?.message)
       reset();
     }
   };
@@ -80,13 +80,12 @@ export default function AddVideos() {
                 <div className="hidden">
                   {profile?.id && (
                     <Input
-                      name="upby"
                       {...register("upby", { required: true })}
-                      value={profile?.id}
-                    />
+                      value={profile?.id} />
                   )}
 
                 </div>
+
                 <div className="space-y-2">
                   <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Video Title
@@ -138,9 +137,6 @@ export default function AddVideos() {
                     <Typography color="red" className="text-xs mt-1">{errors.link.message}</Typography>
                   )}
 
-
-
-
                 </div>
                 <div className="space-y-2 mt-3 ">
                   <Typography variant="small" className="font-medium text-mainHeading font-heading">
@@ -174,6 +170,26 @@ export default function AddVideos() {
               </div>
             </div>
           </form>
+
+
+          {/* Instructions */}
+          <div className="border rounded-lg bg-gray-100 p-6 grid md:grid-cols-3 gap-6 text-sm">
+            {[
+              { step: 1, title: "Copy YouTube URL", desc: "Copy the link from any YouTube video" },
+              { step: 2, title: "Paste & Upload", desc: "Paste the URL and click upload" },
+              { step: 3, title: "Manage Videos", desc: "View and organize your uploaded videos" },
+            ].map(({ step, title, desc }) => (
+              <div key={step} className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
+                  {step}
+                </div>
+                <div>
+                  <h3 className=" text-mainHeading font-heading text-paragraphFont font-bold">{title}</h3>
+                  <p className=" text-paragraph font-heading text-paragraphFont ">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
           <ListsVideo></ListsVideo>
         </div>
       </div>

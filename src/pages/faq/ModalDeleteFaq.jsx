@@ -2,11 +2,12 @@ import React from 'react'
 import { X } from "lucide-react";
 import { toast } from 'react-toastify';
 import ConfirmModal from '@/components/modal/ConfirmModal';
-import { adminProfile, deleteExpert } from '@/hooks/ReactQueryHooks';
+import { adminProfile, deleteFaq } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 
-export default function ModalExpertDelete({ showModalExpert, showModalDelete, setShowModalDelete }) {
+export default function ModalDeleteFaq({ selectedFaq, showModalDelete, setShowModalDelete }) {
+    // console.log("selectedFaq", selectedFaq)
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile
@@ -14,11 +15,11 @@ export default function ModalExpertDelete({ showModalExpert, showModalDelete, se
 
     const queryClient = useQueryClient();
 
-    const { mutate: expertDelete } = useMutation({
-        mutationFn: ({ role, id }) => deleteExpert({ role, id }),
+    const { mutate: faqDelete } = useMutation({
+        mutationFn: ({ role, faqid }) => deleteFaq({ role, faqid }),
         onSuccess: (data) => {
             toast.success(data.data.message);
-            queryClient.invalidateQueries(['expert']);
+            queryClient.invalidateQueries(['category']);
             setShowModalDelete(false);
         },
         onError: () => {
@@ -32,14 +33,15 @@ export default function ModalExpertDelete({ showModalExpert, showModalDelete, se
                 isOpen={showModalDelete}
                 onClose={() => setShowModalDelete(false)}
                 title="Are You sure?"
-                message="Do you really want to delete these Expert? This process cannot be undone."
+                message="Do you really want to delete these FAQ? This process cannot be undone."
                 confirmText="Delete"
                 cancelText="Cancel"
                 confirmVariant="outlined"
                 icon={<X size={32} color="#7B1E19" />}
                 iconColor="#7B1E19"
-                onConfirm={() => expertDelete({ role: profile?.role, id: showModalExpert?.id })}
+                onConfirm={() => faqDelete({ role: profile?.role, faqid: selectedFaq?.faqid })}
             />
+
         </div>
     )
 }

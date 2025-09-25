@@ -6,6 +6,7 @@ import { Card, CardBody, Button } from "@material-tailwind/react";
 import { adminProfile, newsletterList } from '@/hooks/ReactQueryHooks';
 import ModalEditNewsLetter from './ModalEditNewsLetter';
 import ModalDeleteNewsletter from './ModalDeleteNewsletter';
+import MainButton from '@/components/mainButton/MainButton';
 
 
 export default function NewsletterList() {
@@ -46,25 +47,20 @@ export default function NewsletterList() {
       <Card className="mt-8 px-4">
         <CardBody className="overflow-x-auto p-0">
           <div className="w-full  mx-auto   py-6">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4 text-gray-900 font-poppins">Newsletter Archive</h2>
-              <p className="text-[16px] text-gray-500 font-poppins">
-                Browse and access all available newsletters
-              </p>
-            </div>
-            <div className="flex justify-end gap-4 ">
-              <div className="relative w-full md:w-1/3">
-                <div className="absolute top-2 left-2">
-                  <Search />
-                </div>
-                <input
-                  className="border border-[#a5a5a5] w-full py-2  rounded-lg pl-10 outline-primaryBg"
-                  placeholder='search' />
 
+            <div className="flex justify-between gap-4 my-6 mx-4">
+              <div className="">
+                <h2 className="text-h3 font-bold mb-1 text-mainHeading font-heading">Newsletter Archive</h2>
+                <p className="text-paragraph text-paragraphFont font-heading">
+                  Browse and access all available newsletters
+                </p>
               </div>
-              <button onClick={handleAddClick} className="flex items-center gap-2 bg-primaryBg text-white px-4 rounded-md">
-                + Add Button
-              </button>
+              <div className='flex items-center'>
+
+                <MainButton onClick={handleAddClick} >
+                  + Add Button
+                </MainButton>
+              </div>
             </div>
 
             <div className="py-6">
@@ -74,17 +70,17 @@ export default function NewsletterList() {
               {/* List Header */}
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                 <div className="grid grid-cols-12 gap-4 text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                  <div className="col-span-1">Image</div>
-                  <div className="col-span-1">ID</div>
-                  <div className="col-span-2">Issue #</div>
-                  <div className="col-span-4">Title</div>
-                  <div className="col-span-3">Summary</div>
-                  <div className="col-span-1">Actions</div>
+                  <div className="col-span-1 text-paragraph font-heading text-paragraphFont">Image</div>
+                  <div className="col-span-1 text-paragraph font-heading text-paragraphFont">ID</div>
+                  <div className="col-span-2 text-paragraph font-heading text-paragraphFont">Issue No</div>
+                  <div className="col-span-4 text-paragraph font-heading text-paragraphFont">Title</div>
+                  <div className="col-span-3 text-paragraph font-heading text-paragraphFont">Summary</div>
+                  <div className="col-span-1 text-paragraph font-heading text-paragraphFont">Actions</div>
                 </div>
               </div>
               {/* List Items */}
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                {newsList?.map((newsletter) => (
+                {newsList?.map((newsletter, index) => (
                   <div
                     key={newsletter.id}
                     className="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
@@ -102,22 +98,22 @@ export default function NewsletterList() {
                       {/* ID */}
                       <div className="col-span-1">
                         <div className="flex items-center space-x-1">
-                          <span className="text-sm font-mono text-gray-600 dark:text-gray-300">#{newsletter.id}</span>
+                          <span className="text-sm font-mono text-gray-600 dark:text-gray-300">{index}</span>
                         </div>
                       </div>
                       {/* Issue Number */}
                       <div className="col-span-2 border border-[#f1f1f1] w-16 flex justify-center rounded-[60%] py-1">
-                        <span className="text-sm font-mono text-gray-600 dark:text-gray-300">{newsletter?.issuenumber}</span>
+                        <span className="text-sm font-mono  dark:text-gray-300 text-paragraph font-heading text-paragraphFont">{newsletter?.issuenumber}</span>
                       </div>
                       {/* Title */}
                       <div className="col-span-4">
-                        <h3 className="font-semibold text-gray-900 dark:text-white text-sm leading-tight">
+                        <h3 className="font-medium  dark:text-white text-sm leading-tight text-paragraph font-heading text-paragraphFont">
                           {newsletter?.title}
                         </h3>
                       </div>
                       {/* Summary */}
                       <div className="col-span-3">
-                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{newsletter.short_summary}</p>
+                        <p className="text-sm dark:text-gray-400 line-clamp-2 text-paragraph font-heading text-paragraphFont">{newsletter.short_summary}</p>
                       </div>
                       {/* Actions */}
                       <div className="col-span-1">
@@ -128,9 +124,7 @@ export default function NewsletterList() {
                           <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center" onClick={() => handleShowingInfoDelete(newsletter)}>
                             <Trash className="w-4 h-4" />
                           </Button>
-                          {/* <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  onClick={() => handleShowingInfoEdit(newsletter)}>
-                            <Eye className="w-4 h-4" />
-                          </Button> */}
+
                           <a href={newsletter?.pdflink} target="_blank">
                             <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  >
                               <ArrowDown className="w-4 h-4" />

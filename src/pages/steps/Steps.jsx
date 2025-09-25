@@ -69,42 +69,42 @@ function getRandomHexColor() {
             <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-100 text-gray-700">
                 <tr>
-                  <th className="px-4 py-2 font-semibold">User ID</th>
-                  <th className="px-4 py-2 font-semibold">Recorded Date</th>
-                  <th className="px-4 py-2 font-semibold text-center">Exercise</th>
-                  <th className="px-4 py-2 font-semibold text-center">Fruits & Veg</th>
-                  <th className="px-4 py-2 font-semibold text-center">Meals</th>
-                  <th className="px-4 py-2 font-semibold text-center">Screen Time</th>
-                  <th className="px-4 py-2 font-semibold text-center">Sleep</th>
-                  <th className="px-4 py-2 font-semibold text-center">Sugary Drinks</th>
-                  <th className="px-4 py-2 font-semibold text-center">Treatment</th>
+                  <th className="px-4 py-2 font-medium font-heading text-paragraph ">User ID</th>
+                  <th className="px-4 py-2 font-medium font-heading text-paragraph ">Recorded Date</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Exercise</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Fruits & Veg</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Meals</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Screen Time</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Sleep</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Sugary Drinks</th>
+                  <th className="px-4 py-2 font-medium text-center font-heading text-paragraph ">Treatment</th>
                 </tr>
               </thead>
               <tbody>
                 {stepsView?.map((entry) => (
                   <tr key={entry.id} className="hover:bg-gray-50 border-t">
-                    <td className="px-4 py-2 font-medium"  style={{ color: getRandomHexColor() }}>{entry.user_id}</td>
+                    <td className="px-4 py-2 font-medium font-heading text-paragraph"  style={{ color: getRandomHexColor() }}>{entry.user_id}</td>
 
-                    <td className="px-4 py-2">{formatDate(entry.recorded_at)}</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 font-heading text-paragraph">{formatDate(entry.recorded_at)}</td>
+                    <td className="px-4 py-2  ">
                       <StatusCell value={entry.exercise} />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 ">
                       <StatusCell value={entry.fruitveg} />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 ">
                       <StatusCell value={entry.meals} />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 ">
                       <StatusCell value={entry.screentime} />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 ">
                       <StatusCell value={entry.sleep} />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 ">
                       <StatusCell value={entry.sugary_drinks} />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 ">
                       <StatusCell value={entry.treatment} />
                     </td>
                   </tr>

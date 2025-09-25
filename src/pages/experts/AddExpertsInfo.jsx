@@ -1,28 +1,33 @@
 
-import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useForm, Controller } from "react-hook-form";
+import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Card, CardHeader, CardBody, Typography, Input, Button, Select, Option } from "@material-tailwind/react";
-import { User, Building2, Mail, CheckCircle, Loader2 } from "lucide-react"
+import CustomInput from '@/components/input/CustomInput';
+import MainButton from '@/components/mainButton/MainButton';
 import useNavigator from '@/components/navigator/useNavigate';
-import { addExpertsList, adminProfile, uploadImage } from '@/hooks/ReactQueryHooks';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import DynamicSelect from '@/components/select/DynamicSelect';
+import { User, Building2, Mail, CheckCircle } from "lucide-react"
+import ImageUploadField from '@/components/upload/ImageUploadField';
+import { addExpertsList, adminProfile } from '@/hooks/ReactQueryHooks';
+import { Card, CardHeader, CardBody, Typography } from "@material-tailwind/react";
 
+
+const statusTypes = [
+  { id: '1', label: 'Active', value: 'active' },
+  { id: '2', label: 'inactive', value: 'inactive' },
+
+];
 
 export default function AddExpertsInfo() {
-  const [preview, setPreview] = useState(null);
   const { handleNavigation } = useNavigator();
-  const [imageUploading, setImageUploading] = useState(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState('');
-
+  const [error, setError] = useState();
   const {
     register,
     handleSubmit,
     control,
-    watch,
-    setValue,
-    // formState: { errors },
+    formState: { errors },
     reset,
   } = useForm();
 
@@ -31,41 +36,6 @@ export default function AddExpertsInfo() {
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-
-
-
-
-
-  const handleImageUpload = async (file) => {
-    if (!file) return;
-
-    setImageUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append('uploadimg', file);
-      formData.append('moduletitle', 'obesexpertimg'); // Add module name
-
-      // Call your uploadImage API
-      const response = await uploadImage(formData);
-
-      if (response?.data?.data?.filename) {
-        const imageUrl = response?.data?.data?.filename;
-        setUploadedImageUrl(imageUrl);
-        toast.success('Image uploaded successfully!');
-        return imageUrl;
-      } else {
-        // throw new Error('No image URL returned from server');
-      }
-    } catch (error) {
-      console.error('Image upload error:', error);
-      toast.error(error?.response?.data?.message || 'Image upload failed');
-      return null;
-    } finally {
-      setImageUploading(false);
-    }
-  };
-
 
   const { mutateAsync } = useMutation({ mutationFn: addExpertsList });
   const onSubmit = async (data) => {
@@ -88,245 +58,253 @@ export default function AddExpertsInfo() {
       handleNavigation('/dashboard/experts/expertsList');
       reset();
     } catch (err) {
-      toast.error(err?.response?.data?.message || 'add Expert failed');
+      setError(err?.response?.data?.message)
       reset();
     }
   };
   return (
     <>
-
-      {/* <Title title="Add Faq"></Title> */}
-      <div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
-        <Card className="w-full mx-auto md:px-24 px-2 ">
+      <div className="h-screen flex items-center justify-center px-4 mt-4 bg-background shadow-xl rounded-2xl">
+        <Card className="w-full mx-auto md:max-w-lg shadow-lg rounded-2xl border ">
           <CardHeader
             floated={false}
             shadow={false}
-            className="flex flex-col items-center bg-transparent"
+            className="flex flex-col items-center bg-[#7B1E19] pb-6 rounded-t-2xl"
           >
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
-              <TagIcon className="h-6 w-6 text-primaryBg" />
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/30 mt-4">
+              <TagIcon className="h-6 w-6 text-white" />
             </div>
-            <Typography variant="h4" color="blue-gray" className='font-poppins'>
-              Add Experts
+            <Typography variant="h4" className="font-semibold text-whiteHeading font-heading">
+              Create Experts
             </Typography>
-            <Typography color="gray" className="text-center font-normal text-sm font-poppins">
+            <Typography className="text-center font-normal text-sm text-whiteHeading font-heading opacity-80">
               Create a new Experts for your posts
             </Typography>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}  >
-            <CardBody className="space-y-6">
-              <div className='flex gap-3 border-b pb-4'>
+            <CardBody className="space-y-2">
+              <div className='flex gap-3 border-b pb-4 text-paragraphFont text-paragraph font-heading'>
                 <User></User>
                 <p>
                   Personal Information
                 </p>
               </div>
               <div>
-                <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium pb-1">
-                    Doctor Name*
-                  </Typography>
-                  <Input label="Doctor Name" type="text" {...register("drname", { required: true })} />
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="space-y-2">
 
+                    <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                      Doctor Name*
+                    </Typography>
+                    <CustomInput
+                      name="drname"
+                      label="Doctor Name"
+                      register={register}
+                      rules={{ required: error }}
+                      errors={errors}
+                    />
 
-                <div className="space-y-2 mt-3">
-                  <Typography variant="small" color="blue-gray" className="font-medium pb-3">
-                    Expert Image*
-                  </Typography>
-
-                  <Controller
-                    name=""
-                    control={control}
-                    rules={{
-                      required: "Image is required",
-                      validate: {
-                        isImage: (file) => {
-                          if (!file) return true;
-                          const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-                          return validTypes.includes(file.type) || "File must be an image (JPEG, PNG, JPG, GIF, SVG)";
-                        }
-                      }
-                    }}
-                    render={({ field: { onChange }, fieldState: { error } }) => (
-                      <>
-                        <div className="relative">
-                          <Input
-                            type="file"
-                            accept="image/jpeg,image/png,image/jpg,image/gif,image/svg+xml"
-                            disabled={imageUploading}
-                            onChange={async (e) => {
-                              const file = e.target.files[0];
-                              if (file) {
-                                onChange(file);
-                                setPreview(URL.createObjectURL(file));
-
-                                // Auto-upload the image
-                                await handleImageUpload(file);
-                              } else {
-                                onChange(null);
-                                setPreview(null);
-                                setUploadedImageUrl('');
-                              }
-                            }}
-                            label="Choose File"
-                          />
-
-                          {/* Upload Status Indicator */}
-                          {imageUploading && (
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                              <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Upload Status Messages */}
-                        {imageUploading && (
-                          <p className="text-blue-500 text-sm mt-1 flex items-center gap-2">
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            Uploading image...
-                          </p>
-                        )}
-
-                        {uploadedImageUrl && !imageUploading && (
-                          <p className="text-green-500 text-sm mt-1 flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4" />
-                            Image uploaded successfully
-                          </p>
-                        )}
-
-                        {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-                      </>
+                    {errors.drname && (
+                      <Typography color="red" className="text-xs mt-1">{errors?.drname?.message}</Typography>
                     )}
-                  />
+                  </div>
 
+                  <div>
+                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-3">
+                      Expert Image*
+                    </Typography>
 
-                </div>
-                <div className='hidden'>
-                  {
-                    uploadedImageUrl && (
-                      <div>
-                        <Input
-                          {...register("drimg", { required: true })}
-                          type="text"
-                          value={uploadedImageUrl}
-
-                          rows={4}
-                        />
-                      </div>
-                    )
-                  }
+                    <ImageUploadField
+                      name="drimg"
+                      control={control}
+                      register={register}
+                      label="Expert Image*"
+                      moduleTitle="obesexpertimg"
+                      rules={{
+                        required: "Image is required",
+                        validate: {
+                          isImage: (value) => {
+                            if (!value) return "Please upload an image";
+                            return true;
+                          },
+                        },
+                      }}
+                    />
+                  </div>
                 </div>
 
               </div>
 
-              <div className='flex gap-3 border-b pb-4'>
+              <div className='flex gap-3 border-b py-3 text-paragraphFont text-paragraph font-heading'>
                 <Building2></Building2>
                 <p>
                   Professional Information
                 </p>
               </div>
 
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
-                  Hospital/Clinic*
-                </Typography>
-                <Input label="Hospital/Clinic"
-                  {...register("hospital", { required: true })}
-                  type="text"
-                  rows={4}
-                />
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
+                <div className="space-y-2">
+
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                    Hospital/Clinic*
+                  </Typography>
+                  <CustomInput
+                    name="hospital"
+                    label="Hospital/Clinic"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+
+                  {errors.hospital && (
+                    <Typography color="red" className="text-xs mt-1">{errors.hospital.message}</Typography>
+                  )}
+
+                </div>
+
+                <div className="space-y-2">
+
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                    Organization*
+                  </Typography>
+                  <CustomInput
+                    name="add_org"
+                    label="organization"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+
+                  {errors.add_org && (
+                    <Typography color="red" className="text-xs mt-1">{errors.add_org.message}</Typography>
+                  )}
+
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+
+
+
+
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Primary Designation*
                   </Typography>
-                  <Input label="Primary Designation"
-                    type="text"
-                    rows={4}
-                    {...register("designation", { required: true })} />
+                  <CustomInput
+                    name="designation"
+                    label="Primary Designation"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+
+                  {errors.designation && (
+                    <Typography color="red" className="text-xs mt-1">{errors.designation.message}</Typography>
+                  )}
+
+
+
                 </div>
                 <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+
+
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
                     Secondary Designation*
                   </Typography>
-                  <Input label="Secondary Designation"
-                    type="text"
-                    rows={4}
-                    {...register("add_desig", { required: true })} />
+                  <CustomInput
+                    name="add_desig"
+                    label="Secondary Designation"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+
+                  {errors.add_desig && (
+                    <Typography color="red" className="text-xs mt-1">{errors.add_desig.message}</Typography>
+                  )}
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
-                  Organization
-                </Typography>
-                <Input label="organization"
-                  type="text"
-                  {...register("add_org", { required: true })} />
 
-              </div>
 
-              <div className='flex gap-3 border-b pb-4'>
+              <div className=' pb-4 flex gap-3 border-b py-3 text-paragraphFont text-paragraph font-heading'>
                 <Mail></Mail>
-                <p>
+                <p className=''>
                   Contact Information
                 </p>
               </div>
 
-
               <div className='grid grid-cols-2 gap-4'>
                 <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
-                    Email Address
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                    Email Address*
                   </Typography>
-                  <Input label="email address"
-                    type="email"
-                    rows={4}
-                    {...register("email", { required: true })} />
-
+                  <CustomInput
+                    name="email"
+                    label="Email Address"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+                  {errors.email && (
+                    <Typography color="red" className="text-xs mt-1">{errors.email.message}</Typography>
+                  )}
                 </div>
                 <div className="space-y-2">
-                  <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
-                    Phone Number
+                  <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                    Phone Number*
                   </Typography>
-                  <Input label="019********"
-                    type="number"
-                    rows={4}
-                    {...register("mobile", { required: true })} />
-
+                  <CustomInput
+                    name="mobile"
+                    label="Phone Number"
+                    register={register}
+                    rules={{ required: error }}
+                    errors={errors}
+                  />
+                  {errors.mobile && (
+                    <Typography color="red" className="text-xs mt-1">{errors.mobile.message}</Typography>
+                  )}
                 </div>
               </div>
-
-              <div className='flex gap-3 border-b pb-4'>
+              <div className='flex gap-3 border-b py-3 text-paragraphFont text-paragraph font-heading'>
                 <CheckCircle></CheckCircle>
                 <p>
                   Account Status
                 </p>
               </div>
-
               <div className="space-y-2 ">
-                <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
-                  Status
+
+                <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                  Select Status Type
                 </Typography>
-                <Select label="Select Status" {...register("status", { required: true })}
-                  value={watch("status") || ""}
-                  onChange={(value) => setValue("status", value)} >
-                  <Option value="active">Active</Option>
-                  <Option value="inactive">Inactive</Option>
-                </Select>
+
+                <DynamicSelect
+                  name="status"
+                  label="Select Status Type"
+                  options={statusTypes}
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                  placeholder="-- Select Status Type --"
+                />
+
+                {errors.status && (
+                  <Typography color="red" className="text-xs ">
+                    {errors.status.message}
+                  </Typography>
+                )}
               </div>
               <div className="flex gap-3 pt-4 pb-6">
-                <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
+                <MainButton fullWidth type="submit" variant='primary' >
                   + Add Expert
-                </Button>
+                </MainButton>
               </div>
             </CardBody>
           </form>
         </Card>
       </div>
+
     </>
   )
 }

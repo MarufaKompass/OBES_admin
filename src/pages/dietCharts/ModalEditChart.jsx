@@ -7,6 +7,8 @@ import Modal from '@/components/modal/Modal'
 
 import { adminProfile, editDietChart } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import CustomInput from '@/components/input/CustomInput';
+import MainButton from '@/components/mainButton/MainButton';
 
 export default function ModalEditChart({ setShowModalEdit, showModalEdit, selectedDietData }) {
     console.log("selectedDietData", selectedDietData)
@@ -89,55 +91,269 @@ export default function ModalEditChart({ setShowModalEdit, showModalEdit, select
                                     <X size={32} />
                                 </div>
                             </div>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <CardBody className="space-y-8 p-6">
-
-                                    {/* Calorie Section */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <Typography className="font-semibold text-[18px] text-gray-700 mb-2">
+                            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                                <CardBody className="space-y-2 px-5 py-8 ">
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                                 Calorie (বাংলা)
                                             </Typography>
-                                            <Input label="Calorie (Bangla)" {...register("calorybn", { required: true })} />
+                                            <CustomInput
+                                                name="calorybn"
+                                                label="Calorie (Bangla)"
+                                                register={register}
+                                                rules={{ required: true }}
+
+                                            />
+
+
                                         </div>
-                                        <div>
-                                            <Typography className="font-semibold text-[18px] text-gray-700 mb-2">
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                                 Calorie (English)
                                             </Typography>
-                                            <Input type="number" label="Calorie (English)" {...register("caloryen", { required: true })} />
+                                            <CustomInput
+                                                name="caloryen"
+                                                label="Calorie (English)"
+                                                register={register}
+                                                rules={{ required: true }}
+
+                                            />
+
+
+
                                         </div>
                                     </div>
 
-                                    {/* Meals Section */}
-                                    {[
-                                        { bn: "breakfastbn", en: "breakfasten", label: "Breakfast" },
-                                        { bn: "morn_snacksbn", en: "morn_snacksen", label: "Morning Snacks" },
-                                        { bn: "lunchbn", en: "lunchen", label: "Lunch" },
-                                        { bn: "anoon_snacksbn", en: "anoon_snacksen", label: "Afternoon Snacks" },
-                                        { bn: "dinnerbn", en: "dinneren", label: "Dinner" },
-                                        { bn: "sleep_milkbn", en: "sleep_milken", label: "Before Sleep" },
-                                    ].map((meal, idx) => (
-                                        <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div>
-                                                <Typography className="font-semibold text-[18px] text-gray-700 mb-2">
-                                                    {meal.label} (বাংলা)
-                                                </Typography>
-                                                <Textarea label={`${meal.label} (Bangla)`} {...register(meal.bn, { required: true })} />
-                                            </div>
-                                            <div>
-                                                <Typography className="font-semibold text-[18px] text-gray-700 mb-2">
-                                                    {meal.label} (English)
-                                                </Typography>
-                                                <Textarea label={`${meal.label} (English)`} {...register(meal.en, { required: true })} />
-                                            </div>
-                                        </div>
-                                    ))}
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
 
-                                    {/* Submit Button */}
-                                    <div className="pt-4">
-                                        <Button type="submit" fullWidth className="bg-primaryBg text-white font-semibold py-4 text-lg rounded-lg">
-                                            + Update Diet Chart
-                                        </Button>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Breakfast (বাংলা)
+                                            </Typography>
+                                            <CustomInput
+                                                name="breakfastbn"
+                                                label="Breakfast (বাংলা)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+                                                rows
+                                            />
+                                            {errors.breakfastbn && (
+                                                <Typography color="red" className="text-xs mt-1">{errors.breakfastbn.message}</Typography>
+                                            )}
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Breakfast (English)
+                                            </Typography>
+                                            <CustomInput
+                                                name="breakfasten"
+                                                label="Breakfast (English)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+                                                rows
+                                            />
+                                            {errors.breakfasten && (
+                                                <Typography color="red" className="text-xs mt-1">{errors.breakfasten.message}</Typography>
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
+
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Morning Snacks (বাংলা)
+                                            </Typography>
+                                            <CustomInput
+                                                name="morn_snacksbn"
+                                                label="Morning Snacks (বাংলা)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Morning Snacks (English)
+                                            </Typography>
+                                            <CustomInput
+                                                name="morn_snacksen"
+                                                label="Morning Snacks (English)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+
+                                    </div>
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
+
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Lunch (বাংলা)
+                                            </Typography>
+                                            <CustomInput
+                                                name="lunchbn"
+                                                label="Lunch (বাংলা)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Lunch (English)
+                                            </Typography>
+                                            <CustomInput
+                                                name="lunchen"
+                                                label="Lunch (English)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
+
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Afternoon Snacks (বাংলা)
+                                            </Typography>
+                                            <CustomInput
+                                                name="anoon_snacksbn"
+                                                label="Afternoon Snacks (বাংলা)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Afternoon Snacks (English)
+                                            </Typography>
+                                            <CustomInput
+                                                name="anoon_snacksen"
+                                                label="Afternoon Snacks (English)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
+
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Dinner (বাংলা)
+                                            </Typography>
+                                            <CustomInput
+                                                name="dinnerbn"
+                                                label="Dinner (বাংলা)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Dinner (English)
+                                            </Typography>
+                                            <CustomInput
+                                                name="dinneren"
+                                                label="Dinner (English)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+                                            {errors.dinneren && (
+                                                <Typography color="red" className="text-xs mt-1">{errors.dinneren.message}</Typography>
+                                            )}
+                                        </div>
+
+                                    </div>
+                                    <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
+
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Before Sleep (বাংলা)
+                                            </Typography>
+                                            <CustomInput
+                                                name="sleep_milkbn"
+                                                label="Before Sleep (বাংলা)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+                                            {errors.sleep_milkbn && (
+                                                <Typography color="red" className="text-xs mt-1">{errors.sleep_milkbn.message}</Typography>
+                                            )}
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                                Before Sleep (English)
+                                            </Typography>
+                                            <CustomInput
+                                                name="sleep_milken"
+                                                label="Before Sleep (English)"
+                                                register={register}
+                                                type="textarea"
+                                                rules={{ required: true }}
+
+                                                rows
+                                            />
+                                            {errors.sleep_milken && (
+                                                <Typography color="red" className="text-xs mt-1">{errors.sleep_milken.message}</Typography>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-3 pt-2">
+                                        <MainButton
+                                            variant="outlined"
+                                            fullWidth
+                                            onClick={() => navigate('/dashboard/category/categoryLists')}
+                                            className="border-accent  text-mainHeading" >
+                                            Cancel
+                                        </MainButton>
+
+                                        <div className="w-full">
+                                            <MainButton variant="primary" fullWidth type="submit">
+                                                Update diet Chart
+                                            </MainButton>
+                                        </div>
+
                                     </div>
                                 </CardBody>
                             </form>

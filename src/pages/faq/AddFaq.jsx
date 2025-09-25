@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
 import { TagIcon } from "@heroicons/react/24/solid";
@@ -8,15 +8,17 @@ import { Card, CardHeader, CardBody, Typography, Input, Button, Textarea } from 
 
 import useNavigator from '@/components/navigator/useNavigate';
 import { addFaq, adminProfile } from '@/hooks/ReactQueryHooks';
+import CustomInput from '@/components/input/CustomInput';
+import MainButton from '@/components/mainButton/MainButton';
 
 
 export default function AddFaq() {
     const { handleNavigation } = useNavigator();
-
+    const [error, setError] = useState();
     const {
         register,
         handleSubmit,
-        // formState: { errors },
+        formState: { errors },
         reset,
     } = useForm();
 
@@ -29,90 +31,124 @@ export default function AddFaq() {
     const { mutateAsync } = useMutation({ mutationFn: addFaq });
     const onSubmit = async (data) => {
         console.log('data', data)
-        
+
         try {
             const res = await mutateAsync({ addFaqData: data, role: profile?.role });
             toast.success(res.data.message);
             handleNavigation('/dashboard/faq/faqLists');
             reset();
         } catch (err) {
-            toast.error(err?.response?.data?.message || 'add FAQ failed');
+            setError(err?.response?.data?.message);
             reset();
         }
     };
     return (
         <>
-
-            {/* <Title title="Add Faq"></Title> */}
-            <div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
-                <Card className="w-full mx-auto md:px-24 px-2 ">
+            <div className="h-screen flex items-center justify-center px-4 mt-4 bg-background shadow-xl rounded-2xl">
+                <Card className="w-full mx-auto md:max-w-lg shadow-lg rounded-2xl border ">
                     <CardHeader
                         floated={false}
                         shadow={false}
-                        className="flex flex-col items-center bg-transparent"
+                        className="flex flex-col items-center bg-[#7B1E19] pb-6 rounded-t-2xl"
                     >
-                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/10">
-                            <TagIcon className="h-6 w-6 text-primaryBg" />
+                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/30 mt-4">
+                            <TagIcon className="h-6 w-6 text-white" />
                         </div>
-                        <Typography variant="h4" color="blue-gray" className='font-poppins'>
+                        <Typography variant="h4" className="font-semibold text-whiteHeading font-heading">
                             Add New Frequently Asked Questions
                         </Typography>
-                        <Typography color="gray" className="text-center font-normal text-sm font-poppins">
+                        <Typography className="text-center font-normal text-sm text-whiteHeading font-heading opacity-80">
                             Create a new frequently asked questions for your posts
                         </Typography>
                     </CardHeader>
                     <form onSubmit={handleSubmit(onSubmit)}  >
                         <CardBody className="space-y-6">
                             <div className="space-y-2">
-                                <Typography variant="small" color="blue-gray" className="font-medium pb-1">
+                                <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                     FAQ Question (English)
                                 </Typography>
-                                <Input label="FAQ Question (English)" type="text"     {...register("faqen", { required: true })} />
+                                <CustomInput
+                                    name="faqen"
+                                    label="FAQ Question (English)"
+                                    register={register}
+                                    rules={{ required: error }}
+                                    errors={errors}
+                                />
+
+                                {errors.faqen && (
+                                    <Typography color="red" className="text-xs mt-1">{errors.faqen.message}</Typography>
+                                )}
+
                             </div>
                             <div className="space-y-2">
-                                <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+                                <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                     FAQ Answer (English)
                                 </Typography>
-                                <Textarea label=" FAQ Answer (English)"
-                                    type="text"
-                                    rows={4}
-                                    {...register("fansen", { required: true })} />
+                                <CustomInput
+                                    name="fansen"
+                                    label="FAQ Answer (English)"
+                                    register={register}
+                                    rules={{ required: error }}
+                                    errors={errors}
+                                    type='textarea'
+                                    rows
+                                />
+                                {errors.faqen && (
+                                    <Typography color="red" className="text-xs mt-1">{errors.fansen.message}</Typography>
+                                )}
                             </div>
 
                             <div className="space-y-2">
-                                <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
+                                <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                     FAQ  প্রশ্ন (বাংলা)
                                 </Typography>
-                                <Input label="FAQ  প্রশ্ন (বাংলা)"
-                                    type="text"
-                                    {...register("faqbn", { required: true })} />
+                                <CustomInput
+                                    name="faqbn"
+                                    label="FAQ  প্রশ্ন (বাংলা)"
+                                    register={register}
+                                    rules={{ required: error }}
+                                    errors={errors}
+                                />
+
+                                {errors.faqbn && (
+                                    <Typography color="red" className="text-xs mt-1">{errors.faqbn.message}</Typography>
+                                )}
 
                             </div>
                             <div className="space-y-2">
-                                <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
-                                    FAQ  উত্তর  (বাংলা)
-                                </Typography>
-                                <Textarea label="FAQ  উত্তর  (বাংলা)"
-                                    type="text"
-                                    rows={4}
-                                    {...register("fansbn", { required: true })} />
 
+                                <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                                    FAQ উত্তর (বাংলা)
+                                </Typography>
+                                <CustomInput
+                                    name="fansbn"
+                                    label=" FAQ উত্তর (বাংলা)"
+                                    register={register}
+                                    rules={{ required: error }}
+                                    errors={errors}
+                                    type='textarea'
+                                    rows
+                                />
+
+                                {errors.fansbn && (
+                                    <Typography color="red" className="text-xs mt-1">{errors.fansbn.message}</Typography>
+                                )}
                             </div>
 
                             <div className="space-y-2 hidden">
                                 <Typography variant="small" color="blue-gray" className="font-medium font-poppins pb-1">
                                     Category By
                                 </Typography>
-                                <Input type="number" value={profile?.logmobile}  {...register("faqby", { required: true })} />
+                                {
+                                    profile?.logmobile && (
+                                        <Input type="number" value={profile?.logmobile}  {...register("faqby", { required: true })} />
+                                    )
+                                }
                             </div>
-                            <div className="flex gap-3 pt-4 pb-6">
-                                {/* <Button variant="outlined" fullWidth >
-                                    Cancel
-                                </Button> */}
-
-                                <Button fullWidth type="submit" className='bg-primaryBg font-poppins text-[14px]' >
+                            <div className=" pt-4 pb-6">
+                                <MainButton fullWidth type="submit" variant='primary' >
                                     + Add FAQ
-                                </Button>
+                                </MainButton>
                             </div>
                         </CardBody>
                     </form>

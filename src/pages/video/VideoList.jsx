@@ -61,7 +61,7 @@ export default function VideoList() {
                   </div>
 
                   {/* Info */}
-                  <div className="mt-4 flex-1">
+                  <div className="mt-4 flex-1 border-t-2 py-2">
                     <h3 className="text-lg font-semibold text-mainHeading font-heading  line-clamp-1">
                       {video?.title}
                     </h3>

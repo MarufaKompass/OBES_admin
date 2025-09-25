@@ -60,6 +60,17 @@ export const addFaq = async ({ addFaqData, role }) => {
   return response;
 };
 
+export const deleteFaq = async ({ role, faqid }) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/faqdel/${faqid}`);
+  return response;
+};
+
+export const editFaq = async ({ editFaqData, role, id }) => {
+  const response = await axiosInstance.put(`/public/api/${role}/faq/${id}`, editFaqData);
+  return response;
+};
+
+
 //user
 
 export const allUserView = async (role) => {
@@ -71,6 +82,9 @@ export const allUserAnsList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/anslistuser`);
   return response.data?.data;
 };
+
+
+
 
 //question
 
