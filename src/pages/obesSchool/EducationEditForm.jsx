@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
-import React, { useEffect } from "react";
 import { Pencil, X } from "lucide-react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form"
 import Modal from '@/components/modal/Modal'
 import CustomInput from '@/components/input/CustomInput';
@@ -51,8 +51,6 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-
-
 
   useEffect(() => {
     if (selectedEdu) {

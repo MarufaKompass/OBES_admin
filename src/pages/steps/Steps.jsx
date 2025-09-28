@@ -18,13 +18,10 @@ const StatusCell = ({ value }) => {
 
 export default function Steps() {
 
-
   const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-
-
 
   const { data: stepsView } = useQuery({
     queryKey: ['stepsView', profile?.role],
@@ -39,14 +36,14 @@ export default function Steps() {
       year: "numeric",
     });
 
-function getRandomHexColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+  function getRandomHexColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
-  return color;
-}
 
 
   return (
@@ -83,7 +80,7 @@ function getRandomHexColor() {
               <tbody>
                 {stepsView?.map((entry) => (
                   <tr key={entry.id} className="hover:bg-gray-50 border-t">
-                    <td className="px-4 py-2 font-medium font-heading text-paragraph"  style={{ color: getRandomHexColor() }}>{entry.user_id}</td>
+                    <td className="px-4 py-2 font-medium font-heading text-paragraph" style={{ color: getRandomHexColor() }}>{entry.user_id}</td>
 
                     <td className="px-4 py-2 font-heading text-paragraph">{formatDate(entry.recorded_at)}</td>
                     <td className="px-4 py-2  ">

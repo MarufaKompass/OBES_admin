@@ -7,7 +7,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 
 export default function ModalDeleteFaq({ selectedFaq, showModalDelete, setShowModalDelete }) {
-    // console.log("selectedFaq", selectedFaq)
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile

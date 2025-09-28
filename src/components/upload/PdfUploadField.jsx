@@ -1,8 +1,8 @@
+import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import { Input } from "@material-tailwind/react";
 import { Loader2, CheckCircle } from "lucide-react";
-import { toast } from "react-toastify";
 import { uploadImage } from "@/hooks/ReactQueryHooks";
 
 export default function PdfUploadField({
@@ -99,14 +99,7 @@ export default function PdfUploadField({
         <input type="hidden" {...register(name, { required: true })} value={uploadedPdfUrl} />
       )}
 
-      {/* Preview PDF */}
-      {/* {preview && (
-        <embed
-          src={preview}
-          type="application/pdf"
-          className="mt-2 w-full h-48 border rounded-md"
-        />
-      )} */}
+
     </div>
   );
 }

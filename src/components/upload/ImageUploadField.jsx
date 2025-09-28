@@ -1,14 +1,13 @@
+import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
-import { Input, Typography } from "@material-tailwind/react";
+import { Input } from "@material-tailwind/react";
 import { Loader2, CheckCircle } from "lucide-react";
-import { toast } from "react-toastify";
 import { uploadImage } from "@/hooks/ReactQueryHooks";
 
 export default function ImageUploadField({
     name,
     control,
-    label,
     rules,
     register,
     moduleTitle = "defaultModule",
@@ -42,10 +41,6 @@ export default function ImageUploadField({
 
     return (
         <div className="space-y-2">
-            {/* <Typography variant="small" className="font-medium text-mainHeading font-heading">
-                {label}
-            </Typography> */}
-
             <Controller
                 name={name}
                 control={control}
@@ -102,12 +97,3 @@ export default function ImageUploadField({
     );
 }
 
-
-
-{/* {preview && (
-              <img
-                src={preview}
-                alt="Preview"
-                className="mt-2 w-24 h-24 object-cover rounded-md border"
-              />
-            )} */}

@@ -1,23 +1,23 @@
-import { ChartBarStacked, House, ShieldQuestion, Mails ,SquareChartGantt,UserCog ,TableOfContents, ShieldUser, LayoutPanelLeft, BetweenHorizontalEnd, AlignStartVertical, Twitch, ListTodo, Map, CalendarSync, Youtube, TramFront, ClipboardPlus, Users, UserPlus } from 'lucide-react';
+import { ChartBarStacked, House, ShieldQuestion, Mails, SquareChartGantt, UserCog, TableOfContents, ShieldUser, LayoutPanelLeft, BetweenHorizontalEnd, AlignStartVertical, Twitch, ListTodo, Map, CalendarSync, Youtube, TramFront, ClipboardPlus, Users, UserPlus } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 import { PuffLoader } from "react-spinners";
 import { Home } from "@/pages/dashboard";
 
-import AddFaq from "./pages/faq/AddFaq";
-import FaqList from "./pages/faq/FaqList";
-import AddVideos from './pages/material/AddVideos';
-import Steps from './pages/steps/Steps';
-import AddNewsLetter from './pages/newsletter/AddNewsLetter';
-import NewsletterList from './pages/newsletter/NewsletterList';
-import AddDietChart from './pages/dietCharts/AddDietChart';
-import DietChartList from './pages/dietCharts/DietChartList';
-import ExpertsList from './pages/experts/ExpertsList';
-import ObesEducation from './pages/obesSchool/ObesEducation';
-import EducationForm from './pages/obesSchool/EducationForm';
-import AddAdmin from './pages/admin/AddAdmin';
-import AdminList from './pages/admin/AdminList';
-const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const Video = (lazy(() => import('./pages/video/Video')));
+const AddFaq = (lazy(() => import("./pages/faq/AddFaq")));
+const FaqList = (lazy(() => import("./pages/faq/FaqList")));
+const AddVideos = (lazy(() => import('./pages/material/AddVideos')));
+const Steps = (lazy(() => import('./pages/steps/Steps')));
+const AddNewsLetter = (lazy(() => import('./pages/newsletter/AddNewsLetter')));
+const NewsletterList = (lazy(() => import('./pages/newsletter/NewsletterList')));
+const AddDietChart = (lazy(() => import('./pages/dietCharts/AddDietChart')));
+const DietChartList = (lazy(() => import('./pages/dietCharts/DietChartList')));
+const ExpertsList = (lazy(() => import('./pages/experts/ExpertsList')));
+const ObesEducation = (lazy(() => import('./pages/obesSchool/ObesEducation')));
+const EducationForm = (lazy(() => import('./pages/obesSchool/EducationForm')));
+const AddAdmin = (lazy(() => import('./pages/admin/AddAdmin')));
+const AdminList = (lazy(() => import('./pages/admin/AdminList')));
+const AllAnswers = (lazy(() => import('./pages/ansList/AllAnswers')));
 const AddExpertsInfo = (lazy(() => import('./pages/experts/AddExpertsInfo')));
 const Questionnaire = (lazy(() => import("./pages/questionary/Questionnaire")));
 const QuestionnaireLists = (lazy(() => import("./pages/questionary/questionnaireLists")));
@@ -47,12 +47,12 @@ export const routes = [
         )
       },
 
-            {
+      {
         icon: <UserCog    {...icon} />,
         name: "Admin",
         path: "/admin",
         children: [
-           {
+          {
             icon: <ListTodo    {...icon} />,
             name: "Create Admin",
             path: "addAdmin",
@@ -74,16 +74,15 @@ export const routes = [
               <PrivateRoute>  <AdminList /> </PrivateRoute>
             </Suspense>
           },
-         
+
         ],
       },
 
-      
+
       {
         icon: <LayoutPanelLeft   {...icon} />,
         name: "Category",
         path: "/category",
-        // element: <Questionnaire />,
         children: [
           {
             icon: <ChartBarStacked  {...icon} />,
@@ -150,7 +149,7 @@ export const routes = [
               <PrivateRoute> <AllAnswers /> </PrivateRoute>
             </Suspense>
           },
-          
+
 
 
         ],
@@ -335,13 +334,13 @@ export const routes = [
           },
         ],
       },
-      
+
       {
         icon: <ShieldUser   {...icon} />,
         name: "Obes School",
         path: "/school",
         children: [
-           {
+          {
             icon: <ListTodo    {...icon} />,
             name: "Education Form",
             path: "eduForm",
@@ -363,7 +362,7 @@ export const routes = [
               <PrivateRoute>  <ObesEducation /> </PrivateRoute>
             </Suspense>
           },
-         
+
         ],
       },
 

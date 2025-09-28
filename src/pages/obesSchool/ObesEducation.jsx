@@ -1,8 +1,9 @@
-import { adminProfile, educationList } from '@/hooks/ReactQueryHooks';
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react'
-import { Users, Baby, Globe } from "lucide-react";
 import ModuleCard from './ModuleCard';
+import React, { useState } from 'react'
+import { Users, Baby } from "lucide-react";
+import { useQuery } from '@tanstack/react-query';
+import { adminProfile, educationList } from '@/hooks/ReactQueryHooks';
+
 export default function ObesEducation() {
   const [activeTab, setActiveTab] = useState("adult")
   const { data: profile } = useQuery({
@@ -51,8 +52,8 @@ export default function ObesEducation() {
           <button
             key={tab.key}
             className={`flex items-center justify-center gap-2 py-3 font-medium transition-colors ${activeTab === tab.key
-                ? `bg-${tab.color}-500 text-white`
-                : `bg-white text-gray-700 hover:bg-${tab.color}-100`
+              ? `bg-${tab.color}-500 text-white`
+              : `bg-white text-gray-700 hover:bg-${tab.color}-100`
               }`}
             onClick={() => setActiveTab(tab.key)}
           >

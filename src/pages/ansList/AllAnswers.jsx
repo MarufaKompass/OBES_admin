@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Card,
     CardBody,
@@ -10,12 +10,11 @@ import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css';
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
-import { adminProfile, allUserAnsList, xlsExport } from '@/hooks/ReactQueryHooks';
-import { Mail, Phone, Eye, User } from "lucide-react";
 import excel from "../../../public/img/excel.png";
+import { Mail, Phone, Eye, User } from "lucide-react";
+import { adminProfile, allUserAnsList, xlsExport } from '@/hooks/ReactQueryHooks';
 
 export default function AllAnswers() {
-    const [surveyData, setSurveyData] = useState([]);
     const navigate = useNavigate();
 
     const { data: profile } = useQuery({

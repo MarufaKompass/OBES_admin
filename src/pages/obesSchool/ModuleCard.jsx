@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Button } from "@material-tailwind/react";
 import { Pencil, Trash } from 'lucide-react';
-import EducationEditForm from './EducationEditForm';
 import EducationDelete from './EducationDelete';
+import { Button } from "@material-tailwind/react";
+import EducationEditForm from './EducationEditForm';
 export default function ModuleCard({ module }) {
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);

@@ -1,5 +1,4 @@
 import React from 'react'
-import Modal from '@/components/modal/Modal';
 import { X } from "lucide-react";
 import { adminProfile, deleteNewsletter } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

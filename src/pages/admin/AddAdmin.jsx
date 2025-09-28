@@ -23,7 +23,6 @@ export default function AddAdmin() {
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [smsNumber, setSmsNumber] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const {
     register,
@@ -266,10 +265,7 @@ export default function AddAdmin() {
               Create Admin
             </MainButton>
           </CardBody>
-
-
         </form>
-
       </Card>
     </div>
   )
