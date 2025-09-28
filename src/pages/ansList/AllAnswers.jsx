@@ -5,7 +5,6 @@ import {
     CardHeader,
     Typography,
     Button,
-    IconButton,
 } from "@material-tailwind/react";
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css';
@@ -13,9 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { adminProfile, allUserAnsList, xlsExport } from '@/hooks/ReactQueryHooks';
 import { Mail, Phone, Eye, User } from "lucide-react";
-import csv from "../../../public/img/csv.png";
-// import txt from "../../../public/img/txt.png";
-// import pdf from "../../../public/img/pdf.png";
+import excel from "../../../public/img/excel.png";
+
 export default function AllAnswers() {
     const [surveyData, setSurveyData] = useState([]);
     const navigate = useNavigate();
@@ -75,7 +73,7 @@ export default function AllAnswers() {
 
 
                                 <button className="border border-[#f1f1f1] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]" onClick={handleCsvDownload} id="csv-download-btn" >
-                                    <img src={csv} alt="" className="w-6 h-6" />
+                                    <img src={excel} alt="" className="w-8 h-8" />
                                 </button>
 
                                 <Tooltip anchorSelect="#csv-download-btn" place="top">
