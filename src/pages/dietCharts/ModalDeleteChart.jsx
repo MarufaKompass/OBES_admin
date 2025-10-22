@@ -1,13 +1,12 @@
 import React from 'react'
 import { X } from "lucide-react";
 import { toast } from 'react-toastify';
-import Modal from '@/components/modal/Modal';
 import ConfirmModal from '@/components/modal/ConfirmModal';
 import { adminProfile, deleteDietChart } from '@/hooks/ReactQueryHooks';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function ModalDeleteChart({ selectedDietData, showModalDelete, setShowModalDelete }) {
-    // console.log("selectedDietData", selectedDietData)
+
     const queryClient = useQueryClient();
     const { data: profile } = useQuery({
         queryKey: ['profile'],

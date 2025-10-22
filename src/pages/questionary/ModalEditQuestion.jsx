@@ -25,10 +25,39 @@ const statusTypes = [
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
     // console.log("selectedQuestion", selectedQuestion)
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors },
+    } = useForm()
+
+
     const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
     const [questionId, setQuestionId] = useState('');
+    console.log("questionId", questionId)
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
+
+
+    const categoryId = (e) => {
+        setCatId(e.target.value)
+    }
+
+    const selectQuestionId = (e) => {
+        setQuestionId(e.target.value)
+    }
+
+
+    const qtype = watch("qatype");
+
+    useEffect(() => {
+        selectQuestionId({ target: { value: qtype } });
+    }, [qtype]);
+
+
     const { data: profile } = useQuery({
         queryKey: ['profile'],
         queryFn: adminProfile
@@ -42,12 +71,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
     };
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm()
+
 
     useEffect(() => {
         if (selectedQuestion && profile) {
@@ -70,13 +94,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
         setOptions(updatedOptions);
     };
 
-    const categoryId = (e) => {
-        setCatId(e.target.value)
-    }
 
-    const selectQuestionId = (e) => {
-        setQuestionId(e.target.value)
-    }
 
     const { mutateAsync } = useMutation({ mutationFn: editQuestion });
 
@@ -166,9 +184,10 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                         <DynamicSelect
                                             name="qatype"
                                             label="Select Question Type"
+                                            register={register}
                                             onChange={selectQuestionId}
                                             options={questionTypes}
-                                            register={register}
+                                            defaultValue={questionId}
                                             placeholder="-- Select Question Type --"
                                         />
                                     </div>
@@ -184,7 +203,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
                                                                 <button
                                                                     type="button"
                                                                     onClick={addOption}
-                                                                    className="text-white bg-primaryBg hover:bg-primaryBg px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
+                                                                    className="text-white bg-primary hover:bg-primary px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
                                                                 >
                                                                     + Add Option
                                                                 </button>

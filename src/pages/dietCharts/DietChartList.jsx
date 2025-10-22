@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody } from "@material-tailwind/react";
-import { adminProfile, dietChartsList, FaqView } from '@/hooks/ReactQueryHooks';
+import { adminProfile, dietChartsList } from '@/hooks/ReactQueryHooks';
 import { Clock, Coffee, Sun, Utensils, Moon, Milk, Trash, SquarePen } from "lucide-react";
 import MealSection from './MealSection';
 import ModalDeleteChart from './ModalDeleteChart';
@@ -34,7 +34,6 @@ export default function DietChartList() {
 
   return (
     <>
-
       <Card className="mt-8 px-4">
         <CardBody className="overflow-x-auto p-0">
           <div className="min-h-screen p-4">
@@ -49,12 +48,8 @@ export default function DietChartList() {
                       ? "আপনার স্বাস্থ্যকর জীবনযাত্রার জন্য বিশেষভাবে তৈরি খাদ্য তালিকা"
                       : "Specially curated meal plans for your healthy lifestyle"}
                   </p>
-
                 </div>
-
-
                 {/* Language Tabs */}
-
                 <div className="">
                   <div className="inline-flex rounded-md shadow-sm border border-gray-300">
                     <button

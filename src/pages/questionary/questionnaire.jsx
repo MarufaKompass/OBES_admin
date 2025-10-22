@@ -18,6 +18,7 @@ const questionTypes = [
   { qId: '4', label: 'Dropdown', value: 'dropdown' },
   { qId: '5', label: 'Clock', value: 'clock' },
 ];
+
 const statusTypes = [
   { qId: '1', label: 'Draft', value: 'draft' },
   { qId: '2', label: 'Published', value: 'published' },
@@ -28,6 +29,7 @@ export default function Questionnaire() {
   const [catId, setCatId] = useState('');
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
   const [questionId, setQuestionId] = useState('');
+  console.log("questionId", questionId)
   const [error, setError] = useState();
   const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
@@ -111,7 +113,6 @@ export default function Questionnaire() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="px-10 pb-10">
           <CardBody className="space-y-8">
-            {/* Category Select */}
             <div className="space-y-1">
               <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                 Select Category
@@ -133,39 +134,46 @@ export default function Questionnaire() {
                 </Typography>
               )}
             </div>
-            {/* Question English */}
-            <div className="space-y-2">
-              <Typography variant="small" className="font-medium text-mainHeading font-heading">
-                Question (English)
-              </Typography>
-              <CustomInput
-                name="qeng"
-                label="Enter question in English"
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-              />
-              {errors.qeng && (
-                <Typography color="red" className="text-xs mt-1">{errors.qeng.message}</Typography>
-              )}
+
+
+            <div className='grid grid-cols-2 gap-4'>
+
+              {/* Question English */}
+              <div className="space-y-1">
+                <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                  Question (English)
+                </Typography>
+                <CustomInput
+                  name="qeng"
+                  label="Enter question in English"
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                />
+                {errors.qeng && (
+                  <Typography color="red" className="text-xs mt-1">{errors.qeng.message}</Typography>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                  প্রশ্ন (বাংলা)
+                </Typography>
+                <CustomInput
+                  name="qbang"
+                  label="বাংলায় প্রশ্ন লিখুন"
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                />
+                {errors.qbang && (
+                  <Typography color="red" className="text-xs mt-1">{errors.qbang.message}</Typography>
+                )}
+              </div>
             </div>
 
             {/* Question Bangla */}
-            <div className="space-y-1">
-              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
-                প্রশ্ন (বাংলা)
-              </Typography>
-              <CustomInput
-                name="qbang"
-                label="বাংলায় প্রশ্ন লিখুন"
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-              />
-              {errors.qbang && (
-                <Typography color="red" className="text-xs mt-1">{errors.qbang.message}</Typography>
-              )}
-            </div>
+
 
             {/* Question Type Select */}
             <div className="space-y-1">
@@ -195,7 +203,7 @@ export default function Questionnaire() {
 
             {/* Options for question types needing options */}
             {questionId && (
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {
                   (questionId === 'checkbox' || questionId === 'radio' || questionId === 'dropdown') ?
                     (
@@ -205,7 +213,7 @@ export default function Questionnaire() {
                           <button
                             type="button"
                             onClick={addOption}
-                            className="text-white bg-primary hover:bg-primary px-4 py-[6px] text-[12px] rounded-[4px] mb-4"
+                            className="text-white bg-primary hover:bg-primary px-4 py-[6px] text-[12px] rounded-[4px] "
                           >
                             + Add Option
                           </button>

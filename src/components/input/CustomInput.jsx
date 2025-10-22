@@ -4,13 +4,13 @@ export default function CustomInput({
   name,
   register,
   label,
-  type = "text", // 👈 controls input or textarea
+  type = "text",
   rules = {},
   errors,
   placeholder = "",
   className = "",
   defaultValue = "",
-  rows = 4, // 👈 only for textarea
+  rows = 4,
 }) {
   const commonProps = {
     ...register(name, rules),

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import Modal from '@/components/modal/Modal'
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { adminProfile, editCategory } from "@/hooks/ReactQueryHooks";
-import { CardBody, Typography, Button, Input } from "@material-tailwind/react";
+import { CardBody, Typography, Input } from "@material-tailwind/react";
 import MainButton from '@/components/mainButton/MainButton';
 import CustomInput from '@/components/input/CustomInput';
 
