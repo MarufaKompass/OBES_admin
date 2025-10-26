@@ -117,6 +117,34 @@ export const deleteCategory = async ({ role, catid }) => {
   return response;
 };
 
+// doctor question 
+
+export const addDoctorQuestion = async ({ addDoctorQuesData, role }) => {
+  const response = await axiosInstance.post(`/public/api/${role}/drqueslistsstore`, addDoctorQuesData);
+  return response;
+};
+
+
+export const allDoctorQuestionView = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/drqueslistsview`);
+  return response.data?.data;
+};
+
+
+
+export const deleteDoctorQuestion = async ({ role, id }) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/drques/${id}`);
+  return response;
+};
+
+export const editDoctorQuesUpdate = async ({ editDoctorUpdateData, role, id }) => {
+  const response = await axiosInstance.put(`/public/api/${role}/drques/${id}`, editDoctorUpdateData);
+  return response;
+};
+
+
+
+
 // Video
 export const videoList = async (role) => {
   const response = await axiosInstance.get(`/public/api/${role}/youtubelinkview`);

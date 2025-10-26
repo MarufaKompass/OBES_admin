@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Card, CardHeader, CardBody, Typography, Button, Input } from "@material-tailwind/react";
 
 import useNavigator from '@/components/navigator/useNavigate';
-import { addQuestion, adminProfile, CategoryView } from "@/hooks/ReactQueryHooks";
+import { addDoctorQuestion, addQuestion, adminProfile, CategoryView } from "@/hooks/ReactQueryHooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import CustomInput from '@/components/input/CustomInput';
 import DynamicSelect from '@/components/select/DynamicSelect';
@@ -25,11 +25,10 @@ const statusTypes = [
   { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
-export default function Questionnaire() {
+export default function DoctorQuestionnaire() {
   const [catId, setCatId] = useState('');
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
   const [questionId, setQuestionId] = useState('');
-  console.log("questionId", questionId)
   const [error, setError] = useState();
   const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
@@ -75,14 +74,14 @@ export default function Questionnaire() {
   }, [qtype]);
 
 
-  const { mutateAsync } = useMutation({ mutationFn: addQuestion });
+  const { mutateAsync } = useMutation({ mutationFn: addDoctorQuestion });
 
   const onSubmit = async (data) => {
     console.log('data', data)
     try {
-      const res = await mutateAsync({ addQuesData: data, role: profile?.role });
+      const res = await mutateAsync({ addDoctorQuesData: data, role: profile?.role });
       toast.success(res.data.message);
-      handleNavigation('/dashboard/questionary/questionnaireLists');
+      // handleNavigation('/dashboard/questionary/questionnaireLists');
       reset();
     } catch (err) {
       setError(err?.response?.data?.message);
@@ -111,49 +110,80 @@ export default function Questionnaire() {
 
         <form onSubmit={handleSubmit(onSubmit)} >
           <CardBody className="space-y-8 ">
-            <div className="space-y-1">
-              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
-                Select Category
-              </Typography>
-              <DynamicSelect
-                name="catid"
-                defaultValue={catId}
-                onChange={categoryId}
-                label="Select Category Type"
-                options={catView?.map(cat => ({ value: cat.catid, label: cat.catname })) || []}
-                register={register || ""}
-                rules={{ required: error }}
-                errors={errors}
-                placeholder="-- Select Category Type --"
-              />
-              {errors.catid && (
-                <Typography color="red" className="text-xs ">
-                  {errors.catid.message}
-                </Typography>
-              )}
-            </div>
-
-
             <div className='grid grid-cols-2 gap-4'>
-
-              {/* Question English */}
               <div className="space-y-1">
-                <Typography variant="small" className="font-medium text-mainHeading font-heading">
-                  Question (English)
+                <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                  Select Category
                 </Typography>
-                <CustomInput
-                  name="qeng"
-                  label="Enter question in English"
+
+                <DynamicSelect
+                  name="catid"
+                  defaultValue={catId}
+                  onChange={categoryId}
+                  label="Select Category Type"
+                  options={catView?.map(cat => ({ value: cat.catid, label: cat.catname })) || []}
+                  register={register || ""}
+                  rules={{ required: error }}
+                  errors={errors}
+                  placeholder="-- Select Category Type --"
+                />
+                {errors.catid && (
+                  <Typography color="red" className="text-xs ">
+                    {errors.catid.message}
+                  </Typography>
+                )}
+              </div>
+              <div className="space-y-1">
+                <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
+                  Select Question Type
+                </Typography>
+
+                <DynamicSelect
+                  name="qatype"
+                  label="Select Question Type"
+                  onChange={selectQuestionId}
+                  options={questionTypes}
                   register={register}
                   rules={{ required: error }}
                   errors={errors}
+                  placeholder="-- Select Question Type --"
                 />
-                {errors.qeng && (
-                  <Typography color="red" className="text-xs mt-1">{errors.qeng.message}</Typography>
+
+                {errors.qatype && (
+                  <Typography color="red" className="text-xs ">
+                    {errors.qatype.message}
+                  </Typography>
                 )}
+
+
               </div>
 
-              <div className="space-y-1">
+
+
+            </div>
+
+            <div className="space-y-1">
+              <Typography variant="small" className="font-medium text-mainHeading font-heading">
+                Question (English)
+              </Typography>
+              <CustomInput
+                name="qeng"
+                label="Enter question in English"
+                register={register}
+                rules={{ required: error }}
+                errors={errors}
+              />
+              {errors.qeng && (
+                <Typography color="red" className="text-xs mt-1">{errors.qeng.message}</Typography>
+              )}
+            </div>
+
+            {/* <div className='grid grid-cols-2 gap-4'> */}
+
+            {/* Question English */}
+
+
+            {/* <div className="space-y-1">
                 <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
                   প্রশ্ন (বাংলা)
                 </Typography>
@@ -167,37 +197,14 @@ export default function Questionnaire() {
                 {errors.qbang && (
                   <Typography color="red" className="text-xs mt-1">{errors.qbang.message}</Typography>
                 )}
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
 
             {/* Question Bangla */}
 
 
             {/* Question Type Select */}
-            <div className="space-y-1">
-              <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading">
-                Select Question Type
-              </Typography>
 
-              <DynamicSelect
-                name="qatype"
-                label="Select Question Type"
-                onChange={selectQuestionId}
-                options={questionTypes}
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-                placeholder="-- Select Question Type --"
-              />
-
-              {errors.qatype && (
-                <Typography color="red" className="text-xs ">
-                  {errors.qatype.message}
-                </Typography>
-              )}
-
-
-            </div>
 
             {/* Options for question types needing options */}
             {questionId && (
@@ -217,7 +224,7 @@ export default function Questionnaire() {
                           </button>
                         </div>
                         {options.map((_, index) => (
-                          <div key={index} className="grid grid-cols-2 gap-4 relative">
+                          <div key={index} className=" relative">
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Option (English)
@@ -231,7 +238,7 @@ export default function Questionnaire() {
                                 placeholder="Enter English option"
                               />
                             </div>
-                            <div>
+                            {/* <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
                                 অপশন (বাংলা)
                               </label>
@@ -242,7 +249,7 @@ export default function Questionnaire() {
                                 className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm  text-[#414141]"
                                 placeholder="বাংলা অপশন লিখুন"
                               />
-                            </div>
+                            </div> */}
 
                             <div>
                               {options.length > 1 && (
@@ -264,7 +271,7 @@ export default function Questionnaire() {
                       </>
                     ) : questionId === 'input' || questionId === 'clock' ? (
                       <>
-                        <div className=" grid-cols-2 gap-4 relative hidden">
+                        <div className=" relative hidden">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               Option (English)
@@ -276,7 +283,7 @@ export default function Questionnaire() {
                               placeholder="Enter English option"
                             />
                           </div>
-                          <div>
+                          {/* <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               অপশন (বাংলা)
                             </label>
@@ -286,7 +293,7 @@ export default function Questionnaire() {
                               className="w-full border border-gray-300 px-3 py-2 rounded-md text-sm"
                               placeholder="বাংলা অপশন লিখুন"
                             />
-                          </div>
+                          </div> */}
                         </div>
                       </>
                     ) : (

@@ -2,6 +2,8 @@ import { ChartBarStacked, House, ShieldQuestion, Mails, SquareChartGantt, UserCo
 import { lazy, Suspense } from 'react';
 import { PuffLoader } from "react-spinners";
 import { Home } from "@/pages/dashboard";
+import DoctorQuestionnaire from './pages/material/doctorQuestionary/DoctorQuestionnaire';
+import DoctorQuestionnaireLists from './pages/material/doctorQuestionary/DoctorQuestionnaireLists';
 
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddFaq = (lazy(() => import("./pages/faq/AddFaq")));
@@ -217,7 +219,29 @@ export const routes = [
 
               <PrivateRoute>  <AddVideos /> </PrivateRoute>
             </Suspense>
-          }
+          },
+          {
+            icon: <Twitch       {...icon} />,
+            name: "Questionnaries",
+            path: "questionnaries",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <DoctorQuestionnaire /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <AlignStartVertical    {...icon} />,
+            name: "Questionnaries List",
+            path: "doctorQuestionnaireLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <DoctorQuestionnaireLists /> </PrivateRoute>
+            </Suspense>
+          },
         ],
       },
 
