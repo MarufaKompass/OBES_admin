@@ -210,6 +210,28 @@ export const updateNewsletter = async ({ updateNewsletterData, role, id }) => {
   return response;
 };
 
+
+// pdf
+export const addPdf = async ({ addPdfData, role }) => {
+  const response = await axiosInstance.post(`/public/api/${role}/drpdfmaterial`, addPdfData);
+  return response;
+};
+
+export const pdfList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/drpdfmaterialview`);
+  return response?.data?.data;
+}
+
+export const deletePdf = async ({ role, id }) => {
+  const response = await axiosInstance.delete(`/public/api/${role}/drpdfmaterial/${id}`);
+  return response;
+};
+
+export const updatePdf = async ({ updatePdfData, role, id }) => {
+  const response = await axiosInstance.put(`/public/api/${role}/drpdfmaterial/${id}`, updatePdfData);
+  return response;
+};
+
 // Diet Charts
 
 export const dietChartsList = async (role) => {
@@ -255,8 +277,6 @@ export const editExpert = async ({ editExpertData, role, id }) => {
 };
 
 
-
-
 export const deleteExpert = async ({ role, id }) => {
   const response = await axiosInstance.delete(`/public/api/${role}/expertdel/${id}`);
   return response;
@@ -265,8 +285,8 @@ export const deleteExpert = async ({ role, id }) => {
 //csv
 
 
-export const xlsExport = async (role) => {
-  const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/xls`);
+export const csvExport = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/csv`);
   return response;
 };
 

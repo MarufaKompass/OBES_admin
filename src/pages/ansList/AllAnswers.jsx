@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import excel from "../../../public/img/excel.png";
 import { Mail, Phone, Eye, User } from "lucide-react";
-import { adminProfile, allUserAnsList, xlsExport } from '@/hooks/ReactQueryHooks';
+import { adminProfile, allUserAnsList, csvExport } from '@/hooks/ReactQueryHooks';
 
 export default function AllAnswers() {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function AllAnswers() {
     });
     const { refetch } = useQuery({
         queryKey: ['csvEx'],
-        queryFn: () => xlsExport(profile?.role),
+        queryFn: () => csvExport(profile?.role),
         enabled: false
     });
 
@@ -33,7 +33,7 @@ export default function AllAnswers() {
             const url = window.URL.createObjectURL(new Blob([res.data.data]));
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", "qans_last_answers.xlsx");
+            link.setAttribute("download", "qans_last_answers.csv");
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -56,31 +56,40 @@ export default function AllAnswers() {
             <div className="min-h-full flex items-center justify-center px-4 py-8 mt-4">
                 <Card className="w-full mx-auto ">
                     <CardHeader floated={false} shadow={false} className="pb-0">
-                        <div className="flex justify-between items-center">
+                        <div className="  items-center">
                             <div className="flex items-center gap-2">
                                 <User className="h-5 w-5 text-gray-700" />
                                 <div>
                                     <Typography variant="h5" color="blue-gray" className="font-poppins">
-                                        User Information
+                                        Total Respondents
                                     </Typography>
                                     <Typography variant="small" color="gray" className="font-normal font-poppins">
-                                        Manage and view user details
+                                        Manage and view respondents details
                                     </Typography>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
 
-
-                                <button className="border border-[#f1f1f1] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]" onClick={handleCsvDownload} id="csv-download-btn" >
-                                    <img src={excel} alt="" className="w-8 h-8" />
-                                </button>
-
-                                <Tooltip anchorSelect="#csv-download-btn" place="top">
-                                    Download xls file
-                                </Tooltip>
-
-
+                            <div className='grid grid-cols-2 border h-[140px] mt-8 rounded-sm'>
+                                <div className='flex justify-center items-center text-center border'>
+                                    <div>
+                                        <h2 className='font-poppins text-black text-[20px] font-medium'>Number of Respondent</h2>
+                                        <p className='font-poppins text-black text-[20px] font-bold'>{answersList?.length}</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 justify-center items-center text-center">
+                                    <div className=''>
+                                        <button className="border border-[#f1f1f1] p-2 rounded-[50%] hover:bg-[#f1f1f1] hover:border-[#f1f1f1]" onClick={handleCsvDownload} id="csv-download-btn" >
+                                            <img src={excel} alt="" className="w-8 h-8" />
+                                        </button>
+                                        <p>Download CSV</p>
+                                    </div>
+                                    <Tooltip anchorSelect="#csv-download-btn" place="top">
+                                        Download xls file
+                                    </Tooltip>
+                                </div>
                             </div>
+
+
                         </div>
                     </CardHeader>
                     <CardBody className="overflow-x-auto">

@@ -4,6 +4,8 @@ import { PuffLoader } from "react-spinners";
 import { Home } from "@/pages/dashboard";
 import DoctorQuestionnaire from './pages/material/doctorQuestionary/DoctorQuestionnaire';
 import DoctorQuestionnaireLists from './pages/material/doctorQuestionary/DoctorQuestionnaireLists';
+import AddPdf from './pages/pdf/AddPdf';
+import PdfList from './pages/pdf/PdfList';
 
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddFaq = (lazy(() => import("./pages/faq/AddFaq")));
@@ -156,7 +158,36 @@ export const routes = [
 
         ],
       },
+  {
+        icon: <ShieldUser   {...icon} />,
+        name: "Obes School",
+        path: "/school",
+        children: [
+          {
+            icon: <ListTodo    {...icon} />,
+            name: "Education Form",
+            path: "eduForm",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
 
+              <PrivateRoute>  <EducationForm /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <Map     {...icon} />,
+            name: "Education Info List",
+            path: "eduList",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <ObesEducation /> </PrivateRoute>
+            </Suspense>
+          },
+
+        ],
+  },
       {
         icon: <UserPlus   {...icon} />,
         name: "User Video",
@@ -242,6 +273,30 @@ export const routes = [
               <PrivateRoute>  <DoctorQuestionnaireLists /> </PrivateRoute>
             </Suspense>
           },
+         
+          {
+            icon: <Twitch       {...icon} />,
+            name: "Add pdf",
+            path: "addPdf",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <AddPdf /> </PrivateRoute>
+            </Suspense>
+          },
+ {
+            icon: <AlignStartVertical    {...icon} />,
+            name: "pdf List",
+            path: "pdfLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <PdfList /> </PrivateRoute>
+            </Suspense>
+          },
+
         ],
       },
 
@@ -270,35 +325,7 @@ export const routes = [
       },
 
 
-      {
-        icon: <TableOfContents  {...icon} />,
-        name: "FAQ",
-        path: "/faq",
-        children: [
-          {
-            icon: <Map     {...icon} />,
-            name: "Add Faq",
-            path: "addFaq",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
-
-              <PrivateRoute>  <AddFaq /> </PrivateRoute>
-            </Suspense>
-          },
-          {
-            icon: <ListTodo    {...icon} />,
-            name: "FAQ Lists",
-            path: "faqLists",
-            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
-              <PuffLoader color="rgb(123 30 25)" />
-            </div>}>
-
-              <PrivateRoute>  <FaqList /> </PrivateRoute>
-            </Suspense>
-          },
-        ],
-      },
+     
 
       {
         icon: <Mails   {...icon} />,
@@ -359,34 +386,33 @@ export const routes = [
         ],
       },
 
-      {
-        icon: <ShieldUser   {...icon} />,
-        name: "Obes School",
-        path: "/school",
+     {
+        icon: <TableOfContents  {...icon} />,
+        name: "FAQ",
+        path: "/faq",
         children: [
           {
-            icon: <ListTodo    {...icon} />,
-            name: "Education Form",
-            path: "eduForm",
+            icon: <Map     {...icon} />,
+            name: "Add Faq",
+            path: "addFaq",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
             </div>}>
 
-              <PrivateRoute>  <EducationForm /> </PrivateRoute>
+              <PrivateRoute>  <AddFaq /> </PrivateRoute>
             </Suspense>
           },
           {
-            icon: <Map     {...icon} />,
-            name: "Education Info List",
-            path: "eduList",
+            icon: <ListTodo    {...icon} />,
+            name: "FAQ Lists",
+            path: "faqLists",
             element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
               <PuffLoader color="rgb(123 30 25)" />
             </div>}>
 
-              <PrivateRoute>  <ObesEducation /> </PrivateRoute>
+              <PrivateRoute>  <FaqList /> </PrivateRoute>
             </Suspense>
           },
-
         ],
       },
 
