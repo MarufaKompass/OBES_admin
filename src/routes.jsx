@@ -6,6 +6,7 @@ import DoctorQuestionnaire from './pages/material/doctorQuestionary/DoctorQuesti
 import DoctorQuestionnaireLists from './pages/material/doctorQuestionary/DoctorQuestionnaireLists';
 import AddPdf from './pages/pdf/AddPdf';
 import PdfList from './pages/pdf/PdfList';
+import DoctorAnsList from './pages/doctorAnsList/DoctorAnsList';
 
 const Video = (lazy(() => import('./pages/video/Video')));
 const AddFaq = (lazy(() => import("./pages/faq/AddFaq")));
@@ -271,6 +272,17 @@ export const routes = [
             </div>}>
 
               <PrivateRoute>  <DoctorQuestionnaireLists /> </PrivateRoute>
+            </Suspense>
+          },
+          {
+            icon: <AlignStartVertical    {...icon} />,
+            name: "Doctor Answer List",
+            path: "doctorAnsLists",
+            element: <Suspense fallback={<div className="flex justify-center items-center h-screen">
+              <PuffLoader color="rgb(123 30 25)" />
+            </div>}>
+
+              <PrivateRoute>  <DoctorAnsList /> </PrivateRoute>
             </Suspense>
           },
          

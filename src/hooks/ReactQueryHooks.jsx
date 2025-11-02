@@ -290,6 +290,11 @@ export const csvExport = async (role) => {
   return response;
 };
 
+export const csvDrExport = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/qansjson/export/drcsv`);
+  return response;
+};
+
 //Education
 
 export const educationList = async (role) => {
@@ -350,3 +355,13 @@ export const passwordChanged = async (changedPass) => {
   const response = await axiosInstance.post(`/public/api/update-forgotpassword`, changedPass);
   return response;
 };
+
+// doctor answer list
+
+
+
+export const doctorAnsList = async (role) => {
+  const response = await axiosInstance.get(`/public/api/${role}/anslistdr`);
+  return response?.data?.data;
+}
+

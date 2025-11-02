@@ -12,9 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import excel from "../../../public/img/excel.png";
 import { Mail, Phone, Eye, User } from "lucide-react";
-import { adminProfile, allUserAnsList, csvExport } from '@/hooks/ReactQueryHooks';
+import { adminProfile, csvDrExport, doctorAnsList } from '@/hooks/ReactQueryHooks';
 
-export default function AllAnswers() {
+export default function DoctorAnsList() {
     const navigate = useNavigate();
 
     const { data: profile } = useQuery({
@@ -23,7 +23,7 @@ export default function AllAnswers() {
     });
     const { refetch } = useQuery({
         queryKey: ['csvEx'],
-        queryFn: () => csvExport(profile?.role),
+        queryFn: () => csvDrExport(profile?.role),
         enabled: false
     });
 
@@ -42,7 +42,7 @@ export default function AllAnswers() {
 
     const { data: answersList, isLoading } = useQuery({
         queryKey: ['answersList', profile?.role],
-        queryFn: () => allUserAnsList(profile?.role)
+        queryFn: () => doctorAnsList(profile?.role)
     });
 
 
@@ -105,7 +105,7 @@ export default function AllAnswers() {
                                         <th className="p-4 font-normal ">Full Name</th>
                                         <th className="p-4 font-normal ">Login Email</th>
                                         <th className="p-4 font-normal "> Mobile</th>
-                                        <th className="p-4  font-normal ">Actions</th>
+                                        {/* <th className="p-4  font-normal ">Actions</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -133,7 +133,7 @@ export default function AllAnswers() {
                                                     {answer?.user?.smsmobile || 'N/A'}
                                                 </div>
                                             </td >
-                                            <td className="p-4 text-right">
+                                            {/* <td className="p-4 text-right">
                                                 <Button
                                                     onClick={() => handlePerAnswerHandle(answer)}
                                                     variant="outlined"
@@ -143,7 +143,7 @@ export default function AllAnswers() {
                                                     <Eye className="h-4 w-4" />
                                                     View
                                                 </Button>
-                                            </td >
+                                            </td > */}
                                         </tr >
                                     ))}
                                 </tbody>
