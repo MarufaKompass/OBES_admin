@@ -226,8 +226,6 @@ export default function AddPdf() {
           </form>
         </Card>
       </div>
-
-
     </>
   );
 }

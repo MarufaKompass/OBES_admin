@@ -21,6 +21,7 @@ export default function AllAnswers() {
         queryKey: ['profile'],
         queryFn: adminProfile
     });
+    
     const { refetch } = useQuery({
         queryKey: ['csvEx'],
         queryFn: () => csvExport(profile?.role),
@@ -88,8 +89,6 @@ export default function AllAnswers() {
                                     </Tooltip>
                                 </div>
                             </div>
-
-
                         </div>
                     </CardHeader>
                     <CardBody className="overflow-x-auto">
