@@ -23,14 +23,19 @@ const modNo = [
   { id: '2', label: 'M2', value: 'M2' },
   { id: '2', label: 'M3', value: 'M3' },
   { id: '2', label: 'M4', value: 'M4' },
-
 ];
 const modType = [
   { id: '1', label: 'Assessment', value: 'Assessment' },
   { id: '2', label: 'Education', value: 'Education' },
   { id: '2', label: 'Motivation', value: 'Motivation' },
   { id: '2', label: 'Life Style Modification', value: 'Life Style Modification' },
+];
 
+const modTypeBangla = [
+  { id: '1', label: 'মূল্যায়ন', value: 'মূল্যায়ন' },
+  { id: '2', label: 'শিক্ষা', value: 'শিক্ষা' },
+  { id: '2', label: 'প্রেরণা', value: 'প্রেরণা' },
+  { id: '2', label: ' জীবনধারা পরিবর্তন', value: ' জীবনধারা পরিবর্তন' },
 ];
 
 
@@ -59,8 +64,11 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
         category: selectedEdu?.category,
         modnum: selectedEdu?.modnum,
         modtype: selectedEdu?.modtype,
+        modtype_bangla: selectedEdu?.modtype_bangla,
         topic: selectedEdu?.topic,
+        topic_bangla: selectedEdu?.topic_bangla,
         modinfo: selectedEdu?.modinfo,
+        modinfo_bangla: selectedEdu?.modinfo_bangla,
 
       });
 
@@ -138,30 +146,63 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                       />
                     </div>
                   </div>
-                  <div >
-                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
-                      Select Module Type*
-                    </Typography>
-                    <DynamicSelect
-                      name="modtype"
-                      label="Select Module Type"
-                      options={modType}
-                      register={register}
-                      rules={{ required: true }}
-                      placeholder="-- Select Module Type --"
-                    />
+
+                  <div className='grid grid-cols-2 gap-3'>
+                    <div >
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                        Select Module Type*
+                      </Typography>
+                      <DynamicSelect
+                        name="modtype"
+                        label="Select Module Type"
+                        options={modType}
+                        register={register}
+                        rules={{ required: true }}
+                        placeholder="-- Select Module Type --"
+                      />
+                    </div>
+
+                    <div >
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                        Select Module Type Bangla*
+                      </Typography>
+                      <DynamicSelect
+                        name="modtype_bangla"
+                        label="Select Module Type"
+                        options={modTypeBangla}
+                        register={register}
+                        rules={{ required: true }}
+                        placeholder="-- Select Module Type Bangla--"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
-                      Topic*
-                    </Typography>
-                    <CustomInput
-                      name="topic"
-                      label="Topic"
-                      register={register}
-                      rules={{ required: true }}
-                    />
+
+                  <div className='grid grid-cols-2 gap-3'>
+                    <div>
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                        Topic*
+                      </Typography>
+                      <CustomInput
+                        name="topic"
+                        label="Topic"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                        Topic Bangla*
+                      </Typography>
+                      <CustomInput
+                        name="topic_bangla"
+                        label="Topic Bangla"
+                        register={register}
+                        rules={{ required: true }}
+                      />
+                    </div>
                   </div>
+
+
                   <div className="space-y-2 mt-3">
                     <Typography variant="small" color="blue-gray" className="font-medium text-mainHeading font-heading pb-1">
                       Upload Image*
@@ -177,25 +218,40 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
                     />
                   </div>
 
-                  <div>
-                    <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
-                      Module Information*
-                    </Typography>
+                  <div className='grid grid-cols-2 gap-3'>
+                    <div>
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                        Module Information*
+                      </Typography>
 
-                    <CustomInput
-                      name="modinfo"
-                      label="mod info"
-                      register={register}
-                      rules={{ required: true }}
-                      errors={errors}
-                      rows
-                      type='textarea'
-                    />
+                      <CustomInput
+                        name="modinfo"
+                        label="mod info"
+                        register={register}
+                        rules={{ required: true }}
+                        errors={errors}
+                        rows
+                        type='textarea'
+                      />
+                    </div>
+                    <div>
+                      <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                        Module Information Bangla*
+                      </Typography>
 
-                    {errors.modinfo && (
-                      <Typography color="red" className="text-xs mt-1">{errors?.modinfo?.message}</Typography>
-                    )}
+                      <CustomInput
+                        name="modinfo_bangla"
+                        label="mod info Bangla"
+                        register={register}
+                        rules={{ required: true }}
+                        errors={errors}
+                        rows
+                        type='textarea'
+                      />
+                    </div>
                   </div>
+
+
                   {/* Submit */}
                   <MainButton fullWidth type="submit" variant="primary" >
                     + Update Education

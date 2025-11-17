@@ -30,7 +30,12 @@ const modType = [
   { id: '2', label: 'Education', value: 'Education' },
   { id: '2', label: 'Motivation', value: 'Motivation' },
   { id: '2', label: 'Life Style Modification', value: 'Life Style Modification' },
-
+];
+const modTypeBangla = [
+  { id: '1', label: 'মূল্যায়ন', value: 'মূল্যায়ন' },
+  { id: '2', label: 'শিক্ষা', value: 'শিক্ষা' },
+  { id: '2', label: 'প্রেরণা', value: 'প্রেরণা' },
+  { id: '2', label: ' জীবনধারা পরিবর্তন', value: ' জীবনধারা পরিবর্তন' },
 ];
 
 export default function EducationForm() {
@@ -56,9 +61,12 @@ export default function EducationForm() {
     formData.append("category", data.category);
     formData.append("modnum", data.modnum);
     formData.append("modtype", data.modtype);
+    formData.append("modtype_bangla", data.modtype_bangla);
     formData.append("topic", data.topic);
+    formData.append("topic_bangla", data.topic_bangla);
     formData.append("mimage", data?.mimage);
     formData.append("modinfo", data?.modinfo);
+    formData.append("modinfo_bangla", data?.modinfo_bangla);
     try {
       const res = await mutateAsync({ addEducationData: formData, role: profile?.role });
       toast.success(res.data.message);
@@ -73,7 +81,7 @@ export default function EducationForm() {
   return (
 
     <div className="h-screen flex items-center justify-center px-4 mt-4 bg-background shadow-xl rounded-2xl">
-      <Card className="w-full mx-auto md:max-w-lg shadow-lg rounded-2xl border ">
+      <Card className="w-full mx-auto md:max-w-2xl shadow-lg rounded-2xl border ">
         <CardHeader
           floated={false}
           shadow={false}
@@ -136,42 +144,81 @@ export default function EducationForm() {
               )}
 
             </div>
-            <div className="">
-              <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
-                Select Module Type*
-              </Typography>
-              <DynamicSelect
-                name="modtype"
-                label="Select Module Type"
-                options={modType}
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-                placeholder="-- Select Module Type --"
-              />
-              {errors.modtype && (
-                <Typography color="red" className="text-xs ">
-                  {errors.modtype.message}
+
+            <div className='grid grid-cols-2 gap-3'>
+              <div className="">
+                <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                  Select Module Type*
                 </Typography>
-              )}
+                <DynamicSelect
+                  name="modtype"
+                  label="Select Module Type"
+                  options={modType}
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                  placeholder="-- Select Module Type --"
+                />
+                {errors.modtype && (
+                  <Typography color="red" className="text-xs ">
+                    {errors.modtype.message}
+                  </Typography>
+                )}
+              </div>
+              <div className="">
+                <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                  Select Module Type Bangla*
+                </Typography>
+                <DynamicSelect
+                  name="modtype_bangla"
+                  label="Select Module Type Bangla"
+                  options={modTypeBangla}
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                  placeholder="-- Select Module Type Bangla --"
+                />
+                {errors.modtype_bangla && (
+                  <Typography color="red" className="text-xs ">
+                    {errors.modtype_bangla.message}
+                  </Typography>
+                )}
+              </div>
+
             </div>
+            <div className='grid grid-cols-2 gap-3'>
+              <div>
+                <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                  Topic*
+                </Typography>
+                <CustomInput
+                  name="topic"
+                  label="Topic"
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                />
+                {errors.topic && (
+                  <Typography color="red" className="text-xs mt-1">{errors.topic.message}</Typography>
+                )}
 
-            <div>
+              </div>
+              <div>
+                <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                  Topic Bangla*
+                </Typography>
+                <CustomInput
+                  name="topic_bangla"
+                  label="Topic"
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                />
+                {errors.topic_bangla && (
+                  <Typography color="red" className="text-xs mt-1">{errors.topic_bangla.message}</Typography>
+                )}
 
-              <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
-                Topic*
-              </Typography>
-              <CustomInput
-                name="topic"
-                label="Topic"
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-              />
-              {errors.topic && (
-                <Typography color="red" className="text-xs mt-1">{errors.topic.message}</Typography>
-              )}
-
+              </div>
             </div>
 
             <div className="space-y-2 mt-3">
@@ -196,26 +243,49 @@ export default function EducationForm() {
                 }}
               />
             </div>
-            <div>
-              <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
-                Module Information*
-              </Typography>
 
-              <CustomInput
-                name="modinfo"
-                label="mod info"
-                register={register}
-                rules={{ required: error }}
-                errors={errors}
-                rows
-                type='textarea'
-              />
+            <div className='grid grid-cols-2 gap-3'>
+              <div>
+                <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                  Module Information*
+                </Typography>
 
-              {errors.modinfo && (
-                <Typography color="red" className="text-xs mt-1">{errors?.modinfo?.message}</Typography>
-              )}
+                <CustomInput
+                  name="modinfo"
+                  label="mod info"
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                  rows
+                  type='textarea'
+                />
+
+                {errors.modinfo && (
+                  <Typography color="red" className="text-xs mt-1">{errors?.modinfo?.message}</Typography>
+                )}
+              </div>
+
+              <div>
+                <Typography variant="small" className="font-medium text-mainHeading font-heading pb-1">
+                  Module Information Bangla*
+                </Typography>
+
+                <CustomInput
+                  name="modinfo_bangla"
+                  label="mod info"
+                  register={register}
+                  rules={{ required: error }}
+                  errors={errors}
+                  rows
+                  type='textarea'
+                />
+
+                {errors.modinfo_bangla && (
+                  <Typography color="red" className="text-xs mt-1">{errors?.modinfo_bangla?.message}</Typography>
+                )}
+              </div>
+
             </div>
-
             <MainButton fullWidth type="submit" variant="primary" >
               + Create Education
             </MainButton>

@@ -309,6 +309,7 @@ export const addEducation = async ({ addEducationData, role }) => {
 };
 
 
+
 export const editEducation = async ({ editEducationData, role, id }) => {
   const response = await axiosInstance.put(`/public/api/${role}/obeseduupdate/${id}`, editEducationData);
   return response;
