@@ -57,7 +57,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
         try {
             const res = await mutateAsync({ updateNewsletterData: data, role: profile?.role, id: selectedNewsLetterId?.id });
             toast.success(res.data.message);
-            queryClient.invalidateQueries(['quesView']);
+            queryClient.invalidateQueries(['newsList']);
             setShowModalEdit(false)
             reset();
         } catch (err) {
