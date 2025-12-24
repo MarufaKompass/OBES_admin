@@ -47,7 +47,6 @@ export default function AddAdmin() {
 
   const { mutateAsync } = useMutation({ mutationFn: addAdmin });
   const onSubmit = async (data) => {
-    console.log("data", data)
     try {
       const res = await mutateAsync({ addAdminData: data, role: profile?.role });
       toast.success(res.data.message);

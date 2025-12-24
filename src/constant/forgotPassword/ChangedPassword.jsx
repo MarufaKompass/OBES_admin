@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 export default function ChangedPassword() {
     const location = useLocation();
     const user_id = location.state?.userId || "";
-    console.log("user id", user_id)
+
     const navigate = useNavigate();
     const {
         register,
@@ -25,7 +25,7 @@ export default function ChangedPassword() {
         try {
             const res = await mutateAsync(data);
             toast.success(res?.data?.message);
-            console.log(res);
+   
             navigate("/login ");
             reset();
         } catch (err) {

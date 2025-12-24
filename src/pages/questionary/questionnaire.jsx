@@ -29,7 +29,6 @@ export default function Questionnaire() {
   const [catId, setCatId] = useState('');
   const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
   const [questionId, setQuestionId] = useState('');
-  console.log("questionId", questionId)
   const [error, setError] = useState();
   const addOption = () => {
     setOptions([...options, { qaoptioneng: '', qaoptionbng: '' }]);
@@ -78,7 +77,7 @@ export default function Questionnaire() {
   const { mutateAsync } = useMutation({ mutationFn: addQuestion });
 
   const onSubmit = async (data) => {
-    console.log('data', data)
+
     try {
       const res = await mutateAsync({ addQuesData: data, role: profile?.role });
       toast.success(res.data.message);

@@ -19,7 +19,6 @@ export function Home() {
     queryFn: () => dashboardList(profile?.role)
 
   });
-  // console.log("dashboard", dashboard)
   return (
     <div className="mt-6">
       <StatisticsCard dashboard={dashboard}></StatisticsCard>

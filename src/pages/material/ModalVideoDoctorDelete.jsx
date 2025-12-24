@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 
 export default function ModalVideoDoctorDelete({ selectedVideo, showModalDelete, setShowModalDelete }) {
-    // console.log("selectedVideo", selectedVideo)
+
     const queryClient = useQueryClient();
     const { data: profile } = useQuery({
         queryKey: ['profile'],

@@ -24,7 +24,7 @@ const statusTypes = [
 ];
 
 export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, selectedQuestion }) {
-    // console.log("selectedQuestion", selectedQuestion)
+ 
 
     const {
         register,
@@ -38,7 +38,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const queryClient = useQueryClient();
     const [catId, setCatId] = useState("");
     const [questionId, setQuestionId] = useState('');
-    console.log("questionId", questionId)
+  
     const [options, setOptions] = useState([{ qaoptioneng: '', qaoptionbng: '' }]);
 
 
@@ -99,7 +99,7 @@ export default function ModalEditQuestion({ setShowModalEdit, showModalEdit, sel
     const { mutateAsync } = useMutation({ mutationFn: editQuestion });
 
     const onSubmit = async (data) => {
-        // console.log('data', data)
+      
         try {
             const res = await mutateAsync({ editQuesData: data, role: profile?.role, qid: selectedQuestion?.qid });
             toast.success(res.data.message);

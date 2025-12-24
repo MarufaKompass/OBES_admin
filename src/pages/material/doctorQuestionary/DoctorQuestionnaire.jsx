@@ -77,7 +77,7 @@ export default function DoctorQuestionnaire() {
   const { mutateAsync } = useMutation({ mutationFn: addDoctorQuestion });
 
   const onSubmit = async (data) => {
-    console.log('data', data)
+
     try {
       const res = await mutateAsync({ addDoctorQuesData: data, role: profile?.role });
       toast.success(res.data.message);

@@ -5,7 +5,7 @@ import { Mail, Phone, Calendar, Shield, Clock, MapPin, User } from "lucide-react
 export default function ProfileModal({ isOpen, onClose, profile }) {
   if (!isOpen) return null;
 
-  console.log("profile", profile)
+
 
 
   const formatDate = (dateString) =>

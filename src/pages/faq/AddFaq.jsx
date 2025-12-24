@@ -30,7 +30,7 @@ export default function AddFaq() {
 
     const { mutateAsync } = useMutation({ mutationFn: addFaq });
     const onSubmit = async (data) => {
-        console.log('data', data)
+  
 
         try {
             const res = await mutateAsync({ addFaqData: data, role: profile?.role });

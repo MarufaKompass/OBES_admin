@@ -53,7 +53,7 @@ export default function ModalEditNewsLetter({ setShowModalEdit, showModalEdit, s
     const { mutateAsync } = useMutation({ mutationFn: updateNewsletter });
 
     const onSubmit = async (data) => {
-        console.log("data", data)
+   
         try {
             const res = await mutateAsync({ updateNewsletterData: data, role: profile?.role, id: selectedNewsLetterId?.id });
             toast.success(res.data.message);

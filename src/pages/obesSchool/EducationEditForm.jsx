@@ -37,7 +37,6 @@ const modType = [
 
 export default function EducationEditForm({ showModalEdit, setShowModalEdit, selectedEdu }) {
 
-  console.log("selectedEdu", selectedEdu)
   const queryClient = useQueryClient();
   const {
     register,
@@ -72,7 +71,6 @@ export default function EducationEditForm({ showModalEdit, setShowModalEdit, sel
   const { mutateAsync } = useMutation({ mutationFn: editEducation });
 
   const onSubmit = async (data) => {
-    console.log('data', data);
 
     try {
       const res = await mutateAsync({ editEducationData: data, role: profile?.role, id: selectedEdu?.id });

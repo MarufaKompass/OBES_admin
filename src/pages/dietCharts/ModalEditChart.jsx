@@ -11,7 +11,7 @@ import CustomInput from '@/components/input/CustomInput';
 import MainButton from '@/components/mainButton/MainButton';
 
 export default function ModalEditChart({ setShowModalEdit, showModalEdit, selectedDietData }) {
-    console.log("selectedDietData", selectedDietData)
+ 
     const queryClient = useQueryClient();
 
     const {

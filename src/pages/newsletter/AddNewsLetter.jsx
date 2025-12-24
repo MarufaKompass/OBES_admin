@@ -56,7 +56,6 @@ export default function AddNewsLetter() {
   const { mutateAsync } = useMutation({ mutationFn: addNewsletter });
 
   const onSubmit = async (data) => {
-    console.log("data", data)
     const formData = new FormData();
     formData.append("issuenumber", data.issuenumber);
     formData.append("title", data.title);

@@ -56,7 +56,6 @@ export function Notifications() {
   }
 
   const handleSubmit = () => {
-    console.log("Submitted answers:", answers)
     setSubmitted(true)
   }
 

@@ -39,11 +39,16 @@ export default function DatePicker({ value, onChange }) {
       />
 
       {showCalendar && (
-        <div className="absolute top-full mt-2 left-0 w-full bg-white border rounded-md shadow-md p-4 z-10">
+        <div className="absolute top-full mt-2 left-0 w-full border bg-white rounded-md shadow-md p-4 z-100">
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
             <button
-              onClick={handlePrevMonth}
+              // onClick={handlePrevMonth}
+              onClick={(e) => {
+  e.preventDefault();
+  handlePrevMonth();
+}}
+
               className="px-2 text-gray-600 hover:text-black"
             >
               <ChevronsLeft />
@@ -66,7 +71,12 @@ export default function DatePicker({ value, onChange }) {
               </select>
             </div>
             <button
-              onClick={handleNextMonth}
+              // onClick={handleNextMonth}
+              onClick={(e) => {
+  e.preventDefault();
+  handleNextMonth();
+}}
+
               className="px-2 text-gray-600 hover:text-black"
             >
               {" "}

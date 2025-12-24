@@ -47,7 +47,7 @@ export default function UserLists() {
     queryKey: ['userView', profile?.role],
     queryFn: () => allUserView(profile?.role)
   });
-  console.log("usersView", usersView);
+
 
   const roleStats = usersView?.reduce((acc, user) => {
     acc[user.role] = (acc[user.role] || 0) + 1;

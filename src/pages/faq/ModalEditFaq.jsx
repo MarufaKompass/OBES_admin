@@ -10,7 +10,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { CardBody, Typography, Input } from "@material-tailwind/react";
 
 export default function ModalEditFaq({ selectedFaq, showModalEdit, setShowModalEdit }) {
-    console.log("selectedFaq", selectedFaq)
+ 
     const queryClient = useQueryClient();
     const {
         register,
@@ -52,7 +52,7 @@ export default function ModalEditFaq({ selectedFaq, showModalEdit, setShowModalE
     });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
+ 
         await mutateAsync({
             editFaqData: data,
             role: profile?.role,

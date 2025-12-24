@@ -52,7 +52,6 @@ export default function ModalCategoryEdit({ setShowModalEdit, showModalEdit, sel
     });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
         await mutateAsync({
             editCategoryData: data,
             role: profile?.role,

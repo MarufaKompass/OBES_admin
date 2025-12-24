@@ -50,7 +50,7 @@ export default function ModalExpertUpdate({ setShowModalEdit, showModalEdit, sho
   const { mutateAsync } = useMutation({ mutationFn: editExpert });
 
   const onSubmit = async (data) => {
-    console.log("data", data);
+
     try {
       const res = await mutateAsync({
         editExpertData: data,

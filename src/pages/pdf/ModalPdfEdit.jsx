@@ -53,7 +53,7 @@ export default function ModalPdfEdit({ setShowModalEdit, showModalEdit, selected
     const { mutateAsync } = useMutation({ mutationFn: updatePdf });
 
     const onSubmit = async (data) => {
-        console.log("data", data)
+      
         try {
             const res = await mutateAsync({ updatePdfData: data, role: profile?.role, id: selectedPdfId?.id });
             toast.success(res.data.message);

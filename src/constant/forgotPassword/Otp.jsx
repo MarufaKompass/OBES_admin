@@ -21,11 +21,11 @@ export default function Otp() {
     const { mutateAsync } = useMutation({ mutationFn: otpMatch });
 
     const onSubmit = async (data) => {
-        console.log("data", data)
+      
         try {
             const res = await mutateAsync(data);
             toast.success(res?.data?.message);
-            console.log(res);
+         
             navigate("/changed-password", { state: { userId: res?.data?.user_id } });
             reset();
         } catch (err) {

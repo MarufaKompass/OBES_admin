@@ -44,7 +44,7 @@ export default function AddVideos() {
 
 
   const onSubmit = async (data) => {
-    // console.log('data', data)
+ 
     try {
       const res = await mutateAsync({ addDoctorVideoData: data, role: profile?.role });
       toast.success(res.data.message);

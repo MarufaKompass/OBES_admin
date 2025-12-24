@@ -27,7 +27,7 @@ export default function Steps() {
     queryKey: ['stepsView', profile?.role],
     queryFn: () => stepsList(profile?.role)
   });
-  console.log("stepsView", stepsView);
+
 
   const formatDate = (dateString) =>
     new Date(dateString).toLocaleDateString("en-US", {

@@ -50,7 +50,6 @@ export default function AddPdf() {
   const { mutateAsync } = useMutation({ mutationFn: addPdf });
 
   const onSubmit = async (data) => {
-    console.log("data", data)
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("short_summary", data.short_summary);

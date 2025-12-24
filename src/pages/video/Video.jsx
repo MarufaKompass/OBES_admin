@@ -37,14 +37,14 @@ const queryClient = useQueryClient();
   });
 
   const onSubmit = async (data) => {
-    console.log('data', data)
+
     try {
       const res = await mutateAsync({ addVideoData: data, role: profile?.role });
       toast.success(res.data.message);
       reset();
     } catch (err) {
       setError(err?.response?.data?.message)
-      console.log(err?.response?.data?.message)
+
       reset();
     }
   };

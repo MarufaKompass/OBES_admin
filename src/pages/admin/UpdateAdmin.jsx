@@ -12,7 +12,6 @@ import CustomInput from '@/components/input/CustomInput';
 export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedAdmin }) {
     const [showCalendar, setShowCalendar] = useState(false);
     const [smsNumber, setSmsNumber] = useState(null);
-    console.log("selectedAdmin", selectedAdmin)
     const queryClient = useQueryClient();
     const {
         register,
@@ -70,8 +69,6 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
     });
 
     const onSubmit = async (data) => {
-        console.log('data', data)
-
         await mutateAsync({
             editAdminData: data,
             role: profile?.role,
@@ -252,10 +249,10 @@ export default function UpdateAdmin({ setShowModalEdit, showModalEdit, selectedA
                                             Cancel
                                         </Button>
 
-                                        <Button fullWidth type="submit" className='bg-primaryBg'>
+                                        <Button fullWidth type="submit" className='bg-primary'>
                                             Update Admin
                                         </Button>
-                                    </div>
+                                    </div> 
                                 </CardBody>
                             </form>
                         </div>

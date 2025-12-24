@@ -51,7 +51,7 @@ export default function AddExpertsInfo() {
     formData.append("mobile", data?.mobile);
     formData.append("status", data?.status);
 
-    console.log("Form Data:", formData);
+
     try {
       const res = await mutateAsync({ addExpertsData: formData, role: profile?.role });
       toast.success(res.data.message);

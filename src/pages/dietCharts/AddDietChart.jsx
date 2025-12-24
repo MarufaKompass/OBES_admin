@@ -27,7 +27,7 @@ export default function AddDietChart() {
     const { mutateAsync } = useMutation({ mutationFn: addDietCharts });
 
     const onSubmit = async (data) => {
-        console.log('data', data);
+  
 
         try {
             const res = await mutateAsync({ addDietChartData: data, role: profile?.role });
