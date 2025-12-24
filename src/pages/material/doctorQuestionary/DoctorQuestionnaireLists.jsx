@@ -36,7 +36,7 @@ export default function DoctorQuestionnaireLists() {
   }
 
   const handleAddClick = () => {
-    navigate("/dashboard/questionary/questionnaires");
+    navigate("/dashboard/material/questionnaries");
   };
 
 

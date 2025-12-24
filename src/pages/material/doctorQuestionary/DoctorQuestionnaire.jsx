@@ -337,17 +337,18 @@ export default function DoctorQuestionnaire() {
           </CardBody>
 
           {/* Buttons */}
-          <div className="flex gap-4 px-10 pb-10 pt-6 justify-end">
-            <MainButton
+          <div className="flex gap-4 px-6 pb-6 pt-0 justify-between">
+            {/* <MainButton
               variant="outlined"
               onClick={() => reset()}
 
             >
               Cancel
-            </MainButton>
+            </MainButton> */}
             <MainButton
               type="submit"
               variant="primary"
+              className='w-full'
             >
               Add Questionnaire
             </MainButton>

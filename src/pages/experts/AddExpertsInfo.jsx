@@ -69,7 +69,7 @@ export default function AddExpertsInfo() {
           <CardHeader
             floated={false}
             shadow={false}
-            className="flex flex-col items-center bg-[#7B1E19] pb-6 rounded-t-2xl"
+            className="flex flex-col items-center bg-[#7B1E19] pb-4 rounded-t-2xl"
           >
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/30 mt-4">
               <TagIcon className="h-6 w-6 text-white" />
@@ -82,8 +82,8 @@ export default function AddExpertsInfo() {
             </Typography>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}  >
-            <CardBody className="space-y-2">
-              <div className='flex gap-3 border-b pb-4 text-paragraphFont text-paragraph font-heading'>
+            <CardBody className="space-y-[4px]">
+              <div className='flex gap-3 border-b pb-2 text-paragraphFont text-paragraph font-heading'>
                 <User></User>
                 <p>
                   Personal Information
@@ -295,7 +295,7 @@ export default function AddExpertsInfo() {
                   </Typography>
                 )}
               </div>
-              <div className="flex gap-3 pt-4 pb-6">
+              <div className="flex gap-3 pt-4">
                 <MainButton fullWidth type="submit" variant='primary' >
                   + Add Expert
                 </MainButton>
