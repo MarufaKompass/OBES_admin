@@ -130,7 +130,7 @@ export default function AdminList() {
                       <td className="p-4 flex items-center gap-2">
                         <img
                           src={admin?.imgpath}
-                          className="w-10 h-8"
+                          className="w-[50px] h-[50px] rounded-[50%]"
                           alt="admin"
                         />
                         <span className=' text-paragraph text-paragraphFont font-heading'>{admin?.fulname}</span>

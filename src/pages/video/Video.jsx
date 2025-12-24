@@ -9,17 +9,17 @@ import MainButton from "@/components/mainButton/MainButton";
 import { Typography, Input } from "@material-tailwind/react";
 import DynamicSelect from "@/components/select/DynamicSelect";
 import { addVideo, adminProfile } from "@/hooks/ReactQueryHooks";
-import { useMutation, useQuery ,useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const statusTypes = [
-    { qId: '1', label: 'Draft', value: 'draft' },
-    { qId: '2', label: 'Published', value: 'published' },
-    { qId: '3', label: 'Archived', value: 'archived' },
+  { qId: '1', label: 'Draft', value: 'draft' },
+  { qId: '2', label: 'Published', value: 'published' },
+  { qId: '3', label: 'Archived', value: 'archived' },
 ];
 
 export default function Videos() {
   const [error, setError] = useState();
-const queryClient = useQueryClient(); 
+  const queryClient = useQueryClient();
 
   const { mutateAsync } = useMutation({
     mutationFn: addVideo,
@@ -100,7 +100,7 @@ const queryClient = useQueryClient();
                   <Typography variant="small" className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Description
                   </Typography>
-          
+
 
                   <CustomInput
                     name="description"
@@ -118,7 +118,7 @@ const queryClient = useQueryClient();
                   <Typography variant="small" className="text-mainHeading font-heading text-paragraphFont font-medium">
                     Video Embed Link
                   </Typography>
-              
+
 
                   <CustomInput
                     name="link"
