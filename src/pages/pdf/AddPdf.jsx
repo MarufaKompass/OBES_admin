@@ -216,7 +216,7 @@ export default function AddPdf() {
 
 
 
-              <div className="flex gap-3 pt-4 pb-6">
+              <div className="flex gap-3 pt-4 pb-0">
                 <MainButton fullWidth type="submit" variant='primary' >
                   + Add PDF
                 </MainButton>

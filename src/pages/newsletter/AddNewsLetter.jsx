@@ -232,7 +232,7 @@ export default function AddNewsLetter() {
 
 
 
-              <div className="flex gap-3 pt-4 pb-6">
+              <div className="flex gap-3 pt-4 ">
                 <MainButton fullWidth type="submit" variant='primary' >
                   + Add Newsletter
                 </MainButton>

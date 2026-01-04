@@ -107,14 +107,14 @@ export default function PdfList() {
                       <div className="col-span-1">
                         <div className="flex space-x-1">
                           <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center" onClick={() => handleShowingInfoEdit(pdf)} >
-                            <Pencil className="w-4 h-4" />
+                            <Pencil className="w-5 h-5" />
                           </Button>
                           <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center" onClick={() => handleShowingInfoDelete(pdf)}>
-                            <Trash className="w-4 h-4" />
+                            <Trash className="w-5 h-5" />
                           </Button>
-                          <a href={pdf?.pdflink} target="_blank">
+                          <a href={pdf?.pdflink} target="_blank" rel="noopener noreferrer">
                             <Button variant="text" size="sm" className="h-8 w-8 p-0 flex justify-center items-center"  >
-                              <ArrowDown className="w-4 h-4" />
+                              <ArrowDown className="w-5 h-5" />
                             </Button>
                           </a>
                         </div>

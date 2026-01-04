@@ -60,9 +60,9 @@ export default function AddDietChart() {
                         </Typography>
                     </CardHeader>
                     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                        <CardBody className="space-y-2 px-5 py-8 ">
+                        <CardBody className="space-y-2 px-5 py-4">
                             <div className='grid md:grid-cols-2 grid-cols-1 gap-4 '>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                     <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                         Calorie (বাংলা)
                                     </Typography>
@@ -320,17 +320,17 @@ export default function AddDietChart() {
 
                             </div>
 
-                            <div className="flex gap-3 pt-2">
-                                <MainButton
+                            <div className="flex gap-3">
+                                {/* <MainButton
                                     variant="outlined"
                                     fullWidth
                                     onClick={() => navigate('/dashboard/category/categoryLists')}
                                     className="border-accent  text-mainHeading" >
                                     Cancel
-                                </MainButton>
+                                </MainButton> */}
 
                                 <div className="w-full">
-                                    <MainButton variant="primary" fullWidth type="submit">
+                                    <MainButton variant="primary" fullWidth type="submit" >
                                         Create diet Chart
                                     </MainButton>
                                 </div>

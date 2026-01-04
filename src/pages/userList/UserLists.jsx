@@ -41,8 +41,6 @@ export default function UserLists() {
     queryKey: ['profile'],
     queryFn: adminProfile
   });
-
-
   const { data: usersView, isLoading } = useQuery({
     queryKey: ['userView', profile?.role],
     queryFn: () => allUserView(profile?.role)

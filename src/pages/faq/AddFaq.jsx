@@ -62,8 +62,8 @@ export default function AddFaq() {
                         </Typography>
                     </CardHeader>
                     <form onSubmit={handleSubmit(onSubmit)}  >
-                        <CardBody className="space-y-6">
-                            <div className="space-y-2">
+                        <CardBody className="space-y-3">
+                            <div className="space-y-1">
                                 <Typography variant="small" className="font-medium text-mainHeading font-heading">
                                     FAQ Question (English)
                                 </Typography>
@@ -145,7 +145,7 @@ export default function AddFaq() {
                                     )
                                 }
                             </div>
-                            <div className=" pt-4 pb-6">
+                            <div className=" pt-4">
                                 <MainButton fullWidth type="submit" variant='primary' >
                                     + Add FAQ
                                 </MainButton>
