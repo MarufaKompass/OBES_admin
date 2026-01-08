@@ -65,7 +65,7 @@ export default function ModuleCard({ module }) {
             <img
               src={module?.mimage}
               alt="module illustration"
-              className="w-full h-48 object-cover rounded-lg bg-gray-100"
+              className="w-full h-48  rounded-lg bg-gray-100"
             />
           </div>
           <div>

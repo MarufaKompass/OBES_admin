@@ -13,8 +13,8 @@ import { Card, CardHeader, CardBody, Typography } from "@material-tailwind/react
 
 
 const categoryTypes = [
-  { id: '1', label: 'Adult', value: 'adult' },
-  { id: '2', label: 'Child', value: 'child' },
+  { id: '1', label: 'Adult', value: 'Adult' },
+  { id: '2', label: 'Child', value: 'Child' },
 
 ];
 
@@ -276,7 +276,7 @@ export default function EducationForm() {
                   register={register}
                   rules={{ required: error }}
                   errors={errors}
-                  rows
+                  rows= {4}
                   type='textarea'
                 />
 

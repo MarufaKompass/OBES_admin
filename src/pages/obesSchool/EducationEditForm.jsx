@@ -21,27 +21,27 @@ const categoryTypes = [
 const modNo = [
   { id: '1', label: 'M1', value: 'M1' },
   { id: '2', label: 'M2', value: 'M2' },
-  { id: '2', label: 'M3', value: 'M3' },
-  { id: '2', label: 'M4', value: 'M4' },
+  { id: '3', label: 'M3', value: 'M3' },
+  { id: '4', label: 'M4', value: 'M4' },
 ];
 const modType = [
   { id: '1', label: 'Assessment', value: 'Assessment' },
   { id: '2', label: 'Education', value: 'Education' },
-  { id: '2', label: 'Motivation', value: 'Motivation' },
-  { id: '2', label: 'Life Style Modification', value: 'Life Style Modification' },
+  { id: '3', label: 'Motivation', value: 'Motivation' },
+  { id: '4', label: 'Life Style Modification', value: 'Life Style Modification' },
 ];
 
 const modTypeBangla = [
   { id: '1', label: 'মূল্যায়ন', value: 'মূল্যায়ন' },
   { id: '2', label: 'শিক্ষা', value: 'শিক্ষা' },
-  { id: '2', label: 'প্রেরণা', value: 'প্রেরণা' },
-  { id: '2', label: ' জীবনধারা পরিবর্তন', value: ' জীবনধারা পরিবর্তন' },
+  { id: '3', label: 'প্রেরণা', value: 'প্রেরণা' },
+  { id: '4', label: 'জীবনধারা পরিবর্তন', value: 'জীবনধারা পরিবর্তন' },
 ];
 
 
 
 export default function EducationEditForm({ showModalEdit, setShowModalEdit, selectedEdu }) {
-
+console.log("selectedEdu", selectedEdu)
   const queryClient = useQueryClient();
   const {
     register,
