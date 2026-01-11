@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
-import { Pencil, X } from "lucide-react";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form"
-import Modal from '@/components/modal/Modal'
+import { Pencil, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import Modal from '@/components/modal/Modal';
 import CustomInput from '@/components/input/CustomInput';
 import MainButton from '@/components/mainButton/MainButton';
 import DynamicSelect from '@/components/select/DynamicSelect';
@@ -15,6 +15,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 const categoryTypes = [
   { id: '1', label: 'Adult', value: 'Adult' },
   { id: '2', label: 'Child', value: 'Child' },
+  { id: '3', label: 'Both', value: 'Both' },
 
 ];
 

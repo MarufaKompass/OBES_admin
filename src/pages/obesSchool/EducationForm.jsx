@@ -15,6 +15,7 @@ import { Card, CardHeader, CardBody, Typography } from "@material-tailwind/react
 const categoryTypes = [
   { id: '1', label: 'Adult', value: 'Adult' },
   { id: '2', label: 'Child', value: 'Child' },
+  { id: '3', label: 'Both', value: 'Both' },
 
 ];
 
