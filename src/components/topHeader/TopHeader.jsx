@@ -19,7 +19,7 @@ export default function TopHeader({
             {title}
           </Typography>
 
-          <Button onClick={onAddClick} className="flex items-center gap-2 bg-primaryBg">
+          <Button onClick={onAddClick} className="flex items-center gap-2 bg-primary">
             {buttonIcon && <span>{buttonIcon}</span>}
             {buttonLabel}
           </Button>

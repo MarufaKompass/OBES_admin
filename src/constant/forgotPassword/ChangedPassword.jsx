@@ -25,7 +25,7 @@ export default function ChangedPassword() {
         try {
             const res = await mutateAsync(data);
             toast.success(res?.data?.message);
-   
+
             navigate("/login ");
             reset();
         } catch (err) {
@@ -78,7 +78,7 @@ export default function ChangedPassword() {
                                                             type="number"
                                                             {...register("user_id", { required: true })}
                                                             value={user_id || ""}
-                                                            className="w-full px-2 py-2 text-center text-2xl font-bold border-2 border-gray-300 rounded-xl focus:border-primaryBg focus:outline-none transition-all duration-200 hover:border-primaryBg tracking-widest"
+                                                            className="w-full px-2 py-2 text-center text-2xl font-bold border-2 border-gray-300 rounded-xl focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary tracking-widest"
                                                         />
                                                     )
                                                 }
@@ -93,7 +93,7 @@ export default function ChangedPassword() {
                                                     type="password"
                                                     {...register("password", { required: true })}
                                                     placeholder="Password"
-                                                    className="w-full px-2 py-2 border-2 border-gray-300 rounded-md text-poppins focus:border-primaryBg focus:outline-none transition-all duration-200 hover:border-primaryBg tracking-widest"
+                                                    className="w-full px-2 py-2 border-2 border-gray-300 rounded-md text-poppins focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary tracking-widest"
                                                 />
                                             </div>
                                             <div className='mt-3'>
@@ -105,11 +105,11 @@ export default function ChangedPassword() {
                                                     type="password"
                                                     {...register("password_confirmation", { required: true })}
                                                     placeholder="Confirm Password"
-                                                    className="w-full px-2 py-2  border-2 border-gray-300 rounded-md text-poppins focus:border-primaryBg focus:outline-none transition-all duration-200 hover:border-primaryBg tracking-widest"
+                                                    className="w-full px-2 py-2  border-2 border-gray-300 rounded-md text-poppins focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary tracking-widest"
                                                 />
                                             </div>
                                         </div>
-                                        <button type="submit" className="w-full  text-white bg-primaryBg py-3 px-6 rounded-xl font-semibold hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 mb-6">
+                                        <button type="submit" className="w-full  text-white bg-primary py-3 px-6 rounded-xl font-semibold hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 mb-6">
                                             <div className=" rounded-ful">Changed Password</div>
                                         </button>
 

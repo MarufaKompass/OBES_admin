@@ -21,11 +21,11 @@ export default function Otp() {
     const { mutateAsync } = useMutation({ mutationFn: otpMatch });
 
     const onSubmit = async (data) => {
-      
+
         try {
             const res = await mutateAsync(data);
             toast.success(res?.data?.message);
-         
+
             navigate("/changed-password", { state: { userId: res?.data?.user_id } });
             reset();
         } catch (err) {
@@ -43,7 +43,7 @@ export default function Otp() {
                 <div className="max-w-4xl w-full">
                     <div className="grid lg:grid-cols-2 gap-8 lg:gap-0">
                         {/* Left Side - Illustration */}
-                        <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-primaryBg to-rose-800 rounded-l-3xl p-12 relative overflow-hidden" style={{ backgroundColor: '#7B1E19' }}>
+                        <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-primary to-rose-800 rounded-l-3xl p-12 relative overflow-hidden" style={{ backgroundColor: '#7B1E19' }}>
                             {/* Background decorations */}
                             <div className="absolute top-10 left-10 w-32 h-32 bg-white bg-opacity-10 rounded-full blur-xl"></div>
                             <div className="absolute bottom-16 right-16 w-24 h-24 bg-white bg-opacity-5 rounded-full blur-lg"></div>
@@ -69,7 +69,7 @@ export default function Otp() {
                                                 <div className="flex justify-center gap-2 mb-4">
                                                     {[...Array(6)].map((_, i) => (
                                                         <div key={i} className="w-6 h-8 bg-gray-100 rounded border-2" style={{ borderColor: i < 3 ? '#7B1E19' : '#e5e7eb' }}>
-                                                            {i < 3 && <div className="w-full h-full bg-primaryBg rounded-sm animate-pulse" style={{ backgroundColor: '#7B1E19' }}></div>}
+                                                            {i < 3 && <div className="w-full h-full bg-primary rounded-sm animate-pulse" style={{ backgroundColor: '#7B1E19' }}></div>}
                                                         </div>
                                                     ))}
                                                 </div>
@@ -126,7 +126,7 @@ export default function Otp() {
                                                             {...register("email", { required: true })}
                                                             maxLength="6"
                                                             value={email || ""}
-                                                            className="w-full px-2 py-2 text-center text-2xl font-bold border-2 border-gray-300 rounded-xl focus:border-primaryBg focus:outline-none transition-all duration-200 hover:border-primaryBg tracking-widest"
+                                                            className="w-full px-2 py-2 text-center text-2xl font-bold border-2 border-gray-300 rounded-xl focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary tracking-widest"
                                                         />
                                                     )
                                                 }
@@ -138,10 +138,10 @@ export default function Otp() {
                                                 {...register("otp", { required: true })}
                                                 maxLength="6"
                                                 placeholder="Enter 6-digit code"
-                                                className="w-full px-2 py-2 text-center text-2xl font-bold border-2 border-gray-300 rounded-xl focus:border-primaryBg focus:outline-none transition-all duration-200 hover:border-primaryBg tracking-widest"
+                                                className="w-full px-2 py-2 text-center text-2xl font-bold border-2 border-gray-300 rounded-xl focus:border-primary focus:outline-none transition-all duration-200 hover:border-primary tracking-widest"
                                             />
                                         </div>
-                                        <button type="submit" className="w-full  text-white bg-primaryBg py-3 px-6 rounded-xl font-semibold hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 mb-6">
+                                        <button type="submit" className="w-full  text-white bg-primary py-3 px-6 rounded-xl font-semibold hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 mb-6">
                                             <div className=" rounded-ful">Changed Password</div>
                                         </button>
                                     </div>
